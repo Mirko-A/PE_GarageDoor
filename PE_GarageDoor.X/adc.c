@@ -182,7 +182,9 @@ void initADC(void)
             0 = Skip ANx for input scan
      */
 
-    ADCSSL=0b111; /* Input pinovi preko kojih se vrsi konverzija TODO proveri koji su ostali posle LCDa */
+    /* Koristimo RB6 RB5 RB4 */
+    ADCSSL=0b1110000; /* Input pinovi preko kojih se vrsi konverzija (RB0 RB1 RB2 RB3 se koriste za GLCD) 
+                         TODO proveriti koje koristi Touchscreen */
     
     ADCON1bits.ASAM = 1; /* Novi sampling ciklus pocinje odmah nakon sto je konverzija zavrsena */
 

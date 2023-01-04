@@ -45,27 +45,36 @@ static uint16_t getCO2Level()
     
     // co2_level = (co2_raw_data - CO2_OFFSET) / CO2_FACTOR;
     
-    return co2_level; // TODO scale between 1-100
+    return co2_level; // TODO scale between 0-100
 }
 
 static void checkInputs()
 {   
-    
+    /* Ova funkcija treba da proveri sve ulazne signale (CO2 nivo, pokret, pritisak touchscreena/tastera itd.)
+     * i da u skladu sa tim podesi kontrolne signal */
 }
 
 static void processKeyPressed()
 {
+    /* Ova funkcija treba da procesuira pritisnuti taster i poredi sa sifrom.
+     * Ako je sifra ispravna, vrata treba otkljucati. U suprotnom, vrata ostaju zakljucana. */
+}
 
+static void processTouchscreen()
+{
+    /* Ova funkcija treba da proveri sta je pritisnuto na LCD-u  */
 }
 
 static void performActions()
 {
-
+    /* Ova funkcija treba da proverava kontrolne signale i da u skladu sa tim izvrsava odredjene 
+     * radnje. */
 }
 
 static void stopActions()
 {
-
+    /* Ova funkcija treba da proverava kontrolne signale i da u skladu sa tim stopira odredjene 
+     * radnje. */
 }
 
 /* GLOBAL FUNCTIONS */
