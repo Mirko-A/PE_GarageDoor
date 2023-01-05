@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <executable name="dist/default/production/PE_GarageDoor.X_-_Copy.production.elf">
+  <executable name="dist/default/production/PE_GarageDoor.X.production.elf">
     <memory name="data">
       <units>bytes</units>
       <length>2048</length>
-      <used>22</used>
-      <free>2026</free>
+      <used>26</used>
+      <free>2022</free>
     </memory>
     <memory name="program">
       <units>bytes</units>
       <length>48768</length>
-      <used>16410</used>
-      <free>32358</free>
+      <used>16764</used>
+      <free>32004</free>
     </memory>
   </executable>
 </project>

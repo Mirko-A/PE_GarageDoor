@@ -1,1 +1,0 @@
- -c -mcpu=$(MP_PROCESSOR_OPTION)        -g -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"D:\FTN\PREDMETI\IV Godina\Semestar 1\Primenjena elektronika\Projekti\PE_GarageDoor.X - Copy\door_system.c

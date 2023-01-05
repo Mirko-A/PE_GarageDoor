@@ -11,7 +11,7 @@
 
 /* Door lock data */
 static const uint8_t password[PASSWORD_LENGTH] = {0, 8, 0, 3};
-static digit_to_check;
+static uint8_t digit_to_check;
 static boolean door_locked;
 
 /* Sensor input */
@@ -43,7 +43,7 @@ static uint16_t getCO2Level()
 {
     uint16_t co2_level;
     
-    // co2_level = (co2_raw_data - CO2_OFFSET) / CO2_FACTOR;
+    // co2_level = co2_raw_data / CO2_FACTOR;
     
     return co2_level; // TODO scale between 0-100
 }
@@ -54,10 +54,44 @@ static void checkInputs()
      * i da u skladu sa tim podesi kontrolne signal */
 }
 
-static void processKeyPressed()
-{
     /* Ova funkcija treba da procesuira pritisnuti taster i poredi sa sifrom.
      * Ako je sifra ispravna, vrata treba otkljucati. U suprotnom, vrata ostaju zakljucana. */
+static void processKeyPressed()
+{
+    static uint16_t old_key;
+    uint16_t key_pressed;
+    
+    /* Read current pressed key */
+    key_pressed = PORTB;
+    
+    /* Key is held down but was already processed */
+    if (key_pressed == old_key) return;
+    
+    /* Pressed key is same as password digit */
+    if (key_pressed == password[digit_to_check])
+    {
+        /* Entered password is correct */
+        if (digit_to_check == (PASSWORD_LENGTH - 1))
+        {
+            /* Unlock door */
+            door_locked = FALSE;
+            
+            digit_to_check = 0;
+        } else
+        {
+            /* Check next password digit */
+            digit_to_check++;   
+        }
+    } else
+    {
+        /* Wrong password => lock door */
+        door_locked = TRUE;
+        
+        digit_to_check = 0;
+    }
+    
+    /* Save current key for next fn call (for de-bouncing) */
+    old_key = key_pressed;
 }
 
 static void processTouchscreen()

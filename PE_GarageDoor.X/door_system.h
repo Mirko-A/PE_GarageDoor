@@ -38,24 +38,9 @@
 
 #define CO2_MAX_LEVEL (40)
 #define CO2_MIN_LEVEL (5)
-#define CO2_OFFSET    (1)
 #define CO2_FACTOR    (1)
 
 #define PASSWORD_LENGTH (4u)
-
-/* LOCAL FUNCTIONS */
-void openDoor();
-void closeDoor();
-
-void soundAlarm();
-
-uint16_t getCO2Level();
-void checkInputs();
-
-void processKeyPressed();
-
-void performActions();
-void stopActions();
 
 /* GLOBAL FUNCTIONS */
 void doorSystemInit();

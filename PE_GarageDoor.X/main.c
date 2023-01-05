@@ -25,7 +25,7 @@ _FWDT(WDT_OFF);
 int main(int argc, char** argv)
 {
     
-    // SETUP
+    // INIT
     timerInit(TIMER1, ONE_MS_PERIOD);
     initADC();
     LcdInit();
