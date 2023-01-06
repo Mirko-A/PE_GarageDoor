@@ -123,14 +123,22 @@ uint8_t getPinState(uint8_t port, uint8_t pin)
     return pin_state;
 }
 
-void sendPWM(uint8_t port, uint8_t pin, uint8_t period, uint8_t duty_cycle)
+void togglePin(uint8_t port, uint8_t pin)
 {
-    uint8_t duty_cycle_time;
-    
-    duty_cycle_time = period * duty_cycle;
-    
-    setPin(port, pin);
-    delayMillis(duty_cycle_time);
-    resetPin(port, pin);
-    delayMillis(period - duty_cycle_time);
+    if (getPinState(port, pin) == PIN_HIGH)
+    {
+        resetPin(port, pin);
+    } else
+    {
+        setPin(port, pin);
+    }
+}
+
+void sendPWM(uint16_t period_ms, uint8_t duty_cycle)
+{
+    /* Racunanje periode PWMa po formuli: 
+     *   pwm_period = (PRx + 1)*4*Tosc*TMR_prescaler */
+    PR2 = (period_ms * 4 * FOSC_IN_KHZ) - 1;
+    /* Podesavanje duty cycle-a uzimajuci procenat od PR2 */
+    OC1RS = (PR2 + 1) * duty_cycle / 100;
 }

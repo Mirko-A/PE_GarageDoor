@@ -14,8 +14,7 @@
 #include "door_system.h"
 
 /* MACRO CONSTANTS */
-#define ONE_MS_PERIOD (10000u)  /* Fosc = 10MHz => 1/Fosc = 0.1us => 0.1us * 10000 = 1ms  */
-#define TMR2_PERIOD   (10000u)
+#define ONE_MS_PERIOD (10000u)  /* Fosc = 10MHz => 1/Fosc = 0.1us => 0.1us * 10_000 = 1ms  */
 
 /* CFG */
 _FOSC(CSW_FSCM_OFF & XT_PLL4); /* instruction takt je isti kao i kristal */
@@ -26,7 +25,8 @@ int main(int argc, char** argv)
 {
     
     // INIT
-    timerInit(TIMER1, ONE_MS_PERIOD);
+    initTimer1(ONE_MS_PERIOD);
+    initTimer2();
     initADC();
     LcdInit();
     doorSystemInit();

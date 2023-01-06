@@ -26,17 +26,18 @@ static boolean start_alarm;
 /* LOCAL FUNCTIONS */
 static void openDoor()
 {
-//    sendPWM(PORT, pin, period, DOOR_OPEN_DUTY_CYCLE);
+    sendPWM(20, DOOR_OPEN_DUTY_CYCLE);
 }
 
 static void closeDoor()
 {
-//    sendPWM(PORT, pin, period, DOOR_CLOSED_DUTY_CYCLE);
+    sendPWM(20, DOOR_CLOSED_DUTY_CYCLE);
 }
 
-static void soundAlarm()
+static void startAlarm()
 {
-
+    // if ((getTicks() % ALARM_LED_PERIOD) == 0) togglePin(PORTA, ALARM_LED_PIN);
+    sendPWM(20, DOOR_HALF_OPEN_DUTY_CYCLE);
 }
 
 static uint16_t getCO2Level()
@@ -61,36 +62,36 @@ static void processKeyPressed()
     static uint16_t old_key;
     uint16_t key_pressed;
     
-    /* Read current pressed key */
+    /* Procitaj trenutni pritisnut taster */
     key_pressed = PORTB;
     
-    /* Key is held down but was already processed */
+    /* Taster je zadrzan ali je vec procesuiran */
     if (key_pressed == old_key) return;
     
-    /* Pressed key is same as password digit */
+    /* Taster odgovara cifri u passwordu */
     if (key_pressed == password[digit_to_check])
     {
-        /* Entered password is correct */
+        /* Ukucan je ispravan password */
         if (digit_to_check == (PASSWORD_LENGTH - 1))
         {
-            /* Unlock door */
+            /* Otkljucaj vrata */
             door_locked = FALSE;
             
             digit_to_check = 0;
         } else
         {
-            /* Check next password digit */
+            /* Proveri sledecu cifru u passwordu */
             digit_to_check++;   
         }
     } else
     {
-        /* Wrong password => lock door */
+        /* Pogresna sifra => zakljucaj vrata */
         door_locked = TRUE;
         
         digit_to_check = 0;
     }
     
-    /* Save current key for next fn call (for de-bouncing) */
+    /* Sacuvaj trenutni pritisnut taster za sledeci poziv funkcije (de-bouncing) */
     old_key = key_pressed;
 }
 

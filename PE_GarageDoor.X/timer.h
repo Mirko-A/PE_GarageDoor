@@ -13,15 +13,25 @@
 
 /* CTRL LIBRARIES */
 #include <p30fxxxx.h>
+//#include <outcompare.h>
 
-/* MACRO CONSTANTS */
-#define TIMER1 (0u)
-#define TIMER2 (1u)
+/* GLOBAL FUNCTIONS */
 
-/* PUBLIC FUNCTIONS */
-void timerInit(uint8_t timerId, uint16_t period);
+/** 
+ * @brief Inicijalizuje Timer1 za output compare.
+ * @param uint16_t period_ms -> timer period u milisekundama
+ * @return void
+ */
+void initTimer1(uint16_t period_ms);
 
-uint16_t getTicks(void);
+/**
+ * @brief Inicijalizuje Timer2 za generisanje PWM signala.
+ * @return void
+ * @note Za koriscenje Timer2 za PWM upotrebiti funkciju sendPWM() iz ./utils.c
+ */
+void initTimer2();
+
+uint32_t getTicks(void);
 
 #endif /* TIMER_H_ */
 

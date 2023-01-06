@@ -29,12 +29,14 @@
 #define BUZZER_PIN      (11u)
 #define SERVO_PIN       (1) 
 #define PHOTO_RES_PIN   (1) 
-#define LED_PIN         (1)
+#define ALARM_LED_PIN   (1)
 #define MOTION_SENS_PIN (1)
 
 #define DOOR_OPEN_DUTY_CYCLE      (1)
 #define DOOR_HALF_OPEN_DUTY_CYCLE (1)
 #define DOOR_CLOSED_DUTY_CYCLE    (1)
+
+#define ALARM_LED_PERIOD (500u)
 
 #define CO2_MAX_LEVEL (40)
 #define CO2_MIN_LEVEL (5)

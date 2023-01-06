@@ -9,15 +9,16 @@
 #include "timer.h"
 
 /* LOCAL VARIABLES */
-static uint16_t tick = 0;
+static uint32_t tick = 0;
 
-/* LOCAL FUNCTIONS */
-static void initT1(uint16_t period)
+/* GLOBAL FUNCTIONS */
+
+void initTimer1(uint16_t period_ms)
 {
 	TMR1 = 0;          /* Resetuj vrednost tajmera 1  */
-	PR1 = period;      /* Podesi period tajmera 1     */
+	PR1  = period_ms;  /* Podesi period tajmera 1     */
 	
-	T1CONbits.TCS = 0; /* 0 = Internal clock (FOSC/4) */
+	T1CONbits.TCS = 0;   /* 0 = Internal clock (FOSC/4) */
     // IPC1bits.T1IP = 3 /* T2 interrupt pririty (0-7)      */
 	// SRbits.IPL = 3;   /* CPU interrupt priority is 3(11) */
 	
@@ -27,39 +28,20 @@ static void initT1(uint16_t period)
 	T1CONbits.TON = 1; /* T1 on */ 
 }
 
-static void initT2(uint16_t period)
+void initTimer2()
 {
-	TMR2 = 0;          /* Resetuj vrednost tajmera 2  */
-	PR2 = period; /* Podesi period tajmera 2     */
-	
-	T2CONbits.TCS = 0; /* 0 = Internal clock (FOSC/4) */
-    // IPC1bits.T2IP = 3 /* T2 interrupt pririty (0-7)      */
-	// SRbits.IPL = 3;   /* CPU interrupt priority is 3(11) */
-	
-    IFS0bits.T2IF = 0; /* Resetuj interrupt flag tajmera 2 */
-	IEC0bits.T2IE = 1; /* Dozvoli interrupt tajmera 2      */
-
-	T2CONbits.TON = 1; /* T2 on */ 
+    TRISDbits.TRISD0 = 0; /* Output pin za OC1 */
+    
+    PR2    = 0; /* Odredjuje PWM frekvenciju */
+    OC1RS  = 0; /* Odredjuje duty cycle */
+    OC1R   = 0; /* Pocetni duty cycle */
+    OC1CON = 0b111;//OC_IDLE_CON & OC_TIMER2_SRC & OC_PWM_FAULT_PIN_DISABLE & T2_PS_1_256; /* PWM configuration */
+    
+    T2CONbits.TON = 1; /* T2 on */ 
 }
 
-/* GLOBAL FUNCTIONS */
-void timerInit(uint8_t timerId, uint16_t period)
-{
-    switch (timerId)
-    {
-        case TIMER1:
-            initT1(period);
-        break;
-        case TIMER2:
-            initT2(period);
-        break;
-        default:
-            /* Do nothing */
-        break;
-    }
-}
 
-uint16_t getTicks(void)
+uint32_t getTicks(void)
 {
     return tick;
 }
@@ -67,22 +49,15 @@ uint16_t getTicks(void)
 /* INTERRUPT SERVICE ROUTINES */
 void __attribute__((__interrupt__)) __attribute__ ((__auto_psv__)) _T1Interrupt(void)
 {
-    if (tick < UINT16_MAX)
-    {
-        tick++;
-    } else
-    {
-        tick = 0;
-    }
+    tick++;
     
-   	TMR1 =0;
+   	TMR1 = 0;
     IFS0bits.T1IF = 0;
 }
 
 void __attribute__((__interrupt__)) __attribute__ ((__auto_psv__)) _T2Interrupt(void)
 {
-    
-   	TMR2 =0;
+   	TMR2 = 0;
     IFS0bits.T2IF = 0;
 }
 
