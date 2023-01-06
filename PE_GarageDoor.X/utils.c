@@ -5,8 +5,10 @@
  * Created on December 25, 2022, 3:16 PM
  */
 
+/* USER LIBRARIES */
 #include "utils.h"
 
+/* GLOBAL FUNCTIONS */
 void delayMillis(uint16_t delay_time)
 {
     uint16_t start_time, target_time;

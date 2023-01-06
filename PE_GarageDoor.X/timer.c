@@ -12,7 +12,6 @@
 static uint32_t tick = 0;
 
 /* GLOBAL FUNCTIONS */
-
 void initTimer1(uint16_t period_ms)
 {
 	TMR1 = 0;          /* Resetuj vrednost tajmera 1  */

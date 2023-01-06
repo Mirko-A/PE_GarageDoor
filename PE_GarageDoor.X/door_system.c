@@ -49,14 +49,15 @@ static uint16_t getCO2Level()
     return co2_level; // TODO scale between 0-100
 }
 
+/* Ova funkcija treba da proveri sve ulazne signale (CO2 nivo, pokret, pritisak touchscreena/tastera itd.)
+ * i da u skladu sa tim podesi kontrolne signal */
 static void checkInputs()
 {   
-    /* Ova funkcija treba da proveri sve ulazne signale (CO2 nivo, pokret, pritisak touchscreena/tastera itd.)
-     * i da u skladu sa tim podesi kontrolne signal */
+
 }
 
-    /* Ova funkcija treba da procesuira pritisnuti taster i poredi sa sifrom.
-     * Ako je sifra ispravna, vrata treba otkljucati. U suprotnom, vrata ostaju zakljucana. */
+/* Ova funkcija treba da procesuira pritisnuti taster i poredi sa sifrom.
+ * Ako je sifra ispravna, vrata treba otkljucati. U suprotnom, vrata ostaju zakljucana. */
 static void processKeyPressed()
 {
     static uint16_t old_key;
@@ -95,21 +96,24 @@ static void processKeyPressed()
     old_key = key_pressed;
 }
 
+/* Ova funkcija treba da proveri sta je pritisnuto na LCD-u  */
 static void processTouchscreen()
 {
-    /* Ova funkcija treba da proveri sta je pritisnuto na LCD-u  */
+
 }
 
+/* Ova funkcija treba da proverava kontrolne signale i da u skladu sa tim izvrsava odredjene 
+ * radnje. */
 static void performActions()
 {
-    /* Ova funkcija treba da proverava kontrolne signale i da u skladu sa tim izvrsava odredjene 
-     * radnje. */
+
 }
 
+/* Ova funkcija treba da proverava kontrolne signale i da u skladu sa tim stopira odredjene 
+ * radnje. */
 static void stopActions()
 {
-    /* Ova funkcija treba da proverava kontrolne signale i da u skladu sa tim stopira odredjene 
-     * radnje. */
+
 }
 
 /* GLOBAL FUNCTIONS */
