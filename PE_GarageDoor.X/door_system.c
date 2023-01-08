@@ -16,6 +16,8 @@ static boolean door_locked;
 
 /* Sensor input */
 static boolean  movement;
+static boolean  key_pressed;
+static boolean  touch;
 static uint16_t gas_level;
 
 /* Action flags */
@@ -40,11 +42,11 @@ static void startAlarm()
     sendPWM(20, DOOR_HALF_OPEN_DUTY_CYCLE);
 }
 
-static uint16_t getCO2Level()
+static uint8_t getCO2Level()
 {
-    uint16_t co2_level;
+    uint8_t co2_level;
     
-    // co2_level = co2_raw_data / CO2_FACTOR;
+    co2_level = (uint8_t) (co2_raw_data / CO2_FACTOR);
     
     return co2_level; // TODO scale between 0-100
 }
@@ -53,7 +55,8 @@ static uint16_t getCO2Level()
  * i da u skladu sa tim podesi kontrolne signal */
 static void checkInputs()
 {   
-
+    updateCoords();
+    if (getX() > 0 || getY() > 0) touch = TRUE;
 }
 
 /* Ova funkcija treba da procesuira pritisnuti taster i poredi sa sifrom.
@@ -96,12 +99,6 @@ static void processKeyPressed()
     old_key = key_pressed;
 }
 
-/* Ova funkcija treba da proveri sta je pritisnuto na LCD-u  */
-static void processTouchscreen()
-{
-
-}
-
 /* Ova funkcija treba da proverava kontrolne signale i da u skladu sa tim izvrsava odredjene 
  * radnje. */
 static void performActions()
@@ -114,6 +111,13 @@ static void performActions()
 static void stopActions()
 {
 
+}
+
+static void taskLcd()
+{
+    if (touch) processTouch();
+    
+    LcdUpdateCo2Bar(getCO2Level());
 }
 
 /* GLOBAL FUNCTIONS */
@@ -129,13 +133,21 @@ void doorSystemInit()
     digit_to_check = 0;
     
     closeDoor();
+    
+    initTimer1(ONE_MS_PERIOD);
+    initTimer2();
+    initADC();
+    LcdInit();
+    initTouchscreen();
 }
 
 void doorSystemRun()
 {
     checkInputs();
     
-    processKeyPressed();
+    if (key_pressed) processKeyPressed();
+    
+    taskLcd();
     
     performActions();
     

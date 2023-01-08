@@ -25,4 +25,3 @@ extern uint16_t touch_data_y;
 void initADC(void);
 
 #endif	/* ADC_H_*/
-

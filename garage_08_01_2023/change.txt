@@ -1,0 +1,18 @@
+adc:
+- dodao touch_data varijable
+- promenio pinove za ADCSSL
+
+glcd_lib:
+- dodao const char co2_bar
+- promenio GLCD_LcdInit
+- dodao updateCo2Bar
+	- potrebno napisati getCo2() za nju
+
+touch:
+- napisao processTouch
+- napisao updateCoords
+- napisao getX, getY
+- napisao initTouchScreen
+- potrebno pronaci konstante za skaliranje koordinata
+
+08/01/2023

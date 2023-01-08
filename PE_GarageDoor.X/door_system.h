@@ -20,6 +20,7 @@
 #include "timer.h"
 #include "adc.h"
 #include "glcd.h"
+#include "touch.h"
 #include "utils.h"
 
 /* MISC LIBRARIES */
@@ -41,6 +42,8 @@
 #define CO2_MAX_LEVEL (40)
 #define CO2_MIN_LEVEL (5)
 #define CO2_FACTOR    (1)
+
+#define ONE_MS_PERIOD (10000u)  /* Fosc = 10MHz => 1/Fosc = 0.1us => 0.1us * 10_000 = 1ms  */
 
 #define PASSWORD_LENGTH (4u)
 

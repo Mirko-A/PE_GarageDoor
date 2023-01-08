@@ -14,6 +14,10 @@
 /* CTRL LIBRARIES */
 #include <p30fxxxx.h>
 
+/* USER LIBRARIES */
+#include "adc.h"
+#include "utils.h"
+
 /* MACRO CONSTANTS */
 
 /* LCD Registers */
@@ -31,7 +35,7 @@
 #define FONT_LENGHT     (5)
 #define FONT_LENGHT_BIG (16)
 
-#define PIXEL_RECT_RATIO (1.3)
+#define PIXEL_RECT_RATIO (1.3f)
 
 #define INPUT   (0u)
 #define OUTPUT  (1u)
@@ -55,11 +59,11 @@
 #define RB4_0 LATB&=0b1111111111101111
 
 /* GLOBAL CONSTANTS */
-extern const char DISPLAY1_bmp[1024];
-extern const char zvezde[1024];
-extern const char fontBIG[];
-extern const char truck[1024];
-extern const char bank[1024];
+extern const unsigned char FONT_BIG[];
+extern const unsigned char FONT[];
+
+extern const unsigned char CO2_BAR[];
+
 
 /* GLOBAL FUNCTIONS */
 void SetRST(unsigned char vrednost);
@@ -68,33 +72,164 @@ void SetRW(unsigned char vrednost);
 void SetRS(unsigned char vrednost);
 void SetCS2(unsigned char vrednost);
 void SetCS1(unsigned char vrednost);
+
+/*
+ *	Konfiguracija SVIH pinova za rad sa LCD - om
+ */
 void ConfigureLcdPins(void);
+
+/* 
+ *	Setovanje LCD pinova na input ili output
+ */
 void ConfigureLcdData(unsigned char direction);
+
+/* 
+ *	Setovanje vrednosti LCD pinova
+ */
 void SetLcdData(unsigned char vrednost);
+
+/* 
+ *	Citanje vrednosti LCD pinova
+ */
 unsigned char ReadLcdData(void);
+
+/*
+ * Strobe
+ * Valjda ukljucuje i iskljucuje svetlo kao refresh neki
+ */
 void LcdStrobeData(void);
+
+/* 
+ *	Slanje instrukcija modulu
+ */
 void LcdInstructionWrite(unsigned char u8Instruction);
-void LcdDelay(unsigned int u32Duration);
+
+/* 
+ *	Cekanje sve dok LCD prima informacije
+ */
 void LcdWaitBusy(void);
+
+/* 
+ *	Postavljanje kursora po y tj. veritkalnoj osi.
+ *	Prosledjujemo vrednost 0-8
+ */
 void LcdGotoX(unsigned char x);
+
+/* 
+ *	Postavljanje kursora po x tj. horizontalnoj osi.
+ *	Prosledjujemo vrednost 0-128
+ */
 void LcdGotoY(unsigned char y);
+
+/* 
+ *	Postavljanje kursora na (x, y) poziciju
+ */
 void LcdGotoXY(unsigned char x, unsigned char y);
+
+/* 
+ *	Koristimo za skroolovanje ekrana tj. tu polovinu koju postavimo startline.
+ *	Ona celu polovinu translira gore dole da joj je vrh na liniji koju postavimo.
+ *	Prosledjujemo vrednost 0-64
+ */
 void LcdSelectStartline(unsigned char startna_linija);
+
+/* 
+ *	Selektujemo stranu LCD - a.
+ *	Prosledjujemo vrednost LEFT ili RIGHT
+ */
 void LcdSelectSide(unsigned char u8LcdSide);
+
+/* 
+ *	Funkcija za citanje informacije sa LCD - a.
+ *	Koristi funkciju ReadLcdData
+ *  Vraca vrednost unsigned char
+ *	nzm zasto se ne koristi samo originalna funkcija
+ */
 unsigned char LcdDataRead(void);
+
+/* 
+ *	Inicijalizacija GLCD modula	
+ */
 void LcdInit(void);
+
+/* 
+ *	Salje informaciju LCD - u.
+ *	Prosledjujemo vrednosti tipa unsigned char
+ */
 void LcdDataWrite(unsigned char u8Data);
+
+/* 
+ *	Brisanje ekrana
+ */
 void LcdClearScreen(void);
+
+/* 
+ *	Ispuni ceo ekran
+ */
 void LcdFillScreen(void);
-void LcdDisplayPicture(unsigned char *slika);
+
+/* 
+ *	Prikaz slike na ekranu.
+ *	Sliku je potrebno pretvoriti u formu niza tj matrice.
+ *	Prosledjujemo adresu niza
+ */
+void LcdDisplayPicture(const unsigned char *slika);
+
+/* 
+ *	Postavljanje tacke na (x, y) poziciju
+ */
 void LcdSetDot(unsigned char u8Xaxis, unsigned char u8Yaxis);
+
+/* 
+ *	Postavljanje praznu tacku na (x, y) poziciju
+ */
 void LcdClearDot(unsigned char u8Xaxis, unsigned char u8Yaxis);
+
+/*
+ *	Crta krug na ekranu
+ *	Prosledjujemo vrednosti:
+ *		u8CenterX = Center absciss (in pixels)
+ *		u8CenterY = Center ordinate (in pixels) 
+ *		u8Radius  = Radius (in pixels)
+ */
 void LcdDrawCircle(unsigned char u8CenterX, unsigned char u8CenterY, unsigned char u8Radius);
+
+/*
+ *	Crta pravougaonik na ekranu
+ *	Prosledjujemo vrednosti:
+ *		u8Xaxis1 = absciss top-left (in pixels)
+ *		u8Yaxis1 = ordinate top-left (in pixels)
+ *		u8Xaxis2 = absciss bottom-right (in pixels)
+ *		u8Yaxis2 = ordinate bottom-right (in pixels)
+ */
 void LcdDrawRect(unsigned char u8Xaxis1,unsigned char u8Yaxis1, unsigned char u8Xaxis2, unsigned char u8Yaxis2);
+
+/* 
+ * Ispisuje se 1 karakter na ekranu.
+ * Prebacivanje u novi red pri preteku i vracanje na 0-ti red kada prodje poslednji
+ */ 
 void LcdPutChar(char AskiKod);
+
+/* 
+ * Ispisuje se 1 VELIKI karakter na ekranu.
+ * Prebacivanje u novi red pri preteku i vracanje na 0-ti red kada prodje poslednji
+ */ 
 void LcdPutCharBig(char AskiKod);
+
+/* 
+ * Ispisuje strin na ekranu.
+ */ 
 void LcdPrintf(char *au8Text);
+
+/* 
+ * Iscrtava grid na ekranu
+ */ 
 void LcdShowGrid(unsigned char grid_padding);
 
+/*
+ * Azurira procenat Co2 na ekranu
+ * Koristi getCo2() funkciju
+ */
+void LcdUpdateCo2Bar(uint8_t co2_percent);
 #endif	/* GLCD_H_ */
 

@@ -123,7 +123,7 @@ void initADC(void)
         bit 15-13 Unimplemented: Read as ?0?
         bit 12-8 SAMC<4:0>: Auto Sample Time bits
             11111 = 31 TAD
-            ·····
+            ?????
             00001 = 1 TAD
             00000 = 0 TAD
         bit 7 ADRC: A/D Conversion Clock Source bit
@@ -132,7 +132,7 @@ void initADC(void)
         bit 6 Unimplemented: Read as ?0?
         bit 5-0 ADCS<5:0>: A/D Conversion Clock Select bits
             111111 = TCY/2 ? (ADCS<5:0> + 1) = 32 ? TCY
-            ······
+            ??????
             000001 = TCY/2 ? (ADCS<5:0> + 1) = TCY
             000000 = TCY/2 ? (ADCS<5:0> + 1) = TCY/2
      */
@@ -156,7 +156,7 @@ void initADC(void)
             1111 = Channel 0 positive input is AN15
             1110 = Channel 0 positive input is AN14
             1101 = Channel 0 positive input is AN13
-            ·····
+            ?????
             0001 = Channel 0 positive input is AN1
             0000 = Channel 0 positive input is AN0
     */
