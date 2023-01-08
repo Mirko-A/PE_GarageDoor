@@ -4,8 +4,8 @@
 static unsigned int x_raw;
 static unsigned int y_raw;
 
-static int x_coord;
-static int y_coord;
+static unsigned int x_coord;
+static unsigned int y_coord;
 //Formula:
 //Coordinate = ( (raw-AD_MIN) / (AD_MAX-AD_MIN) ) * width;	
 
@@ -50,15 +50,4 @@ unsigned int getY()
 {
 	return y_coord;
 }
-
-void processTouch()
-{
-    
-}
-
-
-
-
-			
-		
-												
+											

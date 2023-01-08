@@ -99,6 +99,38 @@ static void processKeyPressed()
     old_key = key_pressed;
 }
 
+static void processTouch()
+{
+	/* provera da li smo u delu ekrana gde su dugmici */
+	if(getY() > (Y_MAX/2))
+	{
+        unsigned int x_pos = getX();
+        
+		/* provera koje dugme */
+		if(x_pos < 32)
+		{
+			/* Sector 1 - Light ON/OFF */
+            turn_on_light = (turn_on_light == FALSE) ? TRUE : FALSE;
+		}
+        else if((x_pos > 32) && (x_pos < 64))
+		{
+			/* Sector 2 - Alarm OFF */
+			start_alarm = FALSE;
+			
+		}
+		else if((x_pos > 64) && (x_pos < 96))
+		{
+			/* Sector 3 - Close door */
+			open_door = FALSE;
+		}
+		else if(x_pos > 96)
+		{
+			/* Sector 4 - Open door */
+			open_door  = TRUE;
+		}
+	}
+}
+
 /* Ova funkcija treba da proverava kontrolne signale i da u skladu sa tim izvrsava odredjene 
  * radnje. */
 static void performActions()

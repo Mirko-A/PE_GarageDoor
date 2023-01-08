@@ -33,6 +33,10 @@
 #define DRIVE_A PORTCbits.RC13
 #define DRIVE_B PORTCbits.RC14
 
+/* Display positions */
+#define Y_MAX (64)
+#define X_MAX (128)
+
 /* GLOBAL FUNCTIONS */
 
 /* 
@@ -52,7 +56,5 @@ void updateCoords(void);
 /* Getter funkcije */
 unsigned int getX();
 unsigned int getY();
-
-void processTouch();
 
 #endif /* TOUCH_H_ */
