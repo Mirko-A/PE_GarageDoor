@@ -18,7 +18,6 @@ static boolean door_locked;
 static boolean  movement;
 static boolean  key_pressed;
 static boolean  touch;
-static uint16_t gas_level;
 
 /* Action flags */
 static boolean turn_on_light;
@@ -38,7 +37,7 @@ static void closeDoor()
 
 static void startAlarm()
 {
-    // if ((getTicks() % ALARM_LED_PERIOD) == 0) togglePin(PORTA, ALARM_LED_PIN);
+    // if (((getTicks() + 1) % ALARM_LED_PERIOD) == 0) togglePin(PORTA, ALARM_LED_PIN);
     sendPWM(20, DOOR_HALF_OPEN_DUTY_CYCLE);
 }
 
@@ -55,19 +54,60 @@ static uint8_t getCO2Level()
  * i da u skladu sa tim podesi kontrolne signal */
 static void checkInputs()
 {   
+	/* Deo koda koji postavlja flag start_alarm na 0 ili 1 u zavisnosti od CO2 nivoa*/
+	uint8_t co2_level = getCO2Level();
+	
+	if(co2_level >= CO2_MAX_LEVEL)
+    {
+        start_alarm = TRUE;
+    }
+	else if(co2_level <= CO2_MIN_LEVEL)
+    {
+        start_alarm = FALSE;
+    }
+	
+	/* Deo koda koji postavlja flag turn_on_light na 0 ili 1 u zavisnosti od senzora pokreta*/
+	if(MOTION_SENS_PIN == PIN_HIGH)		
+    {
+        turn_on_light = TRUE;
+    } 
+    else
+    {
+        turn_on_light = FALSE;
+    }  
+	
+	/* Deo koda koji stavlja key_pressed na true ili false na osnovu pritiska tastera*/
+	if(PORTF != 0)	//TODO promeniti port u zavisnosti koji port se koristi
+	{
+        key_pressed = TRUE;
+    }	
+	else
+    {
+        key_pressed = FALSE;
+    }
+    
+    /* Deo koda koji stavlja touch na true ili false na osnovu pritiska touchscreen-a */
     updateCoords();
-    if (getX() > 0 || getY() > 0) touch = TRUE;
+    
+    if ((getY() != 0) || (getX() != 0))
+    {
+        touch = TRUE;
+    }
+    else
+    {
+        touch = FALSE;
+    }
 }
 
 /* Ova funkcija treba da procesuira pritisnuti taster i poredi sa sifrom.
  * Ako je sifra ispravna, vrata treba otkljucati. U suprotnom, vrata ostaju zakljucana. */
 static void processKeyPressed()
 {
-    static uint16_t old_key;
+    static uint16_t old_key = 0u;
     uint16_t key_pressed;
     
     /* Procitaj trenutni pritisnut taster */
-    key_pressed = PORTB;
+    key_pressed = PORTF;
     
     /* Taster je zadrzan ali je vec procesuiran */
     if (key_pressed == old_key) return;
@@ -82,12 +122,14 @@ static void processKeyPressed()
             door_locked = FALSE;
             
             digit_to_check = 0;
-        } else
+        } 
+        else
         {
             /* Proveri sledecu cifru u passwordu */
             digit_to_check++;   
         }
-    } else
+    } 
+    else
     {
         /* Pogresna sifra => zakljucaj vrata */
         door_locked = TRUE;
@@ -161,7 +203,6 @@ void doorSystemInit()
     start_alarm   = FALSE;
     turn_on_light = FALSE;
     
-    gas_level      = 0u;
     digit_to_check = 0;
     
     closeDoor();

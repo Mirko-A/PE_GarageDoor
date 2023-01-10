@@ -6,8 +6,8 @@
  * Napomena:
  * Bio je problem pri stavljanju fontova u zaseban fajl gde je kompajler
  * ispisavao problem da postoje vise definicija "const char font" iako nije.
- * Zbog toga je potrebno drzati fontove i u glcd_lib.c. 
- * 
+ * Zbog toga je potrebno drzati fontove samo u glcd_lib.c. 
+ * Za slike i slicno, drzati u main fajlu.
  * 
  */
 
@@ -16,9 +16,7 @@
 #define GLCD_LIB_H_
 
 
-/* USER LIBRARIES */
-#include "adc.h"
-#include "utils.h"
+
 
 
 /* --------------------------------------------------------------------------------------------- */ 
@@ -43,10 +41,6 @@
 #define FONT_LENGHT_BIG 16
 
 #define odnos_pravougaonosti_piksela		1.3
-
-/* Co2 bar */
-#define START_POSITION 13
-#define CONST_BAR_HEIGHT 6
 
 /* Koristi se kod definisanja pravca pina ulazni ili izlazni */
 #define output 0	
@@ -81,7 +75,6 @@
 /* --------------------------------------------------------------------------------------------- */ 
 
 /* Konfiguracione funkcije */
-// valjda?
 
 
 /* Konfiguracija registara */
@@ -141,7 +134,6 @@ void LcdInstructionWrite (unsigned char u8Instruction);
  *	Kratak delay za timing
  */
 void LcdDelay(unsigned int u32Duration);
-
 
 /* 
  *	Cekanje sve dok LCD prima informacije
@@ -287,13 +279,6 @@ void GLCD_Printf (char *au8Text);
  * Iscrtava grid na ekranu
  */ 
 void GLCD_ShowGrid(unsigned char razmak_grid);
-
-
-/*
- * Azurira procenat Co2 na ekranu
- * Koristi getCo2() funkciju
- */
-void updateCo2Bar()
 
 
 #endif /* GLCD_LIB_H_ */

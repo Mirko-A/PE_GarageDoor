@@ -14,7 +14,7 @@ unsigned char kursor_y = 0;
 unsigned char strana   = 0;
 
 /* GLOBAL CONSTANTS */
-const unsigned char FONT_BIG[] = {
+const static unsigned char FONT_BIG[] = {
  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00  , // space
  0x00, 0x00, 0x3E, 0xFF, 0xFF, 0x3E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0D, 0x0D, 0x00, 0x00, 0x00  , // ! 
  0x00, 0x04, 0x07, 0x03, 0x00, 0x04, 0x07, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00  , // "
@@ -107,7 +107,7 @@ const unsigned char FONT_BIG[] = {
  0xF0, 0xF0, 0x00, 0x00, 0x00, 0x00, 0xF0, 0xF0, 0x47, 0x4F, 0x48, 0x48, 0x48, 0x68, 0x3F, 0x1F  , // y
  0x30, 0x30, 0x10, 0x90, 0xD0, 0x70, 0x30, 0x10, 0x0C, 0x0E, 0x0B, 0x09, 0x08, 0x08, 0x0C, 0x0C }; // z
 
-const unsigned char FONT[1024] = {
+const static unsigned char FONT[1024] = {
 0x00, 0x00, 0x00, 0x00, 0x00,  // (space)
 0x00, 0x00, 0x5F, 0x00, 0x00,  // !
 0x00, 0x07, 0x00, 0x07, 0x00,  // "
@@ -205,7 +205,7 @@ const unsigned char FONT[1024] = {
 0x08, 0x08, 0x2A, 0x1C, 0x08,  // ->
 0x08, 0x1C, 0x2A, 0x08, 0x08}; // <-
 
-const unsigned char CO2_BAR[1024] = {
+const static unsigned char CO2_BAR[1024] = {
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 32, 32,240,  0, 
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
  255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 32, 16, 16, 
@@ -274,52 +274,52 @@ const unsigned char CO2_BAR[1024] = {
 /* GLOBAL FUNCTIONS */
 void SetRST(unsigned char vrednost)
 {
-	if (vrednost)
-		RF5_1;
+	if(vrednost)
+		RF5_1
+            
 	else
-		RF5_0;
+		RF5_0
 }
 
 void SetE(unsigned char vrednost)
 {
 	if (vrednost)
-		RF4_1;
+		RF4_1
 	else
-		RF4_0;
+		RF4_0
 }
 
 void SetRW(unsigned char vrednost)
 {
 	if (vrednost)
-		RF1_1;
+		RF1_1
 	else
-		RF1_0;
+		RF1_0
 }
 
 void SetRS(unsigned char vrednost)
 {
 	if (vrednost)
-		RF0_1;
+		RF0_1
 	else
-		RF0_0;
+		RF0_0
 }
 
 void SetCS2(unsigned char vrednost)
 {
 	if (vrednost)
-		RB5_1;
+		RB5_1
 	else
-		RB5_0;
+		RB5_0
 }
 
 void SetCS1(unsigned char vrednost)
 {
 	if (vrednost)
-		RB4_1;
+		RB4_1
 	else
-		RB4_0;
+		RB4_0
 }
-
 
 void ConfigureLcdPins(void)
 {
@@ -353,27 +353,27 @@ void ConfigureLcdData(unsigned char direction)
 	//LCD_DATA	P2//RB0 RB1 RB2 RB3 RD0 RD1 RD2 RD3
     if(direction==OUTPUT)
 	{
-	//LCD_DATA OUTPUT
-	TRISDbits.TRISD0=OUTPUT;//RD0
-	TRISDbits.TRISD1=OUTPUT;//RD1
-	TRISDbits.TRISD2=OUTPUT;//RD2
-	TRISDbits.TRISD3=OUTPUT;//RD3
-	TRISBbits.TRISB3=OUTPUT;//RB3
-	TRISBbits.TRISB2=OUTPUT;//RB2
-	TRISBbits.TRISB1=OUTPUT;//RB1
-	TRISBbits.TRISB0=OUTPUT;//RB0
+        //LCD_DATA OUTPUT
+        TRISDbits.TRISD0=OUTPUT;//RD0
+        TRISDbits.TRISD1=OUTPUT;//RD1
+        TRISDbits.TRISD2=OUTPUT;//RD2
+        TRISDbits.TRISD3=OUTPUT;//RD3
+        TRISBbits.TRISB3=OUTPUT;//RB3
+        TRISBbits.TRISB2=OUTPUT;//RB2
+        TRISBbits.TRISB1=OUTPUT;//RB1
+        TRISBbits.TRISB0=OUTPUT;//RB0
 	}
     if (direction==INPUT)
 	{
-		//LCD_DATA INPUT
-	TRISDbits.TRISD0=INPUT;//RD0
-	TRISDbits.TRISD1=INPUT;//RD1
-	TRISDbits.TRISD2=INPUT;//RD2
-	TRISDbits.TRISD3=INPUT;//RD3
-	TRISBbits.TRISB3=INPUT;//RB3
-	TRISBbits.TRISB2=INPUT;//RB2
-	TRISBbits.TRISB1=INPUT;//RB1
-	TRISBbits.TRISB0=INPUT;//RB0
+            //LCD_DATA INPUT
+        TRISDbits.TRISD0=INPUT;//RD0
+        TRISDbits.TRISD1=INPUT;//RD1
+        TRISDbits.TRISD2=INPUT;//RD2
+        TRISDbits.TRISD3=INPUT;//RD3
+        TRISBbits.TRISB3=INPUT;//RB3
+        TRISBbits.TRISB2=INPUT;//RB2
+        TRISBbits.TRISB1=INPUT;//RB1
+        TRISBbits.TRISB0=INPUT;//RB0
 	}
 }
 
@@ -414,8 +414,7 @@ unsigned char ReadLcdData(void)
 
 void LcdStrobeData(void)
 {
-	SetE(1);
-    delayMillis(1);
+	SetE(1);		/* Strobe */
 	SetE(0);
 }
 
@@ -426,6 +425,12 @@ void LcdInstructionWrite (unsigned char u8Instruction)
   	SetRW(0);       	       /* Write mode */
   	SetLcdData(u8Instruction); /* outbyte */
 	LcdStrobeData();
+}
+
+void LcdDelay(unsigned int u32Duration)
+{
+	unsigned int u32Delay;
+	for (u32Delay=0; u32Delay<(u32Duration); u32Delay++);
 }
 
 void LcdWaitBusy (void)
@@ -514,6 +519,19 @@ void LcdSelectSide(unsigned char u8LcdSide)
     }
 }
 
+/*-------------------------------------------------------------------------------
+Send datas to the LCD
+	LcdDataWrite (U8 u8Data)
+		u8Data = data to send to the LCD
+-------------------------------------------------------------------------------*/
+void LcdDataWrite (unsigned char u8Data)
+{
+	//LcdWaitBusy ();   // wait until LCD not busy
+	SetRS(1);        	/* Data mode */
+	SetRW(0);      	    /* write mode */
+	SetLcdData(u8Data);	/* outbyte */
+	LcdStrobeData();
+}
 
 /*-------------------------------------------------------------------------------
 Read data from LCD
@@ -583,64 +601,10 @@ void LcdFillScreen(void)
 }
 
 /*-------------------------------------------------------------------------------
-LCD Initialization
-	GLCD_LcdINIT()
--------------------------------------------------------------------------------*/
-void LcdInit(void)	
-{
-	SetLcdData(0);
-	SetRS(0);
-  	SetRW(0);
-  	SetE(0);
-  	SetCS1(0);
-  	SetCS2(0);
-  	
-  	SetRST(1);
-  	delayMillis(10);
-  	SetRST(0);
-  	delayMillis(10);
-  	SetRST(1);
-  	  	
-  	LcdSelectSide(LEFT);
-  	LcdInstructionWrite(DISPLAY_OFF); /* Display OFF */
-  	LcdInstructionWrite(START_LINE);
-  	LcdInstructionWrite(PAGE_ADRESS);
-  	LcdInstructionWrite(Y_ADRESS);
-  	LcdInstructionWrite(DISPLAY_ON);  /* Display ON */
-  	
-  	LcdSelectSide(RIGHT);
-  	LcdInstructionWrite(DISPLAY_OFF); /* Display OFF */
-  	LcdInstructionWrite(START_LINE);
-  	LcdInstructionWrite(PAGE_ADRESS);
-  	LcdInstructionWrite(Y_ADRESS);
-  	LcdInstructionWrite(DISPLAY_ON);  /* Display ON */
-	
-	LcdClearScreen();
-	LcdDisplayPicture(CO2_BAR);	
-}  	
-
-
-
-/*-------------------------------------------------------------------------------
-Send datas to the LCD
-	LcdDataWrite (U8 u8Data)
-		u8Data = data to send to the LCD
--------------------------------------------------------------------------------*/
-void LcdDataWrite (unsigned char u8Data)
-{
-	//LcdWaitBusy ();   // wait until LCD not busy
-	SetRS(1);        	/* Data mode */
-	SetRW(0);      	    /* write mode */
-	SetLcdData(u8Data);	/* outbyte */
-	LcdStrobeData();
-}
-
-/*-------------------------------------------------------------------------------
 Send an image to the LCD
 	GLCD_DisplayPicture (U8 *au8PictureData)
 		au8PictureData = contains datas for picture
 -------------------------------------------------------------------------------*/
-
 void LcdDisplayPicture(const unsigned char *slika)
 {
     unsigned char q,vert;
@@ -660,8 +624,6 @@ void LcdDisplayPicture(const unsigned char *slika)
 		}
 	}
 }
-
-
 
 /*-------------------------------------------------------------------------------
 Draw a dot on the LCD
@@ -695,8 +657,6 @@ void LcdClearDot(unsigned char u8Xaxis, unsigned char u8Yaxis)
     /* Draw dot */
     LcdDataWrite(u8DataRead & (0xff^(1 << (u8Yaxis % 8)))); 
 }
-
-
 
 /*-------------------------------------------------------------------------------
 Draw a circle on the LCD
@@ -852,7 +812,7 @@ void LcdPrintf (char *au8Text)
 
 
 /*-------------------------------------------------------------------------------
-crta greed na display-u
+crta grid na display-u
 -------------------------------------------------------------------------------*/
 void LcdShowGrid(unsigned char grid_padding)
 {
@@ -879,7 +839,7 @@ void LcdShowGrid(unsigned char grid_padding)
 
 void LcdUpdateCo2Bar(uint8_t co2_percent)
 {	
-	static uint8_t previous_update;
+	static uint8_t previous_update = 0u;
                                       
     //format: 0-100
     //co2_percent + START_POSITION
@@ -888,17 +848,55 @@ void LcdUpdateCo2Bar(uint8_t co2_percent)
     /* Resetuj LCD */
 	if(previous_update != co2_percent)
 	{
+        /* Resetuj CO2 bar */
 		LcdDisplayPicture(CO2_BAR);
+	
+        /* Popuni CO2 bar */
+    //	for(int x_pos  = START_POSITION; x_pos < (START_POSITION + co2_percent); x_pos++)
+    //	{
+    //		LcdClearDot(x_pos, CONST_BAR_HEIGHT);
+    //		LcdClearDot(x_pos, CONST_BAR_HEIGHT-1);
+    //		LcdClearDot(x_pos, CONST_BAR_HEIGHT-2);
+    //		LcdClearDot(x_pos, CONST_BAR_HEIGHT-3);
+    //	}
 	}
-	
-    /* Popuni CO2 bar */
-//	for(int x_pos  = START_POSITION; x_pos < (START_POSITION + co2_percent); x_pos++)
-//	{
-//		LcdClearDot(x_pos, CONST_BAR_HEIGHT);
-//		LcdClearDot(x_pos, CONST_BAR_HEIGHT-1);
-//		LcdClearDot(x_pos, CONST_BAR_HEIGHT-2);
-//		LcdClearDot(x_pos, CONST_BAR_HEIGHT-3);
-//	}
-	
+        
 	previous_update = co2_percent; // clr screen if
 }
+
+/*-------------------------------------------------------------------------------
+LCD Initialization
+	GLCD_LcdINIT()
+-------------------------------------------------------------------------------*/
+void LcdInit(void)	
+{
+	SetLcdData(0);
+	SetRS(0);
+  	SetRW(0);
+  	SetE(0);
+  	SetCS1(0);
+  	SetCS2(0);
+  	
+  	SetRST(1);
+  	LcdDelay(10);
+  	SetRST(0);
+  	LcdDelay(10);
+  	SetRST(1);
+  	  	
+  	LcdSelectSide(LEFT);
+  	LcdInstructionWrite(DISPLAY_OFF); /* Display OFF */
+  	LcdInstructionWrite(START_LINE);
+  	LcdInstructionWrite(PAGE_ADRESS);
+  	LcdInstructionWrite(Y_ADRESS);
+  	LcdInstructionWrite(DISPLAY_ON);  /* Display ON */
+  	
+  	LcdSelectSide(RIGHT);
+  	LcdInstructionWrite(DISPLAY_OFF); /* Display OFF */
+  	LcdInstructionWrite(START_LINE);
+  	LcdInstructionWrite(PAGE_ADRESS);
+  	LcdInstructionWrite(Y_ADRESS);
+  	LcdInstructionWrite(DISPLAY_ON);  /* Display ON */
+	
+	LcdClearScreen();
+	LcdDisplayPicture(CO2_BAR);	
+}  	

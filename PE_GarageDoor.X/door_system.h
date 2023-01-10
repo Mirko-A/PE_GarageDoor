@@ -37,7 +37,10 @@
 #define DOOR_HALF_OPEN_DUTY_CYCLE (1)
 #define DOOR_CLOSED_DUTY_CYCLE    (1)
 
-#define ALARM_LED_PERIOD (500u)
+/* Used in conjunction with getTicks to make LED blink every 512 milliseconds.
+   In order no to miss any milliseconds, value should be 2^n because maximum tick value is also 2^n (uint16_t => 2^16).
+ */
+#define ALARM_LED_PERIOD (512u)
 
 #define CO2_MAX_LEVEL (40)
 #define CO2_MIN_LEVEL (5)

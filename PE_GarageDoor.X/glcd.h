@@ -40,30 +40,29 @@
 #define INPUT   (0u)
 #define OUTPUT  (1u)
 
-#define RF5_1 LATF|=0b0000000000100000 //RST
-#define RF5_0 LATF&=0b1111111111011111
+#define RF5_1 LATF|=0b0000000000100000;	//RST
+#define RF5_0 LATF&=0b1111111111011111;
 
-#define RF4_1 LATF|=0b0000000000010000 //E
-#define RF4_0 LATF&=0b1111111111101111
+#define RF4_1 LATF|=0b0000000000010000;	//E
+#define RF4_0 LATF&=0b1111111111101111;
 
-#define RF1_1 LATF|=0b0000000000000010 //RW
-#define RF1_0 LATF&=0b1111111111111101
+#define RF1_1 LATF|=0b0000000000000010;	//RW
+#define RF1_0 LATF&=0b1111111111111101;
 
-#define RF0_1 LATF|=0b0000000000000001 //RS
-#define RF0_0 LATF&=0b1111111111111110
+#define RF0_1 LATF|=0b0000000000000001;	//RS
+#define RF0_0 LATF&=0b1111111111111110;
 
-#define RB5_1 LATB|=0b0000000000100000 //CS2
-#define RB5_0 LATB&=0b1111111111011111
+#define RB5_1 LATB|=0b0000000000100000;	//CS2
+#define RB5_0 LATB&=0b1111111111011111;
 
-#define RB4_1 LATB|=0b0000000000010000 //CS1
-#define RB4_0 LATB&=0b1111111111101111
+#define RB4_1 LATB|=0b0000000000010000;	//CS1
+#define RB4_0 LATB&=0b1111111111101111;
 
-/* GLOBAL CONSTANTS */
-extern const unsigned char FONT_BIG[];
-extern const unsigned char FONT[];
+/* nisam siguran? */
+#define Nop() {__asm__ volatile ("nop");}
 
-extern const unsigned char CO2_BAR[];
-
+//#define xtal 29480000
+#define xtal 25000000
 
 /* GLOBAL FUNCTIONS */
 void SetRST(unsigned char vrednost);
@@ -105,19 +104,24 @@ void LcdStrobeData(void);
 void LcdInstructionWrite(unsigned char u8Instruction);
 
 /* 
+ *	Kratak delay za timing
+ */
+void LcdDelay(unsigned int u32Duration);
+
+/* 
  *	Cekanje sve dok LCD prima informacije
  */
 void LcdWaitBusy(void);
 
 /* 
- *	Postavljanje kursora po y tj. veritkalnoj osi.
- *	Prosledjujemo vrednost 0-8
+ *	Postavljanje kursora po x tj. horizontalnoj osi.
+ *	Prosledjujemo vrednost 0-128
  */
 void LcdGotoX(unsigned char x);
 
 /* 
- *	Postavljanje kursora po x tj. horizontalnoj osi.
- *	Prosledjujemo vrednost 0-128
+ *	Postavljanje kursora po y tj. veritkalnoj osi.
+ *	Prosledjujemo vrednost 0-8
  */
 void LcdGotoY(unsigned char y);
 
@@ -140,23 +144,18 @@ void LcdSelectStartline(unsigned char startna_linija);
 void LcdSelectSide(unsigned char u8LcdSide);
 
 /* 
+ *	Salje informaciju LCD - u.
+ *	Prosledjujemo vrednosti tipa unsigned char
+ */
+void LcdDataWrite(unsigned char u8Data);
+
+/* 
  *	Funkcija za citanje informacije sa LCD - a.
  *	Koristi funkciju ReadLcdData
  *  Vraca vrednost unsigned char
  *	nzm zasto se ne koristi samo originalna funkcija
  */
 unsigned char LcdDataRead(void);
-
-/* 
- *	Inicijalizacija GLCD modula	
- */
-void LcdInit(void);
-
-/* 
- *	Salje informaciju LCD - u.
- *	Prosledjujemo vrednosti tipa unsigned char
- */
-void LcdDataWrite(unsigned char u8Data);
 
 /* 
  *	Brisanje ekrana
@@ -231,5 +230,11 @@ void LcdShowGrid(unsigned char grid_padding);
  * Koristi getCo2() funkciju
  */
 void LcdUpdateCo2Bar(uint8_t co2_percent);
+
+/* 
+ *	Inicijalizacija GLCD modula	
+ */
+void LcdInit(void);
+
 #endif	/* GLCD_H_ */
 
