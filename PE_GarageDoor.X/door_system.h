@@ -9,8 +9,6 @@
 #define	DOOR_SYSTEM_H_
 
 /* STANDARD LIBRARIES */
-#include <stdio.h>
-#include <stdlib.h>
 #include <stdint.h>
 
 /* CTRL LIBRARIES */
@@ -21,21 +19,29 @@
 #include "adc.h"
 #include "glcd.h"
 #include "touch.h"
+#include "uart.h"
 #include "utils.h"
-
-/* MISC LIBRARIES */
-#include <math.h>
     
 /* MACRO CONSTANTS */ // TODO - SET REAL VALUES FOR MACROS
 #define BUZZER_PIN      (11u)
-#define SERVO_PIN       (1) 
-#define PHOTO_RES_PIN   (1) 
-#define ALARM_LED_PIN   (1)
-#define MOTION_SENS_PIN (1)
 
-#define DOOR_OPEN_DUTY_CYCLE      (1)
-#define DOOR_HALF_OPEN_DUTY_CYCLE (1)
-#define DOOR_CLOSED_DUTY_CYCLE    (1)
+#define PHOTO_RES_PIN   PORT_B, 6
+#define PHOTO_RES_GET   PORTBbits.RB6
+#define PHOTO_RES_SET   LATBbits.LATB6
+
+#define LED_PIN         PORT_C, 15
+#define LED_PIN_GET     PORTCbits.RC15
+#define LED_PIN_SET     LATCbits.LATC15
+
+#define MOTION_PIN      PORT_D, 9
+#define MOTION_PIN_GET  PORTDbits.RD9
+#define MOTION_PIN_SET  LATDbits.LATD9
+
+#define ALARM_LED_PIN   (1)
+
+#define DOOR_CLOSED_DUTY_CYCLE    (15)
+#define DOOR_HALF_OPEN_DUTY_CYCLE (10)
+#define DOOR_OPEN_DUTY_CYCLE      (5)
 
 /* Used in conjunction with getTicks to make LED blink every 512 milliseconds.
    In order no to miss any milliseconds, value should be 2^n because maximum tick value is also 2^n (uint16_t => 2^16).
@@ -44,11 +50,10 @@
 
 #define CO2_MAX_LEVEL (40)
 #define CO2_MIN_LEVEL (5)
-#define CO2_FACTOR    (1)
-
-#define ONE_MS_PERIOD (10000u)  /* Fosc = 10MHz => 1/Fosc = 0.1us => 0.1us * 10_000 = 1ms  */
+#define CO2_FACTOR    (3150u)
 
 #define PASSWORD_LENGTH (4u)
+#define BUTTONS         (PORTB & 0xFE00) /* Looking at pins B9 ~ B15 only */
 
 /* GLOBAL FUNCTIONS */
 void doorSystemInit();

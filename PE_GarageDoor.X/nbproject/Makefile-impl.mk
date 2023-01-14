@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=PE_GarageDoor.X
+PROJECTNAME=PE_GarageDoorLocal.X
 
 # Active Configuration
 DEFAULTCONF=default

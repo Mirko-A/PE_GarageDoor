@@ -8,15 +8,17 @@
 /* USER LIBRARIES */
 #include "utils.h"
 
+static boolean servo_pwm_sent = FALSE;
+
 /* GLOBAL FUNCTIONS */
 void delayMillis(uint16_t delay_time)
 {
     uint16_t start_time, target_time;
     
-    start_time = getTicks();
+    start_time = getTickMs();
     target_time = start_time + delay_time;
     
-    while(getTicks() != target_time);
+    while(getTickMs() != target_time);
 }
 
 void setPin(uint8_t port, uint8_t pin)
@@ -136,11 +138,47 @@ void togglePin(uint8_t port, uint8_t pin)
     }
 }
 
-void sendPWM(uint16_t period_ms, uint8_t duty_cycle)
+void servoPwmSend(uint16_t period_tenth_of_ms, uint16_t duty_cycle_time)
 {
-    /* Racunanje periode PWMa po formuli: 
-     *   pwm_period = (PRx + 1)*4*Tosc*TMR_prescaler */
-    PR2 = (period_ms * 4 * FOSC_IN_KHZ) - 1;
-    /* Podesavanje duty cycle-a uzimajuci procenat od PR2 */
-    OC1RS = (PR2 + 1) * duty_cycle / 100;
+    if (servo_pwm_sent == TRUE) return;
+    
+    if (duty_cycle_time == period_tenth_of_ms)
+    {
+        SERVO_PIN_SET = PIN_HIGH;
+        return;
+    }
+    else if (duty_cycle_time == 0)
+    {
+        SERVO_PIN_SET = PIN_LOW;
+        return;
+    }
+    
+    if (SERVO_PIN_GET == PIN_LOW)
+    {
+        // Pin was high and interrupt set it to low
+        startTimer2(period_tenth_of_ms - duty_cycle_time);
+    }
+    else if (SERVO_PIN_GET == PIN_HIGH)
+    {
+        // Pin was low and interrupt set it to high
+        startTimer2(duty_cycle_time);
+    }
+    
+    servo_pwm_sent = TRUE;
+}
+
+void __attribute__((__interrupt__)) __attribute__ ((__auto_psv__)) _T2Interrupt(void)
+{
+    if (SERVO_PIN_GET == PIN_HIGH)
+    {
+        SERVO_PIN_SET = PIN_LOW;
+    }
+    else if (SERVO_PIN_GET == PIN_LOW)
+    {
+        SERVO_PIN_SET = PIN_HIGH;
+    }
+    
+    servo_pwm_sent = FALSE;
+   	TMR2 = 0;
+    IFS0bits.T2IF = 0;
 }

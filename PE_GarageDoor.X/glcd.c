@@ -1,20 +1,10 @@
-/* 
- * File:   timer.h
- * Author: 
- *
- * Created on November 8, 2017, 10:48 PM
- */
-
-/* USER LIBRARIES */
 #include "glcd.h"
 
-/* GLOBAL VARIABLES */
-unsigned char kursor_x = 0;
-unsigned char kursor_y = 0;
-unsigned char strana   = 0;
+unsigned char kursorX = 0;
+unsigned char kursorY = 0;
+unsigned char strana = 0;
 
-/* GLOBAL CONSTANTS */
-const static unsigned char FONT_BIG[] = {
+const unsigned char FONT_BIG[] = {
  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00  , // space
  0x00, 0x00, 0x3E, 0xFF, 0xFF, 0x3E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0D, 0x0D, 0x00, 0x00, 0x00  , // ! 
  0x00, 0x04, 0x07, 0x03, 0x00, 0x04, 0x07, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00  , // "
@@ -107,121 +97,122 @@ const static unsigned char FONT_BIG[] = {
  0xF0, 0xF0, 0x00, 0x00, 0x00, 0x00, 0xF0, 0xF0, 0x47, 0x4F, 0x48, 0x48, 0x48, 0x68, 0x3F, 0x1F  , // y
  0x30, 0x30, 0x10, 0x90, 0xD0, 0x70, 0x30, 0x10, 0x0C, 0x0E, 0x0B, 0x09, 0x08, 0x08, 0x0C, 0x0C }; // z
 
-const static unsigned char FONT[1024] = {
-0x00, 0x00, 0x00, 0x00, 0x00,  // (space)
-0x00, 0x00, 0x5F, 0x00, 0x00,  // !
-0x00, 0x07, 0x00, 0x07, 0x00,  // "
-0x14, 0x7F, 0x14, 0x7F, 0x14,  // #
-0x24, 0x2A, 0x7F, 0x2A, 0x12,  // $
-0x23, 0x13, 0x08, 0x64, 0x62,  // %
-0x36, 0x49, 0x55, 0x22, 0x50,  // &
-0x00, 0x05, 0x03, 0x00, 0x00,  // '
-0x00, 0x1C, 0x22, 0x41, 0x00,  // (
-0x00, 0x41, 0x22, 0x1C, 0x00,  // )
-0x08, 0x2A, 0x1C, 0x2A, 0x08,  // *
-0x08, 0x08, 0x3E, 0x08, 0x08,  // +
-0x00, 0x50, 0x30, 0x00, 0x00,  // ,
-0x08, 0x08, 0x08, 0x08, 0x08,  // -
-0x00, 0x30, 0x30, 0x00, 0x00,  // .
-0x20, 0x10, 0x08, 0x04, 0x02,  // /
-0x3E, 0x51, 0x49, 0x45, 0x3E,  // 0
-0x00, 0x42, 0x7F, 0x40, 0x00,  // 1
-0x42, 0x61, 0x51, 0x49, 0x46,  // 2
-0x21, 0x41, 0x45, 0x4B, 0x31,  // 3
-0x18, 0x14, 0x12, 0x7F, 0x10,  // 4
-0x27, 0x45, 0x45, 0x45, 0x39,  // 5
-0x3C, 0x4A, 0x49, 0x49, 0x30,  // 6
-0x01, 0x71, 0x09, 0x05, 0x03,  // 7
-0x36, 0x49, 0x49, 0x49, 0x36,  // 8
-0x06, 0x49, 0x49, 0x29, 0x1E,  // 9
-0x00, 0x36, 0x36, 0x00, 0x00,  // :
-0x00, 0x56, 0x36, 0x00, 0x00,  // ;
-0x00, 0x08, 0x14, 0x22, 0x41,  // <
-0x14, 0x14, 0x14, 0x14, 0x14,  // =
-0x41, 0x22, 0x14, 0x08, 0x00,  // >
-0x02, 0x01, 0x51, 0x09, 0x06,  // ?
-0x32, 0x49, 0x79, 0x41, 0x3E,  // @
-0x7E, 0x11, 0x11, 0x11, 0x7E,  // A
-0x7F, 0x49, 0x49, 0x49, 0x36,  // B
-0x3E, 0x41, 0x41, 0x41, 0x22,  // C
-0x7F, 0x41, 0x41, 0x22, 0x1C,  // D
-0x7F, 0x49, 0x49, 0x49, 0x41,  // E
-0x7F, 0x09, 0x09, 0x01, 0x01,  // F
-0x3E, 0x41, 0x41, 0x51, 0x32,  // G
-0x7F, 0x08, 0x08, 0x08, 0x7F,  // H
-0x00, 0x41, 0x7F, 0x41, 0x00,  // I
-0x20, 0x40, 0x41, 0x3F, 0x01,  // J
-0x7F, 0x08, 0x14, 0x22, 0x41,  // K
-0x7F, 0x40, 0x40, 0x40, 0x40,  // L
-0x7F, 0x02, 0x04, 0x02, 0x7F,  // M
-0x7F, 0x04, 0x08, 0x10, 0x7F,  // N
-0x3E, 0x41, 0x41, 0x41, 0x3E,  // O
-0x7F, 0x09, 0x09, 0x09, 0x06,  // P
-0x3E, 0x41, 0x51, 0x21, 0x5E,  // Q
-0x7F, 0x09, 0x19, 0x29, 0x46,  // R
-0x46, 0x49, 0x49, 0x49, 0x31,  // S
-0x01, 0x01, 0x7F, 0x01, 0x01,  // T
-0x3F, 0x40, 0x40, 0x40, 0x3F,  // U
-0x1F, 0x20, 0x40, 0x20, 0x1F,  // V
-0x7F, 0x20, 0x18, 0x20, 0x7F,  // W
-0x63, 0x14, 0x08, 0x14, 0x63,  // X
-0x03, 0x04, 0x78, 0x04, 0x03,  // Y
-0x61, 0x51, 0x49, 0x45, 0x43,  // Z
-0x00, 0x00, 0x7F, 0x41, 0x41,  // [
-0x02, 0x04, 0x08, 0x10, 0x20,  // "\"
-0x41, 0x41, 0x7F, 0x00, 0x00,  // ]
-0x04, 0x02, 0x01, 0x02, 0x04,  // ^
-0x40, 0x40, 0x40, 0x40, 0x40,  // _
-0x00, 0x01, 0x02, 0x04, 0x00,  // `
-0x20, 0x54, 0x54, 0x54, 0x78,  // a
-0x7F, 0x48, 0x44, 0x44, 0x38,  // b
-0x38, 0x44, 0x44, 0x44, 0x20,  // c
-0x38, 0x44, 0x44, 0x48, 0x7F,  // d
-0x38, 0x54, 0x54, 0x54, 0x18,  // e
-0x08, 0x7E, 0x09, 0x01, 0x02,  // f
-0x08, 0x14, 0x54, 0x54, 0x3C,  // g
-0x7F, 0x08, 0x04, 0x04, 0x78,  // h
-0x00, 0x44, 0x7D, 0x40, 0x00,  // i
-0x20, 0x40, 0x44, 0x3D, 0x00,  // j
-0x00, 0x7F, 0x10, 0x28, 0x44,  // k
-0x00, 0x41, 0x7F, 0x40, 0x00,  // l
-0x7C, 0x04, 0x18, 0x04, 0x78,  // m
-0x7C, 0x08, 0x04, 0x04, 0x78,  // n
-0x38, 0x44, 0x44, 0x44, 0x38,  // o
-0x7C, 0x14, 0x14, 0x14, 0x08,  // p
-0x08, 0x14, 0x14, 0x18, 0x7C,  // q
-0x7C, 0x08, 0x04, 0x04, 0x08,  // r
-0x48, 0x54, 0x54, 0x54, 0x20,  // s
-0x04, 0x3F, 0x44, 0x40, 0x20,  // t
-0x3C, 0x40, 0x40, 0x20, 0x7C,  // u
-0x1C, 0x20, 0x40, 0x20, 0x1C,  // v
-0x3C, 0x40, 0x30, 0x40, 0x3C,  // w
-0x44, 0x28, 0x10, 0x28, 0x44,  // x
-0x0C, 0x50, 0x50, 0x50, 0x3C,  // y
-0x44, 0x64, 0x54, 0x4C, 0x44,  // z
-0x00, 0x08, 0x36, 0x41, 0x00,  // {
-0x00, 0x00, 0x7F, 0x00, 0x00,  // |
-0x00, 0x41, 0x36, 0x08, 0x00,  // }
-0x08, 0x08, 0x2A, 0x1C, 0x08,  // ->
-0x08, 0x1C, 0x2A, 0x08, 0x08}; // <-
+const unsigned char FONT[] = {
+0x00, 0x00, 0x00, 0x00, 0x00,// (space)
+0x00, 0x00, 0x5F, 0x00, 0x00,// !
+0x00, 0x07, 0x00, 0x07, 0x00,// "
+0x14, 0x7F, 0x14, 0x7F, 0x14,// #
+0x24, 0x2A, 0x7F, 0x2A, 0x12,// $
+0x23, 0x13, 0x08, 0x64, 0x62,// %
+0x36, 0x49, 0x55, 0x22, 0x50,// &
+0x00, 0x05, 0x03, 0x00, 0x00,// '
+0x00, 0x1C, 0x22, 0x41, 0x00,// (
+0x00, 0x41, 0x22, 0x1C, 0x00,// )
+0x08, 0x2A, 0x1C, 0x2A, 0x08,// *
+0x08, 0x08, 0x3E, 0x08, 0x08,// +
+0x00, 0x50, 0x30, 0x00, 0x00,// ,
+0x08, 0x08, 0x08, 0x08, 0x08,// -
+0x00, 0x30, 0x30, 0x00, 0x00,// .
+0x20, 0x10, 0x08, 0x04, 0x02,// /
+0x3E, 0x51, 0x49, 0x45, 0x3E,// 0
+0x00, 0x42, 0x7F, 0x40, 0x00,// 1
+0x42, 0x61, 0x51, 0x49, 0x46,// 2
+0x21, 0x41, 0x45, 0x4B, 0x31,// 3
+0x18, 0x14, 0x12, 0x7F, 0x10,// 4
+0x27, 0x45, 0x45, 0x45, 0x39,// 5
+0x3C, 0x4A, 0x49, 0x49, 0x30,// 6
+0x01, 0x71, 0x09, 0x05, 0x03,// 7
+0x36, 0x49, 0x49, 0x49, 0x36,// 8
+0x06, 0x49, 0x49, 0x29, 0x1E,// 9
+0x00, 0x36, 0x36, 0x00, 0x00,// :
+0x00, 0x56, 0x36, 0x00, 0x00,// ;
+0x00, 0x08, 0x14, 0x22, 0x41,// <
+0x14, 0x14, 0x14, 0x14, 0x14,// =
+0x41, 0x22, 0x14, 0x08, 0x00,// >
+0x02, 0x01, 0x51, 0x09, 0x06,// ?
+0x32, 0x49, 0x79, 0x41, 0x3E,// @
+0x7E, 0x11, 0x11, 0x11, 0x7E,// A
+0x7F, 0x49, 0x49, 0x49, 0x36,// B
+0x3E, 0x41, 0x41, 0x41, 0x22,// C
+0x7F, 0x41, 0x41, 0x22, 0x1C,// D
+0x7F, 0x49, 0x49, 0x49, 0x41,// E
+0x7F, 0x09, 0x09, 0x01, 0x01,// F
+0x3E, 0x41, 0x41, 0x51, 0x32,// G
+0x7F, 0x08, 0x08, 0x08, 0x7F,// H
+0x00, 0x41, 0x7F, 0x41, 0x00,// I
+0x20, 0x40, 0x41, 0x3F, 0x01,// J
+0x7F, 0x08, 0x14, 0x22, 0x41,// K
+0x7F, 0x40, 0x40, 0x40, 0x40,// L
+0x7F, 0x02, 0x04, 0x02, 0x7F,// M
+0x7F, 0x04, 0x08, 0x10, 0x7F,// N
+0x3E, 0x41, 0x41, 0x41, 0x3E,// O
+0x7F, 0x09, 0x09, 0x09, 0x06,// P
+0x3E, 0x41, 0x51, 0x21, 0x5E,// Q
+0x7F, 0x09, 0x19, 0x29, 0x46,// R
+0x46, 0x49, 0x49, 0x49, 0x31,// S
+0x01, 0x01, 0x7F, 0x01, 0x01,// T
+0x3F, 0x40, 0x40, 0x40, 0x3F,// U
+0x1F, 0x20, 0x40, 0x20, 0x1F,// V
+0x7F, 0x20, 0x18, 0x20, 0x7F,// W
+0x63, 0x14, 0x08, 0x14, 0x63,// X
+0x03, 0x04, 0x78, 0x04, 0x03,// Y
+0x61, 0x51, 0x49, 0x45, 0x43,// Z
+0x00, 0x00, 0x7F, 0x41, 0x41,// [
+0x02, 0x04, 0x08, 0x10, 0x20,// "\"
+0x41, 0x41, 0x7F, 0x00, 0x00,// ]
+0x04, 0x02, 0x01, 0x02, 0x04,// ^
+0x40, 0x40, 0x40, 0x40, 0x40,// _
+0x00, 0x01, 0x02, 0x04, 0x00,// `
+0x20, 0x54, 0x54, 0x54, 0x78,// a
+0x7F, 0x48, 0x44, 0x44, 0x38,// b
+0x38, 0x44, 0x44, 0x44, 0x20,// c
+0x38, 0x44, 0x44, 0x48, 0x7F,// d
+0x38, 0x54, 0x54, 0x54, 0x18,// e
+0x08, 0x7E, 0x09, 0x01, 0x02,// f
+0x08, 0x14, 0x54, 0x54, 0x3C,// g
+0x7F, 0x08, 0x04, 0x04, 0x78,// h
+0x00, 0x44, 0x7D, 0x40, 0x00,// i
+0x20, 0x40, 0x44, 0x3D, 0x00,// j
+0x00, 0x7F, 0x10, 0x28, 0x44,// k
+0x00, 0x41, 0x7F, 0x40, 0x00,// l
+0x7C, 0x04, 0x18, 0x04, 0x78,// m
+0x7C, 0x08, 0x04, 0x04, 0x78,// n
+0x38, 0x44, 0x44, 0x44, 0x38,// o
+0x7C, 0x14, 0x14, 0x14, 0x08,// p
+0x08, 0x14, 0x14, 0x18, 0x7C,// q
+0x7C, 0x08, 0x04, 0x04, 0x08,// r
+0x48, 0x54, 0x54, 0x54, 0x20,// s
+0x04, 0x3F, 0x44, 0x40, 0x20,// t
+0x3C, 0x40, 0x40, 0x20, 0x7C,// u
+0x1C, 0x20, 0x40, 0x20, 0x1C,// v
+0x3C, 0x40, 0x30, 0x40, 0x3C,// w
+0x44, 0x28, 0x10, 0x28, 0x44,// x
+0x0C, 0x50, 0x50, 0x50, 0x3C,// y
+0x44, 0x64, 0x54, 0x4C, 0x44,// z
+0x00, 0x08, 0x36, 0x41, 0x00,// {
+0x00, 0x00, 0x7F, 0x00, 0x00,// |
+0x00, 0x41, 0x36, 0x08, 0x00,// }
+0x08, 0x08, 0x2A, 0x1C, 0x08,// ->
+0x08, 0x1C, 0x2A, 0x08, 0x08 // <-
+};
 
-const static unsigned char CO2_BAR[1024] = {
-   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 32, 32,240,  0, 
-   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
- 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 32, 16, 16, 
- 240,224,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
- 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 32,144,144, 
- 208, 32,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
- 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,224, 16, 
-  16, 16,224,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  8,  8, 15,  8, 
-   8,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
- 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 12, 12, 10, 
-   9,  8,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
- 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 12,  8,  8, 
-   8,  7,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
- 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  7,  8, 
-   8,  8,  7,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+const unsigned char DISPLAY_IMAGE[] = {
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  8, 16,224, 96,176, 
+  48, 96,192,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,224, 48, 24,140,  4,  4,140, 
+  24, 48,224,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  8, 24, 56,120,248,248,248,248,248,248, 
+ 248,248,248,248,248,248,248,120, 56, 24,  8,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,128,192,224, 
+ 240,248,240,224,192,128,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 15,  8, 24, 40, 
+  41, 26, 12, 15, 16, 32,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,  1,  3,  6, 61,127,121, 61, 
+   6,  3,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  3,  7, 15, 31, 
+  63, 31, 15,  7,  3,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0, 32, 48, 56, 60, 62, 63, 63, 63, 63, 
+  63, 63, 63, 63, 63, 63, 63, 62, 60, 56, 48, 32,  0,  0,  0,  0, 
    2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
    2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
    3,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
@@ -257,8 +248,8 @@ const static unsigned char CO2_BAR[1024] = {
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-   0,  0,  0,  0,  0,  0,  0,  0,  0,124, 68, 68, 68,  0,124, 68, 
-  68, 68,124,  0,  0, 68, 32, 16,  8, 68,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,124, 68, 68, 68,  0,124, 68, 68, 68,124,  0, 
+  72,100, 84, 72,  0,  0,  0, 68, 32, 16,  8, 68,  0,  0,  0,  0, 
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
@@ -269,14 +260,81 @@ const static unsigned char CO2_BAR[1024] = {
   33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 
   33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 
   33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 
-  33, 63,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 };
+  33, 63,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0
+};
 
-/* GLOBAL FUNCTIONS */
+const unsigned char DISPLAY_IMAGE_LOCK[] =
+{
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  8, 16,224, 96,176, 
+  48, 96,192,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,224, 48, 24,140,  4,  4,140, 
+  24, 48,224,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  8, 24, 56,120,248,248,248,248,248,248, 
+ 248,248,248,248,248,248,248,120, 56, 24,  8,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,128,192,224, 
+ 240,248,240,224,192,128,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 15,  8, 24, 40, 
+  41, 26, 12, 15, 16, 32,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,  1,  3,  6, 61,127,121, 61, 
+   6,  3,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  3,  7, 15, 31, 
+  63, 31, 15,  7,  3,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0, 32, 48, 56, 60, 62, 63, 63, 63, 63, 
+  63, 63, 63, 63, 63, 63, 63, 62, 60, 56, 48, 32,  0,  0,  0,  0, 
+   2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
+   2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
+   3,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
+   2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
+   3,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
+   2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
+   3,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
+   2,  2,194, 66, 66, 66,194,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 252,252,255,252, 60,252,255,252,252,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   3,  3,  3,  3,  3,  3,  3,  3,  3,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,124, 68, 68, 68,  0,124, 68, 68, 68,124,  0, 
+  72,100, 84, 72,  0,  0,  0, 68, 32, 16,  8, 68,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 63, 33, 33, 
+  33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 
+  33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 
+  33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 
+  33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 
+  33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 
+  33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 
+  33, 63,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 
+};
+
 void SetRST(unsigned char vrednost)
 {
-	if(vrednost)
+	if (vrednost)
 		RF5_1
-            
 	else
 		RF5_0
 }
@@ -321,38 +379,45 @@ void SetCS1(unsigned char vrednost)
 		RB4_0
 }
 
-void ConfigureLcdPins(void)
+
+void ConfigureLcdPins (void)
 {
-	TRISFbits.TRISF5=0; //LCD_RST izlaz
-	TRISFbits.TRISF4=0; //LCD_E izlaz
-	TRISFbits.TRISF1=0; //LCD_RW izlaz
-	TRISFbits.TRISF0=0; //LCD_DI izlaz
+	TRISFbits.TRISF5=0;  //LCD_RST izlaz
+	TRISFbits.TRISF4=0;  //LCD_E izlaz
+	TRISFbits.TRISF1=0;  //LCD_RW izlaz
+	TRISFbits.TRISF0=0;  //LCD_DI izlaz
 	ADPCFGbits.PCFG5=1;
-	TRISBbits.TRISB5=0; //LCD_CS2 izlaz
+	TRISBbits.TRISB5=0;  //LCD_CS2 izlaz
+					/* PCFG<15:0>: Analog Input Pin Configuration Control bits
+						1 = Analog INPUT pin in Digital mode, port read INPUT enabled, A/D INPUT multiplexer INPUT connected to AVSS
+						0 = Analog INPUT pin in Analog mode, port read INPUT disabled, A/D samples pin voltage*/
 	ADPCFGbits.PCFG4=1;
-	TRISBbits.TRISB4=0; //LCD_CS1 izlaz
+	TRISBbits.TRISB4=0;  //LCD_CS1 izlaz
+					/* PCFG<15:0>: Analog Input Pin Configuration Control bits
+						1 = Analog INPUT pin in Digital mode, port read INPUT enabled, A/D INPUT multiplexer INPUT connected to AVSS
+						0 = Analog INPUT pin in Analog mode, port read INPUT disabled, A/D samples pin voltage*/
 	
 	//LCD_DATA	P2//RB0 RB1 RB2 RB3 RD0 RD1 RD2 RD3
     ADPCFGbits.PCFG0=1;
-    TRISBbits.TRISB0=0; //RB0
+    TRISBbits.TRISB0=0;  //RB0
     ADPCFGbits.PCFG1=1;
-    TRISBbits.TRISB1=0; //RB1
+    TRISBbits.TRISB1=0;  //RB1
     ADPCFGbits.PCFG2=1;
-    TRISBbits.TRISB2=0; //RB2
+    TRISBbits.TRISB2=0;  //RB2
     ADPCFGbits.PCFG3=1;
-    TRISBbits.TRISB3=0; //RB3
+    TRISBbits.TRISB3=0;  //RB3
 
-    TRISDbits.TRISD0=0; //RD0
-    TRISDbits.TRISD1=0; //RD1
-    TRISDbits.TRISD2=0; //RD2
-    TRISDbits.TRISD3=0; //RD3
+    TRISDbits.TRISD0=0;  //RD0
+    TRISDbits.TRISD1=0;  //RD1
+    TRISDbits.TRISD2=0;  //RD2
+    TRISDbits.TRISD3=0;  //RD3	
 }
 
 void ConfigureLcdData(unsigned char direction)
 {
 	//LCD_DATA	P2//RB0 RB1 RB2 RB3 RD0 RD1 RD2 RD3
     if(direction==OUTPUT)
-	{
+    {
         //LCD_DATA OUTPUT
         TRISDbits.TRISD0=OUTPUT;//RD0
         TRISDbits.TRISD1=OUTPUT;//RD1
@@ -362,9 +427,10 @@ void ConfigureLcdData(unsigned char direction)
         TRISBbits.TRISB2=OUTPUT;//RB2
         TRISBbits.TRISB1=OUTPUT;//RB1
         TRISBbits.TRISB0=OUTPUT;//RB0
-	}
+    }
+    
     if (direction==INPUT)
-	{
+    {
             //LCD_DATA INPUT
         TRISDbits.TRISD0=INPUT;//RD0
         TRISDbits.TRISD1=INPUT;//RD1
@@ -374,119 +440,127 @@ void ConfigureLcdData(unsigned char direction)
         TRISBbits.TRISB2=INPUT;//RB2
         TRISBbits.TRISB1=INPUT;//RB1
         TRISBbits.TRISB0=INPUT;//RB0
-	}
+    }
 }
 
 void SetLcdData(unsigned char vrednost)
 {
-	unsigned char tmp1, tmp2;
-	
+	unsigned char pomocna,pomocna2;
 	//LCD_DATA	lsb RB0 RB1 RB2 RB3 RD0 RD1 RD2 RD3 msb
-	
-	tmp1 = vrednost;
-	
-	LATD &= 0xfff0;
-	LATB &= 0xfff0;
-	
-	tmp2 =	tmp1&0x0f;
-	LATB |= tmp2;
-	
-	tmp1 = tmp1/16;
-	LATD |= tmp1;
+    pomocna=vrednost;
+	LATD&=0xfff0;
+	LATB&=0xfff0;
+    pomocna2=pomocna&0x0f;
+	LATB|=pomocna2;
+	pomocna=pomocna/16;
+	LATD|=pomocna;
 }
 
 unsigned char ReadLcdData(void)
 {
 	//LCD_DATA	P2//RB0 RB1 RB2 RB3 RD0 RD1 RD2 RD3
-	
-	unsigned char tmp,vrednost;
-	
-	tmp = PORTD;
-	tmp = tmp*16;
-	
-	vrednost = PORTB;
-	vrednost &= 0x0f;
-	
-	vrednost += tmp;
+	unsigned char pomocna,vrednost;
+	pomocna=PORTD;
+	pomocna=pomocna*16;
+	vrednost=PORTB;
+	vrednost&=0x0f;
+	vrednost+=pomocna;
 	return vrednost;
 }
-
 
 void LcdStrobeData(void)
 {
 	SetE(1);		/* Strobe */
+  //	LcdDelay(1);//////////radi cak i bez njega--------------------------------------------------------------------------------------
 	SetE(0);
 }
 
 void LcdInstructionWrite (unsigned char u8Instruction)
 {
-  	//LcdWaitBusy ();		   // wait until LCD not busy
-   	SetRS(0);       	       /* Instruction mode */
-  	SetRW(0);       	       /* Write mode */
+	SetRS(0);       	/* Instruction mode */
+  	SetRW(0);       	/* Write mode */
   	SetLcdData(u8Instruction); /* outbyte */
 	LcdStrobeData();
 }
 
+
+/*-------------------------------------------------------------------------------
+Tempo for the LCD timing
+	pause()
+-------------------------------------------------------------------------------*/
 void LcdDelay(unsigned int u32Duration)
 {
 	unsigned int u32Delay;
 	for (u32Delay=0; u32Delay<(u32Duration); u32Delay++);
 }
 
+/*-------------------------------------------------------------------------------
+Wait as long as the LCD is busy
+	LcdWaitBusy();
+-------------------------------------------------------------------------------*/
 void LcdWaitBusy (void)
 {
-	unsigned char tmp;
+	unsigned char temp;
 	SetRS(0);       	/* Instruction mode */
   	SetRW(1);       	/* Read mode */
   	
-	ConfigureLcdData(INPUT); /* set LCD_DATA port in input mode */
+	ConfigureLcdData(INPUT);		/* set LCD_DATA port in INPUT mode */
 	SetE(1); 
-	tmp = ReadLcdData();
+	temp=ReadLcdData();
 	SetE(0); 
 	
-	while(tmp & 0x80) 
+	while (temp & 0x80) 
 	{
-		tmp = ReadLcdData();
+		temp=ReadLcdData();
 	}
 }
-
+/*--------------------------------------------------------------------------------
+GOTO X
+---------------------------------------------------------------------------------*/
 void LcdGotoX(unsigned char x)
 {
-    if (x < 64)
-	{
+    if (x<64)
+    {
         LcdSelectSide(LEFT);
         LcdInstructionWrite (Y_ADRESS | x);
         strana=LEFT;
-	}
-    else if(x < 128)
-	{
+    }
+    else if(x<128)
+    {
         LcdSelectSide(RIGHT);
         LcdInstructionWrite (Y_ADRESS | (x-64));
         strana=RIGHT;
-	}
-    kursor_x = x;
-} 
+    }
+    
+    kursorX=x;
+}
 
+/*--------------------------------------------------------------------------------
+GOTO Y
+---------------------------------------------------------------------------------*/
 void LcdGotoY(unsigned char y)
 {
-    if(y < 8)
+    if(y<8)
 	{
         LcdInstructionWrite (PAGE_ADRESS | y);
-        kursor_y = y;
+        kursorY=y;
 	}
 }
 
+/*--------------------------------------------------------------------------------
+GOTO XY
+---------------------------------------------------------------------------------*/
 void LcdGotoXY(unsigned char x,unsigned char y)
 {
     LcdGotoX(x);
     LcdGotoY(y);
 }
 
-/*
- * Koristimo za skroolovanje ekrana tj tu polovinu koju postavimo startline
- * ona celu polovinu translira gore dole da joj je vrh na liniji koju postavimo
- * prosledjujemo vrednost 0-64 */
-
+/*---------------------------------------------------
+koristimo za skroolovanje ekrana tj tu polovinu koju postavimo startline
+ona celu polovinu translira gore dole da joj je vrh na liniji koju postavimo
+prosledjujemo vrednost 0-64
+------------------------------------------------*/
 void LcdSelectStartline(unsigned char startna_linija)
 {
     LcdInstructionWrite (START_LINE | startna_linija);
@@ -497,19 +571,18 @@ Select the side of the LCD
 	LcdSelectSide(U8 u8LcdSide)
 		u8LcdSide = LEFT or RIGHT
 -------------------------------------------------------------------------------*/
-
 void LcdSelectSide(unsigned char u8LcdSide)
 {
     SetRS(0);  	
 	if(u8LcdSide == RIGHT)
 	{
         SetRW(0);
-    	SetCS1(1); 	
+        SetCS1(1); 	
         SetCS2(0);
         LcdInstructionWrite(DISPLAY_ON);
 		strana=RIGHT;
     }
-    else
+	else
 	{
 		SetRW(0);
         SetCS1(0); 	
@@ -526,9 +599,9 @@ Send datas to the LCD
 -------------------------------------------------------------------------------*/
 void LcdDataWrite (unsigned char u8Data)
 {
-	//LcdWaitBusy ();   // wait until LCD not busy
-	SetRS(1);        	/* Data mode */
-	SetRW(0);      	    /* write mode */
+	//LcdWaitBusy ();		// wait until LCD not busy --------------------------------------------------------------------
+	SetRS(1);      	/* Data mode */
+	SetRW(0);      	/* write mode */
 	SetLcdData(u8Data);	/* outbyte */
 	LcdStrobeData();
 }
@@ -537,16 +610,14 @@ void LcdDataWrite (unsigned char u8Data)
 Read data from LCD
 	U8 = LcdDataRead();
 -------------------------------------------------------------------------------*/
-
 unsigned char LcdDataRead (void)
 {
 	unsigned char temp;
-	//LcdWaitBusy ();		// wait until LCD not busy
     ConfigureLcdData(INPUT);
 	SetRS(1);      	/* Data mode */
-	SetRW(1);      	/* Read mode */
+	SetRW(1);      	/* read mode */
     //LcdDelay(5);
-	LcdStrobeData(); // Trazi ovo sto je u sustino dupli strobe da bi dobro iscitao bajt..
+	LcdStrobeData();
     //LcdDelay(5);
 	SetE(1);
     //LcdDelay(5);
@@ -555,72 +626,107 @@ unsigned char LcdDataRead (void)
     ConfigureLcdData(OUTPUT);
     //LcdDelay(5);
     SetRS(0);      	/* Data mode */
-	SetRW(0);      	/* Read mode */
-    
+	SetRW(0);      	/* read mode */
 	return temp;/* return the data read */
 }
 
-void LcdClearScreen(void)
+/*ispuni ceo ekran ekrana---------------*/
+void LcdFillScreen (void)
 {
     unsigned char q,vert;
 
 	for (vert = 0; vert< 8; vert++) 
     {
-        LcdGotoXY(0, vert);
-        for (q = 0; q < 64; q++)
-        {
-            LcdDataWrite(0);
-        }
-        
-        LcdGotoXY(64, vert);
-        for (q = 0; q < 64; q++)
-        {
-            LcdDataWrite(0);
-        }
-	}
-}
-
-void LcdFillScreen(void)
-{
-    unsigned char q,vert;
-
-	for (vert = 0; vert< 8; vert++) 
-    {
-        LcdGotoXY(0, vert);
+		LcdGotoXY(0,vert);
 		for (q = 0; q < 64; q++)
 		{
 			LcdDataWrite(0xff);
 		}
         
-		LcdGotoXY(64, vert);
+		LcdGotoXY(64,vert);
 		for (q = 0; q < 64; q++)
 		{
 			LcdDataWrite(0xff);
+		}
+	}
+}
+
+/*brisanje ekrana---------------*/
+void LcdClearScreen (void)
+{
+    unsigned char q,vert;
+
+	for (vert = 0; vert< 8; vert++) 
+    {
+		LcdGotoXY(0,vert);
+		for (q = 0; q < 64; q++)
+		{
+			LcdDataWrite(0);
+		}
+        
+		LcdGotoXY(64,vert);
+		for (q = 0; q < 64; q++)
+		{
+			LcdDataWrite(0);
 		}
 	}
 }
 
 /*-------------------------------------------------------------------------------
-Send an image to the LCD
-	GLCD_DisplayPicture (U8 *au8PictureData)
-		au8PictureData = contains datas for picture
+LCD Initialization
+	LcdInit()
 -------------------------------------------------------------------------------*/
-void LcdDisplayPicture(const unsigned char *slika)
+void LcdInit(void)	
+{
+    ConfigureLcdPins();
+    
+	SetLcdData(0);
+	SetRS(0);
+  	SetRW(0);
+  	SetE(0);
+  	SetCS1(0);
+  	SetCS2(0);
+  	
+  	SetRST(1);
+  	LcdDelay(10);
+  	SetRST(0);
+  	LcdDelay(10);
+  	SetRST(1);
+  	  	
+  	LcdSelectSide(LEFT);
+  	LcdInstructionWrite(DISPLAY_OFF); /* Display OFF */
+  	LcdInstructionWrite(START_LINE);
+  	LcdInstructionWrite(PAGE_ADRESS);
+  	LcdInstructionWrite(Y_ADRESS);
+  	LcdInstructionWrite(DISPLAY_ON); /* Display ON */
+  	
+  	LcdSelectSide(RIGHT);
+  	LcdInstructionWrite(DISPLAY_OFF); /* Display OFF */
+  	LcdInstructionWrite(START_LINE);
+  	LcdInstructionWrite(PAGE_ADRESS);
+  	LcdInstructionWrite(Y_ADRESS);
+  	LcdInstructionWrite(DISPLAY_ON); /* Display ON */
+  	
+    LcdClearScreen();
+    LcdDisplayPicture(DISPLAY_IMAGE_LOCK);
+}  	
+
+void LcdDisplayPicture (const unsigned char *picture)
 {
     unsigned char q,vert;
 
 	for (vert = 0; vert< 8; vert++) /* loop on the 8 pages */
     {
-        LcdGotoXY(0, vert);
-        for (q = 0; q < 64; q++)
-		{
-			LcdDataWrite(slika[vert*128+q]);
-		}
-			
-        LcdGotoXY(64, vert);
+      	LcdGotoXY(0,vert);
       	for (q = 0; q < 64; q++)
 		{
-			LcdDataWrite(slika[vert*128+q+64]);
+			LcdDataWrite(picture[vert*128+q]);
+		}
+			
+        LcdGotoXY(64,vert);
+      	for (q = 0; q < 64; q++)
+		{
+			LcdDataWrite(picture[vert*128+q+64]);
 		}
 	}
 }
@@ -631,7 +737,7 @@ Draw a dot on the LCD
 		u8Xaxis = absciss
 		u8Yaxis = ordinate
 -------------------------------------------------------------------------------*/	
-void LcdSetDot(unsigned char u8Xaxis, unsigned char u8Yaxis)
+void LcdSetDot (unsigned char u8Xaxis, unsigned char u8Yaxis)
 {
     unsigned char u8DataRead=0;
 
@@ -647,20 +753,21 @@ Draw a prazno on the LCD
 		u8Xaxis = absciss
 		u8Yaxis = ordinate
 -------------------------------------------------------------------------------*/	
-void LcdClearDot(unsigned char u8Xaxis, unsigned char u8Yaxis)
+void LcdClearDot (unsigned char u8Xaxis, unsigned char u8Yaxis)
 {
     unsigned char u8DataRead=0;
 
     LcdGotoXY(u8Xaxis,(u8Yaxis / 8));
-    u8DataRead = LcdDataRead(); 
+    u8DataRead = LcdDataRead (); 
     LcdGotoXY(u8Xaxis,(u8Yaxis / 8));
-    /* Draw dot */
-    LcdDataWrite(u8DataRead & (0xff^(1 << (u8Yaxis % 8)))); 
+    LcdDataWrite (u8DataRead & (0xff^(1 << (u8Yaxis % 8)))  );/* plot the dot */
 }
+
+
 
 /*-------------------------------------------------------------------------------
 Draw a circle on the LCD
-	GLCD_Circle (U8 u8CenterX, U8 u8CenterY, U8 u8Radius)
+	LcdDrawCircle (U8 u8CenterX, U8 u8CenterY, U8 u8Radius)
 		u8CenterX = Center absciss (in pixels)
 		u8CenterY = Center ordinate (in pixels) 
 		u8Radius  = Radius (in pixels)
@@ -701,13 +808,13 @@ void LcdDrawCircle (unsigned char u8CenterX, unsigned char u8CenterY, unsigned c
 
 /*-------------------------------------------------------------------------------
 Draw a rectangle on the LCD
-	GLCD_Rectangle (U8 u8Xaxis1,U8 u8Yaxis1,U8 u8Xaxis2,U8 u8Yaxis2)
+	LcdDrawRect (U8 u8Xaxis1,U8 u8Yaxis1,U8 u8Xaxis2,U8 u8Yaxis2)
 		u8Xaxis1 = absciss top-left (in pixels)
 		u8Yaxis1 = ordinate top-left (in pixels)
 		u8Xaxis2 = absciss bottom-right (in pixels)
 		u8Yaxis2 = ordinate bottom-right (in pixels)
 -------------------------------------------------------------------------------*/
-void LcdDrawRect(unsigned char u8Xaxis1,unsigned char u8Yaxis1,unsigned char u8Xaxis2,unsigned char u8Yaxis2)
+void LcdDrawRect (unsigned char u8Xaxis1,unsigned char u8Yaxis1,unsigned char u8Xaxis2,unsigned char u8Yaxis2)
 {
   	unsigned char u8CurrentValue=0;
 
@@ -734,24 +841,25 @@ void LcdPutChar (char AskiKod)
 {
     unsigned char trm;
 
-    if ((kursor_x + FONT_LENGHT) > 127)
+    if ((kursorX+FONT_LENGHT)>127)
 	{
-        kursor_y++;
-        if (kursor_y > 7) kursor_y=0;
-        kursor_x = 0;
+        kursorY++;
+        if (kursorY>7)
+            kursorY=0;
+        
+        kursorX=0;
 	}
 
-    LcdGotoXY(kursor_x, kursor_y);
-    
-    for (trm = 0; trm < FONT_LENGHT; trm++)
+    LcdGotoXY(kursorX,kursorY);
+    for (trm=0;trm<FONT_LENGHT;trm++)
 	{
-        LcdDataWrite(FONT[((AskiKod - 32) * FONT_LENGHT) + trm]);
-        kursor_x++;
-        LcdGotoXY(kursor_x, kursor_y);
+        LcdDataWrite(FONT[((AskiKod-32)*FONT_LENGHT)+trm]);
+        kursorX++;
+        LcdGotoXY(kursorX,kursorY);
 	}
-    
-	LcdDataWrite(0);
-	kursor_x++;
+	
+    LcdDataWrite(0);
+	kursorX++;
 }
 
 /*-------------------------------------------------------------------------------
@@ -761,51 +869,51 @@ void LcdPutCharBig (char AskiKod)
 {
     unsigned char trm;
 
-    if ((kursor_x + 8) > 127)
+    if ((kursorX+8)>127)
 	{
-        kursor_y++;
-        kursor_y++;
-        if (kursor_y > 7) kursor_y=0;
-        kursor_x = 0;
+        kursorY++;
+        kursorY++;
+        if (kursorY>7)
+            kursorY=0;
+        kursorX=0;
 	}
 
     for (trm=0;trm<8;trm++)
 	{
-        LcdGotoXY(kursor_x, kursor_y);
-        
-        LcdDataWrite(FONT_BIG[(((AskiKod - 32) * 16) + trm)]);
-        LcdInstructionWrite (PAGE_ADRESS | (kursor_y + 1));
-        
-        if (kursor_x < 64)
+        LcdGotoXY(kursorX,kursorY);
+        LcdDataWrite(FONT_BIG[(((AskiKod-32)*16)+trm)]);
+        LcdInstructionWrite (PAGE_ADRESS | (kursorY+1));
+        if (kursorX<64)
         {
-            LcdSelectSide(LEFT);
-            LcdInstructionWrite (Y_ADRESS | kursor_x);
-            strana=LEFT;
-        } else if(kursor_x < 128)
+        LcdSelectSide(LEFT);
+        LcdInstructionWrite (Y_ADRESS | kursorX);
+        strana=LEFT;
+        }
+        else if(kursorX<128)
         {
             LcdSelectSide(RIGHT);
-            LcdInstructionWrite (Y_ADRESS | (kursor_x - 64));
+            LcdInstructionWrite (Y_ADRESS | (kursorX-64));
             strana=RIGHT;
         }
         
         LcdDataWrite(FONT_BIG[(((AskiKod-32)*16)+trm+8)]);
 
-        kursor_x++;
-        LcdGotoXY(kursor_x, kursor_y);
+        kursorX++;
+        LcdGotoXY(kursorX,kursorY);
 	}
 }
 
 
 /*-------------------------------------------------------------------------------
 Print a string on the LCD
-	GLCD_Printf (U8 *au8Text) 
+	LcdPrintf (U8 *au8Text) 
 		*au8Text = string to display
 -------------------------------------------------------------------------------*/
 void LcdPrintf (char *au8Text) 
 {
 	while(*au8Text != 0)
 	{
-		LcdPutChar(*au8Text);
+		LcdPutChar (*au8Text);
 		au8Text++;
 	}
 }
@@ -814,89 +922,84 @@ void LcdPrintf (char *au8Text)
 /*-------------------------------------------------------------------------------
 crta grid na display-u
 -------------------------------------------------------------------------------*/
-void LcdShowGrid(unsigned char grid_padding)
+void LcdShowGrid(unsigned char grid_padding) 
 {
-    unsigned char x_grid, y_grid, padding;
+    unsigned char x_grid,y_grid,grid_padding_scaled;
 
-    padding = grid_padding/PIXEL_RECT_RATIO;
+    grid_padding_scaled=grid_padding/PIXEL_RECT_RATION;
 
-    for (x_grid=0; x_grid < 127; x_grid = x_grid + 3)
-	{
-        for (y_grid = padding; y_grid < (64 - padding); y_grid = y_grid + padding)
+    for (x_grid=0;x_grid<127;x_grid=x_grid+3)
+        for (y_grid=grid_padding_scaled;y_grid<64-grid_padding_scaled;y_grid=y_grid+grid_padding_scaled)
+		{
+            LcdSetDot (x_grid,y_grid);
+		}
+
+    for (x_grid=(grid_padding-2);x_grid<124;x_grid=x_grid+grid_padding)
+        for (y_grid=0;y_grid<63;y_grid=y_grid+2)
+		{
+            LcdSetDot (x_grid,y_grid);
+		}
+}
+
+/**
+ * @brief Updates Co2 bar by one line (percentage)
+ * @param x_pos -> current position to fill/clear
+ * @param fill_or_clear -> TRUE (fill), FALSE (clear)
+ */
+static void updateCo2Bar(uint8_t co2_level, boolean fill_or_clear)
+{
+    uint8_t current_y, current_x;
+    
+    current_x = co2_level + BAR_START_POSITION;
+    
+    for (current_y = (LCD_Y_MAX - BAR_HEIGHT - BAR_OFFSET - 1); current_y < (LCD_Y_MAX - BAR_OFFSET - 1); current_y++)
+    {
+        if (fill_or_clear == TRUE)
         {
-            LcdSetDot(x_grid,y_grid);
+            LcdSetDot(current_x, current_y);
+        }
+        else
+        {
+            LcdClearDot(current_x, current_y);
         }
     }
-    
-    for (x_grid = (grid_padding-2) ; x_grid < 124; x_grid = x_grid + grid_padding)
-    {
-        for (y_grid = 0; y_grid < 63; y_grid = y_grid + 2)
-		{
-            LcdSetDot(x_grid,y_grid);
-		}
-    }
 }
 
-void LcdUpdateCo2Bar(uint8_t co2_percent)
+void LcdUpdateDisplay(uint8_t co2_level, boolean door_locked)
 {	
-	static uint8_t previous_update = 0u;
-                                      
-    //format: 0-100
-    //co2_percent + START_POSITION
-    //pixel:procenat = 1:1 ratio
-		
-    /* Resetuj LCD */
-	if(previous_update != co2_percent)
-	{
-        /* Resetuj CO2 bar */
-		LcdDisplayPicture(CO2_BAR);
-	
-        /* Popuni CO2 bar */
-    //	for(int x_pos  = START_POSITION; x_pos < (START_POSITION + co2_percent); x_pos++)
-    //	{
-    //		LcdClearDot(x_pos, CONST_BAR_HEIGHT);
-    //		LcdClearDot(x_pos, CONST_BAR_HEIGHT-1);
-    //		LcdClearDot(x_pos, CONST_BAR_HEIGHT-2);
-    //		LcdClearDot(x_pos, CONST_BAR_HEIGHT-3);
-    //	}
-	}
+    static uint8_t display_co2_level = 0;
+    static boolean display_door_lock = TRUE;
+    
+    // Displayed image doesn't match the door state
+    if (display_door_lock != door_locked)
+    {
+        if (door_locked == TRUE)
+        {
+            LcdDisplayPicture(DISPLAY_IMAGE_LOCK); // Draw new image
+            display_co2_level = 0; // Image reset => reset tracked co2_level
+        } else
+        {
+            LcdDisplayPicture(DISPLAY_IMAGE); // Draw new image
+            display_co2_level = 0; // Image reset => reset tracked co2_level
+        }
         
-	previous_update = co2_percent; // clr screen if
+        // Updated tracked door state
+        display_door_lock = door_locked;
+        return;
+    }
+    
+    // Displayed Co2 bar level doesn't match current level
+//    if (co2_level != display_co2_level)
+//    {
+//        if (co2_level > display_co2_level)
+//        {
+//            updateCo2Bar(display_co2_level, TRUE);
+//            display_co2_level = display_co2_level + 1;
+//        }
+//        else
+//        {
+//            updateCo2Bar(display_co2_level, FALSE);
+//            display_co2_level = display_co2_level - 1;
+//        } 
+//    }
 }
-
-/*-------------------------------------------------------------------------------
-LCD Initialization
-	GLCD_LcdINIT()
--------------------------------------------------------------------------------*/
-void LcdInit(void)	
-{
-	SetLcdData(0);
-	SetRS(0);
-  	SetRW(0);
-  	SetE(0);
-  	SetCS1(0);
-  	SetCS2(0);
-  	
-  	SetRST(1);
-  	LcdDelay(10);
-  	SetRST(0);
-  	LcdDelay(10);
-  	SetRST(1);
-  	  	
-  	LcdSelectSide(LEFT);
-  	LcdInstructionWrite(DISPLAY_OFF); /* Display OFF */
-  	LcdInstructionWrite(START_LINE);
-  	LcdInstructionWrite(PAGE_ADRESS);
-  	LcdInstructionWrite(Y_ADRESS);
-  	LcdInstructionWrite(DISPLAY_ON);  /* Display ON */
-  	
-  	LcdSelectSide(RIGHT);
-  	LcdInstructionWrite(DISPLAY_OFF); /* Display OFF */
-  	LcdInstructionWrite(START_LINE);
-  	LcdInstructionWrite(PAGE_ADRESS);
-  	LcdInstructionWrite(Y_ADRESS);
-  	LcdInstructionWrite(DISPLAY_ON);  /* Display ON */
-	
-	LcdClearScreen();
-	LcdDisplayPicture(CO2_BAR);	
-}  	

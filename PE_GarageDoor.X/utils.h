@@ -16,6 +16,7 @@
 
 /* USER LIBRARIES */
 #include "timer.h"
+#include "uart.h"
 
 /* MACRO CONSTANTS */
 #define PORT_A (0u)
@@ -30,7 +31,9 @@
 #define FALSE        (0u)
 #define TRUE         (1u)
 
-#define FOSC_IN_KHZ  (10000u)
+#define SERVO_PIN       PORT_D, 8
+#define SERVO_PIN_GET   PORTDbits.RD8
+#define SERVO_PIN_SET   LATDbits.LATD8
 
 /* TYPE DEFINITIONS */
 typedef uint8_t boolean;
@@ -73,12 +76,13 @@ uint8_t getPinState(uint8_t port, uint8_t pin);
 void togglePin(uint8_t port, uint8_t pin);
 
 /**
- * @Brief function sends PWM signal to pin 0 on PORTD.
- * @param uint16_t period_ms  -> PWM period in milliseconds
- * @param uint8_t  duty_cycle -> PWM duty cycle (range 0-100)
+ * @Brief function sends PWM signal to servo motor.
+ * @param uint16_t period_tenth_of_ms  -> PWM period in tenths of millisecond
+ * @param uint8_t  duty_cycle_time     -> PWM duty cycle in tenths of millisecond
  * @return void
  */
-void sendPWM(uint16_t period, uint8_t duty_cycle);
+void servoPwmSend(uint16_t period_tenth_of_ms, uint16_t duty_cycle_time);
+
 
 #endif	/* UTILS_H_ */
 

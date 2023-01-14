@@ -11,14 +11,12 @@
 /* GLOBAL VARIABLES */
 uint16_t fotores_raw_data = 0u;
 uint16_t co2_raw_data     = 0u;
-uint16_t raw_data_        = 0u;
 uint16_t touch_data_x     = 0u;
 uint16_t touch_data_y     = 0u;
 
 /* GLOBAL FUNCTIONS */
 void initADC(void)
 {
-    
     /*  ADCON1:
 
         bit 15 ADON: A/D Operating Mode bit
@@ -59,12 +57,10 @@ void initADC(void)
             Cleared by software or start of a new conversion.
      */
     
-
-
-        ADCON1bits.ADSIDL = 0;     /* Nastavlja sa radom u Idle modu */
-        ADCON1bits.FORM   = 0b00;  /* FORMAT: integer */
-        ADCON1bits.SSRC   = 0b111; /* Interni brojac zavrsava sampling i pocinje konverziju */
-        ADCON1bits.SAMP   = 1;     /* Sample/hold amplifier ON */
+    ADCON1bits.ADSIDL = 0;     /* Nastavlja sa radom u Idle modu */
+    ADCON1bits.FORM   = 0b00;  /* FORMAT: integer */
+    ADCON1bits.SSRC   = 0b111; /* Interni brojac zavrsava sampling i pocinje konverziju */
+    ADCON1bits.SAMP   = 1;     /* Sample/hold amplifier ON */
 
     /*  ADCON2:
 
@@ -113,10 +109,9 @@ void initADC(void)
 
     ADCON2bits.VCFG  = 0b111; /* Referentni napon AVDD/AVSS TODO probati sa '0' */
     ADCON2bits.CSCNA = 1;     /* Scan input selection ON */
-    ADCON2bits.SMPI  = 0b10;  /* Broj sample/convert sekvenci pre interrupta (ADCSSL - 1) */
+    ADCON2bits.SMPI  = 0x03;  /* Broj sample/convert sekvenci pre interrupta (ADCSSL - 1) */
     ADCON2bits.BUFM  = 0;     /* Buffer mod -> jedna 16-bitna rec */
     ADCON2bits.ALTS  = 0;     /* Uvek se koristi MUX A */ 
-
 
     /*  ADCON3:
 
@@ -174,8 +169,8 @@ void initADC(void)
             0 = Analog input pin in Analog mode, port read input disabled, A/D samples pin voltage
      */
 
-    ADPCFG = 0; /* Svi pinovi A/D porta (PORTB) su u Analog modu */ 
-
+    ADPCFG &= ~(0x00FF); /* Pinovi A/D porta (PORTB) 0-7 su u Analog modu, ostali u Digital modu */ 
+    TRISB  |= 0x00FF;    /* Pinovi A/D porta (PORTB) 0-7 su ulazni, ostali izlazni */ 
 
     /*  ADCSSL: A/D Input Scan Select Register
 
@@ -183,29 +178,25 @@ void initADC(void)
             1 = Select ANx for input scan
             0 = Skip ANx for input scan
      */
-
-    /* Koristimo RB6 RB5 RB4 */
-    ADCSSL=0b1110011; /* Input pinovi preko kojih se vrsi konverzija (RB0 RB1 RB2 RB3 se koriste za GLCD) 
-                         * TODO proveriti koje koristi Touchscreen 
-						 * TOUCH SCREEN RB0 RB1 
-						 * Ostali RB4 RB5 RB6
-						 */
+    
+    /* Postavljamo pinove koji se koriste za A/D konverziju */
+    ADCSSL=0b0000000011000011;
     
     ADCON1bits.ASAM = 1; /* Novi sampling ciklus pocinje odmah nakon sto je konverzija zavrsena */
 
     IEC0bits.ADIE = 1; /* Resetuj interrupt flag A/D konvertora */
     IFS0bits.ADIF = 1; /* Dozvoli interrupt A/D konvertora      */
+    ADCON1bits.ADON = 1; /* Zapocni A/D konverziju */
 }
 
 /* INTERRUPT SERVICE ROUTINES */
 void __attribute__((__interrupt__)) __attribute__ ((__auto_psv__)) _ADCInterrupt(void)
 {
-	
 	touch_data_x     = ADCBUF0;
 	touch_data_y     = ADCBUF1;
     fotores_raw_data = ADCBUF2;
-    co2_raw_data     = ADCBUF3; 
-    raw_data_        = ADCBUF4; 
+    co2_raw_data     = ADCBUF3;
+    
     IFS0bits.ADIF = 0;
 }
 

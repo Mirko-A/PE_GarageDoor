@@ -11,11 +11,11 @@
 #ifndef TOUCH_H_
 #define TOUCH_H_
 
+/* STANDARD LIBRARIES */
+#include <stdint.h>
+
 /* CTRL LIBRARIES */
 #include <p30fxxxx.h>
-
-/* STANDARD LIBRARIES */
-#include <stdlib.h>
 
 /* USER LIBRARIES */
 #include "adc.h"

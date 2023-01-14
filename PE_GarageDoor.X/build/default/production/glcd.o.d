@@ -1,9 +1,9 @@
-build/default/production/glcd.o: glcd.c glcd.h adc.h utils.h timer.h
+build/default/production/glcd.o: glcd.c glcd.h utils.h timer.h uart.h
 
 glcd.h:
-
-adc.h:
 
 utils.h:
 
 timer.h:
+
+uart.h:
