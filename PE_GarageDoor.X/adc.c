@@ -9,7 +9,7 @@
 #include "adc.h"
 
 /* GLOBAL VARIABLES */
-uint16_t fotores_raw_data = 0u;
+uint16_t photores_raw_data = 0u;
 uint16_t co2_raw_data     = 0u;
 uint16_t touch_data_x     = 0u;
 uint16_t touch_data_y     = 0u;
@@ -168,7 +168,10 @@ void initADC(void)
             1 = Analog input pin in Digital mode, port read input enabled, A/D input multiplexer input connected to AVSS
             0 = Analog input pin in Analog mode, port read input disabled, A/D samples pin voltage
      */
-
+    
+    /* PORTB pinovi 0-7 se koriste kao analogni ulazni pinovi za LCD (B0~B5), fotootpornik (B6)
+     * i CO2 senzor (B7)  
+     */
     ADPCFG &= ~(0x00FF); /* Pinovi A/D porta (PORTB) 0-7 su u Analog modu, ostali u Digital modu */ 
     TRISB  |= 0x00FF;    /* Pinovi A/D porta (PORTB) 0-7 su ulazni, ostali izlazni */ 
 
@@ -194,7 +197,7 @@ void __attribute__((__interrupt__)) __attribute__ ((__auto_psv__)) _ADCInterrupt
 {
 	touch_data_x     = ADCBUF0;
 	touch_data_y     = ADCBUF1;
-    fotores_raw_data = ADCBUF2;
+    photores_raw_data = ADCBUF2;
     co2_raw_data     = ADCBUF3;
     
     IFS0bits.ADIF = 0;

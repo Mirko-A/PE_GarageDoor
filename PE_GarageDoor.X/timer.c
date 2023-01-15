@@ -86,22 +86,14 @@ void WriteTimer1(unsigned int timer)
     TMR1 = timer;     /* assign timer value to Timer1 Register */
 }
 
-void initTimer1Ticks(uint16_t period_ms)
-{
-	TMR1 = 0;          /* Resetuj vrednost tajmera 1  */
-	PR1  = period_ms;  /* Podesi period tajmera 1     */
-	
-	T1CONbits.TCS = 0;   /* 0 = Internal clock (FOSC/4) */
-    // IPC1bits.T1IP = 3 /* T2 interrupt pririty (0-7)      */
-	// SRbits.IPL = 3;   /* CPU interrupt priority is 3(11) */
-	
-    IFS0bits.T1IF = 0; /* Resetuj interrupt flag tajmera 1 */
-	IEC0bits.T1IE = 1; /* Dozvoli interrupt tajmera 1      */
+/* LOCAL FUNCTIONS */
 
-	T1CONbits.TON = 1; /* T1 on */ 
-}
-
-void initTimer1(void)
+/** 
+ * @brief Inicijalizuje Timer1 za koriscenje GLCD-a.
+ * @param void
+ * @return void
+ */
+static void initTimer1(void)
 {
     uint32_t match_value;
     
@@ -112,15 +104,19 @@ void initTimer1(void)
 	T1_PS_1_1 & T1_SYNC_EXT_OFF &
 	T1_SOURCE_INT, match_value);
 
-
 	CORCONbits.PSV = 1;
-	//deo mkoji erovatno nije potreban ali pisan je jer je oc pravio problem zbog pullupa
-	IEC1bits.OC4IE = 0;// Disable the Interrupt bit in IEC Register 
-	OC4CONbits.OCM = 0;//Turn off Output Compare 4 
-	IFS1bits.OC4IF = 0;//Disable the Interrupt Flag bit in IFS Register 
+	// Deo koji verovatno nije potreban ali pisan je jer je OC pravio problem zbog pullupa
+	IEC1bits.OC4IE = 0; // Disable the Interrupt bit in IEC Register 
+	OC4CONbits.OCM = 0; //Turn off Output Compare 4 
+	IFS1bits.OC4IF = 0; //Disable the Interrupt Flag bit in IFS Register 
 }
 
-void initTimer2(void)
+/** 
+ * @brief Inicijalizuje Timer2. Sluzi da generise PWM signal za servo motor.
+ * @param void
+ * @return void
+ */
+static void initTimer2(void)
 {
 	TMR2 = 0;          /* Resetuj vrednost tajmera 2  */
 	PR2  = UINT16_MAX;  /* Podesi period tajmera 2     */
@@ -136,13 +132,12 @@ void initTimer2(void)
 	T2CONbits.TON = 1; /* T2 on */ 
 }
 
-void startTimer2(uint16_t period_tenth_of_ms)
-{
-	TMR2 = 0;          /* Resetuj vrednost tajmera 2  */
-	PR2  = period_tenth_of_ms * TENTH_OF_MS_FACTOR;  /* Podesi period tajmera 2     */
-}
-
-void initTimer3(void)
+/** 
+ * @brief Inicijalizuje Timer3 sa periodom jedna milisekunda. Sluzi da uvecava ms_tick svake milisekunde.
+ * @param void
+ * @return void
+ */
+static void initTimer3(void)
 {
 	TMR3 = 0;              /* Resetuj vrednost tajmera 3  */
 	PR3  = ONE_MS_PERIOD;  /* Podesi period tajmera 3     */
@@ -157,6 +152,53 @@ void initTimer3(void)
 	T3CONbits.TON = 1; /* T3 on */ 
 }
 
+/** 
+ * @brief Inicijalizuje Timer4. Sluzi da generise PWM signal za buzzer.
+ * @param void
+ * @return void
+ */
+static void initTimer4(void)
+{
+	TMR4 = 0;          /* Resetuj vrednost tajmera 4  */
+	PR4  = UINT16_MAX;  /* Podesi period tajmera 4     */
+    
+	T4CONbits.TCS = 0;   /* 0 = Internal clock (FOSC/4) */
+    // IPC1bits.T2IP = 3 /* T4 interrupt pririty (0-7)      */
+	// SRbits.IPL = 3;   /* CPU interrupt priority is 3(11) */
+	T4CONbits.TCKPS = 0b11; /* Prescaler 1:256 */
+    
+    IFS1bits.T4IF = 0; /* Resetuj interrupt flag tajmera 4 */
+	IEC1bits.T4IE = 1; /* Dozvoli interrupt tajmera 4      */
+
+	// T4CONbits.TON = 1; /* T4 on, ne radimo ovde nego u funkcijama vezanim za alarm u door_system.c */ 
+}
+
+/* GLOBAL FUNCTIONS */
+
+void initTimers(void)
+{
+    initTimer1();
+    initTimer2();
+    initTimer3();
+    initTimer4();
+}
+
+void startTimer2(uint16_t period_tenth_of_ms)
+{
+    /* Resetuj vrednost tajmera 2 */
+	TMR2 = 0;
+    /* Podesi period tajmera 2 */
+	PR2  = period_tenth_of_ms * TENTH_OF_MS_FACTOR;
+}
+
+void startTimer4(uint16_t period_tenth_of_ms)
+{
+    /* Resetuj vrednost tajmera 4 */
+	TMR4 = 0;
+	/* Podesi period tajmera 4 */
+    PR4  = period_tenth_of_ms * TENTH_OF_MS_FACTOR;
+}
+
 uint32_t getTickMs(void)
 {
     return ms_tick;
@@ -169,6 +211,7 @@ void __attribute__((__interrupt__)) __attribute__ ((__auto_psv__)) _T1Interrupt(
     IFS0bits.T1IF = 0;
 }
 
+/* Increment ms_tick every millisecond */
 void __attribute__((__interrupt__)) __attribute__ ((__auto_psv__)) _T3Interrupt(void)
 {    
     ms_tick = ms_tick + 1;

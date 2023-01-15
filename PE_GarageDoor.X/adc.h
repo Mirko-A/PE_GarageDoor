@@ -15,7 +15,7 @@
 #include <p30fxxxx.h>
 
 /* GLOBAL VARIABLES */
-extern uint16_t fotores_raw_data;
+extern uint16_t photores_raw_data;
 extern uint16_t co2_raw_data;
 extern uint16_t touch_data_x;
 extern uint16_t touch_data_y;

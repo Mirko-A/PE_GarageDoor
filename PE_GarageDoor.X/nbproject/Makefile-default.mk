@@ -30,12 +30,12 @@ ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 IMAGE_TYPE=debug
 OUTPUT_SUFFIX=elf
 DEBUGGABLE_SUFFIX=elf
-FINAL_IMAGE=${DISTDIR}/PE_GarageDoorLocal.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+FINAL_IMAGE=${DISTDIR}/PE_GarageDoor.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 else
 IMAGE_TYPE=production
 OUTPUT_SUFFIX=hex
 DEBUGGABLE_SUFFIX=elf
-FINAL_IMAGE=${DISTDIR}/PE_GarageDoorLocal.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+FINAL_IMAGE=${DISTDIR}/PE_GarageDoor.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 endif
 
 ifeq ($(COMPARE_BUILD), true)
@@ -88,105 +88,105 @@ FIXDEPS=fixDeps
 ifneq ($(INFORMATION_MESSAGE), )
 	@echo $(INFORMATION_MESSAGE)
 endif
-	${MAKE}  -f nbproject/Makefile-default.mk ${DISTDIR}/PE_GarageDoorLocal.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+	${MAKE}  -f nbproject/Makefile-default.mk ${DISTDIR}/PE_GarageDoor.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 
 MP_PROCESSOR_OPTION=30F4013
 MP_LINKER_FILE_OPTION=,--script=p30F4013.gld
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: compile
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/main.o: main.c  .generated_files/flags/default/bae040e5e196c96b7aca11287168bc45a8407aaf .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/main.o: main.c  .generated_files/flags/default/afab48f33008eb6f445b3a58e5db81169e865eaf .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/main.o.d 
 	@${RM} ${OBJECTDIR}/main.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  main.c  -o ${OBJECTDIR}/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/main.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   
 	
-${OBJECTDIR}/timer.o: timer.c  .generated_files/flags/default/d2acceaed9b6d901bb174f068a62c6a57de3f433 .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/timer.o: timer.c  .generated_files/flags/default/dde652c84ad8b97292ad0488a3e0ff418905dba7 .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/timer.o.d 
 	@${RM} ${OBJECTDIR}/timer.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  timer.c  -o ${OBJECTDIR}/timer.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/timer.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   
 	
-${OBJECTDIR}/glcd.o: glcd.c  .generated_files/flags/default/8b6e7b59d2853af56ad2c35d8ef3c6a53ce1c4b .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/glcd.o: glcd.c  .generated_files/flags/default/77ddb061f1fc5383ad1fbbfaa2cd372e92da062a .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/glcd.o.d 
 	@${RM} ${OBJECTDIR}/glcd.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  glcd.c  -o ${OBJECTDIR}/glcd.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/glcd.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   
 	
-${OBJECTDIR}/door_system.o: door_system.c  .generated_files/flags/default/ceefb632d4f6f5794e3e44cfd60f5969dd7547da .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/door_system.o: door_system.c  .generated_files/flags/default/961f7fec4fdc2d721aa5f68734aacd8f75f5856b .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/door_system.o.d 
 	@${RM} ${OBJECTDIR}/door_system.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  door_system.c  -o ${OBJECTDIR}/door_system.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/door_system.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   
 	
-${OBJECTDIR}/utils.o: utils.c  .generated_files/flags/default/67ca69b989c6b0e1d391305b0a3a2c34f91d900a .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/utils.o: utils.c  .generated_files/flags/default/2387b480c499f9219ee50ed9cf8765ee0e8c81d0 .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/utils.o.d 
 	@${RM} ${OBJECTDIR}/utils.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  utils.c  -o ${OBJECTDIR}/utils.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/utils.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   
 	
-${OBJECTDIR}/touch.o: touch.c  .generated_files/flags/default/f8afad0e51ed4d12e805dc8ea8782c167362cfcb .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/touch.o: touch.c  .generated_files/flags/default/7ad2dd6faddedcf15346511eca58bde042655499 .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/touch.o.d 
 	@${RM} ${OBJECTDIR}/touch.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  touch.c  -o ${OBJECTDIR}/touch.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/touch.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   
 	
-${OBJECTDIR}/adc.o: adc.c  .generated_files/flags/default/1709b35068cb6666e6c7c21b995144c84ee1eb60 .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/adc.o: adc.c  .generated_files/flags/default/77c7346c80966b300f03e3b2477798135dbb6b59 .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/adc.o.d 
 	@${RM} ${OBJECTDIR}/adc.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  adc.c  -o ${OBJECTDIR}/adc.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/adc.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   
 	
-${OBJECTDIR}/uart.o: uart.c  .generated_files/flags/default/5f0706230837d5184753b163d3226c50704a5a2f .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/uart.o: uart.c  .generated_files/flags/default/bed32aae532b47840670f2aeff12b163f47e6b8c .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/uart.o.d 
 	@${RM} ${OBJECTDIR}/uart.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  uart.c  -o ${OBJECTDIR}/uart.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/uart.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   
 	
 else
-${OBJECTDIR}/main.o: main.c  .generated_files/flags/default/2c3c9f596b1105ecd61f94709b038bc215c5ddb8 .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/main.o: main.c  .generated_files/flags/default/a3e31fb49ddfa8235756512253c16f398c6e8335 .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/main.o.d 
 	@${RM} ${OBJECTDIR}/main.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  main.c  -o ${OBJECTDIR}/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/main.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   
 	
-${OBJECTDIR}/timer.o: timer.c  .generated_files/flags/default/fe47d3c4facc0f636a2752ad243eac3f0ae3176d .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/timer.o: timer.c  .generated_files/flags/default/80cb007e704afa3ab7d7b468e1c015d028208e62 .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/timer.o.d 
 	@${RM} ${OBJECTDIR}/timer.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  timer.c  -o ${OBJECTDIR}/timer.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/timer.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   
 	
-${OBJECTDIR}/glcd.o: glcd.c  .generated_files/flags/default/7ecaf6a6a96dfa7639368a8ed657f28729ce52db .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/glcd.o: glcd.c  .generated_files/flags/default/c8dee15700dbe5ddd33194fc274c493887e7182d .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/glcd.o.d 
 	@${RM} ${OBJECTDIR}/glcd.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  glcd.c  -o ${OBJECTDIR}/glcd.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/glcd.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   
 	
-${OBJECTDIR}/door_system.o: door_system.c  .generated_files/flags/default/94ff825a20d3cb3fed489cbf34cb30796812c74b .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/door_system.o: door_system.c  .generated_files/flags/default/7eae014e436b945eaad2424e190e3950d3e4c45d .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/door_system.o.d 
 	@${RM} ${OBJECTDIR}/door_system.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  door_system.c  -o ${OBJECTDIR}/door_system.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/door_system.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   
 	
-${OBJECTDIR}/utils.o: utils.c  .generated_files/flags/default/e2169b18b04828f295c14a22c5eda1018245df .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/utils.o: utils.c  .generated_files/flags/default/3dffaec7f765143998ee8465422629f47f92ef1d .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/utils.o.d 
 	@${RM} ${OBJECTDIR}/utils.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  utils.c  -o ${OBJECTDIR}/utils.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/utils.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   
 	
-${OBJECTDIR}/touch.o: touch.c  .generated_files/flags/default/b23fd6d3285570e06e7a4485bb9a8c5013dc0c43 .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/touch.o: touch.c  .generated_files/flags/default/d5bc1da268ef0257961f025443d85a516f35cd0a .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/touch.o.d 
 	@${RM} ${OBJECTDIR}/touch.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  touch.c  -o ${OBJECTDIR}/touch.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/touch.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   
 	
-${OBJECTDIR}/adc.o: adc.c  .generated_files/flags/default/bddf857d055338fb2c068b94fc6f556d36c2c767 .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/adc.o: adc.c  .generated_files/flags/default/8d047e43279f62b594f279a1fd70a771a15f1f3c .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/adc.o.d 
 	@${RM} ${OBJECTDIR}/adc.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  adc.c  -o ${OBJECTDIR}/adc.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/adc.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   
 	
-${OBJECTDIR}/uart.o: uart.c  .generated_files/flags/default/367c037cac7c316ba071bf66cdf668c0ebde3bd5 .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
+${OBJECTDIR}/uart.o: uart.c  .generated_files/flags/default/22a4a3b0616b85336cda23668e8ca5775dc0e7de .generated_files/flags/default/74b34707da22605293d6311696ae0a4a34fb9101
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/uart.o.d 
 	@${RM} ${OBJECTDIR}/uart.o 
@@ -209,15 +209,15 @@ endif
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: link
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${DISTDIR}/PE_GarageDoorLocal.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
+${DISTDIR}/PE_GarageDoor.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
 	@${MKDIR} ${DISTDIR} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -o ${DISTDIR}/PE_GarageDoorLocal.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}      -mcpu=$(MP_PROCESSOR_OPTION)        -D__DEBUG=__DEBUG   -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)      -Wl,,,--defsym=__MPLAB_BUILD=1,--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,-D__DEBUG=__DEBUG,,$(MP_LINKER_FILE_OPTION),--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--report-mem$(MP_EXTRA_LD_POST)  
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -o ${DISTDIR}/PE_GarageDoor.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}      -mcpu=$(MP_PROCESSOR_OPTION)        -D__DEBUG=__DEBUG   -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)      -Wl,,,--defsym=__MPLAB_BUILD=1,--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,-D__DEBUG=__DEBUG,,$(MP_LINKER_FILE_OPTION),--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--report-mem$(MP_EXTRA_LD_POST)  
 	
 else
-${DISTDIR}/PE_GarageDoorLocal.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
+${DISTDIR}/PE_GarageDoor.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
 	@${MKDIR} ${DISTDIR} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -o ${DISTDIR}/PE_GarageDoorLocal.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}      -mcpu=$(MP_PROCESSOR_OPTION)        -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -Wl,,,--defsym=__MPLAB_BUILD=1,$(MP_LINKER_FILE_OPTION),--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--report-mem$(MP_EXTRA_LD_POST)  
-	${MP_CC_DIR}\\xc16-bin2hex ${DISTDIR}/PE_GarageDoorLocal.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} -a  -omf=elf   
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -o ${DISTDIR}/PE_GarageDoor.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}      -mcpu=$(MP_PROCESSOR_OPTION)        -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -Wl,,,--defsym=__MPLAB_BUILD=1,$(MP_LINKER_FILE_OPTION),--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--report-mem$(MP_EXTRA_LD_POST)  
+	${MP_CC_DIR}\\xc16-bin2hex ${DISTDIR}/PE_GarageDoor.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} -a  -omf=elf   
 	
 endif
 

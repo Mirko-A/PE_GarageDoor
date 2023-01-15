@@ -30,8 +30,8 @@
 #define AD_Y_MAX (0.020725f) /* 1/AD_Y_MAX => 1/3450 */
 
 /* Transistor control */
-#define DRIVE_A PORTCbits.RC13
-#define DRIVE_B PORTCbits.RC14
+#define DRIVE_A LATCbits.LATC13
+#define DRIVE_B LATCbits.LATC14
 
 /* Display positions */
 #define Y_MAX (64)

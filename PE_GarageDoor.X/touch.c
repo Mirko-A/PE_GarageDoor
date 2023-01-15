@@ -20,17 +20,17 @@ void updateCoords(void)
 {
 	//Citamo za x
 	//Vode horizontalni tranzistori
-	DRIVE_A = TRUE;  //RC13
-	DRIVE_B = FALSE;  //RC14
-   	delayMillis(5); //Potrebno vreme za ADC
+	DRIVE_A = PIN_HIGH;  //RC13
+	DRIVE_B = PIN_LOW; //RC14
+   	//delayMillis(1);  //Potrebno vreme za ADC TODO
 	
     x_raw = touch_data_x; //Vrednost sa BOTTOM PIN		
 
 	//Citamo za y
 	//Vode vertikalni tranzistori
-	DRIVE_A = FALSE;  //RC13
-	DRIVE_B = TRUE;  //RC14
-    delayMillis(5);   //Potrebno vreme za ADC
+	DRIVE_A = PIN_LOW;  //RC13
+	DRIVE_B = PIN_HIGH;  //RC14
+    //delayMillis(1);   //Potrebno vreme za ADC TODO
 		
     y_raw = touch_data_y; //Vrednost sa LEFT PIN	
 

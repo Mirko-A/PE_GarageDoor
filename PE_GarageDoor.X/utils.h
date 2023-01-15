@@ -28,12 +28,23 @@
 #define PIN_LOW   (0u)
 #define PIN_HIGH  (1u)
 
-#define FALSE        (0u)
-#define TRUE         (1u)
+#define INPUT_PIN  (1u)
+#define OUTPUT_PIN (0u)
+
+#define FALSE   (0u)
+#define TRUE    (1u)
 
 #define SERVO_PIN       PORT_D, 8
 #define SERVO_PIN_GET   PORTDbits.RD8
 #define SERVO_PIN_SET   LATDbits.LATD8
+
+#define BUZZER_PIN      PORT_A, 11
+#define BUZZER_PIN_GET  PORTAbits.RA11
+#define BUZZER_PIN_SET  LATAbits.LATA11
+
+#define BUZZER_SWITCH_PERIOD     (512u)
+#define BUZZER_LOW_PITCH_PERIOD  (84u)  //  ~ 120 Hz
+#define BUZZER_HIGH_PITCH_PERIOD (21u)  //  ~ 480 KHz
 
 /* TYPE DEFINITIONS */
 typedef uint8_t boolean;
@@ -48,41 +59,19 @@ typedef uint8_t boolean;
 void delayMillis(uint16_t delay_time);
 
 /**
- * @brief Function set a pin on desired port.
- * @param port
- * @param pin
- */
-void setPin(uint8_t port, uint8_t pin);
-
-/**
- * @brief Function reset a pin on desired port.
- * @param port
- * @param pin
- */
-void resetPin(uint8_t port, uint8_t pin);
-
-/**
- * @brief Function returns current pin state from a desired pin on specified port.
- * @param port
- * @param pin
- */
-uint8_t getPinState(uint8_t port, uint8_t pin);
-
-/**
- * @brief Function toggles a pin on desired port.
- * @param port
- * @param pin
- */
-void togglePin(uint8_t port, uint8_t pin);
-
-/**
- * @Brief function sends PWM signal to servo motor.
+ * @Brief Function sends PWM signal to servo motor.
  * @param uint16_t period_tenth_of_ms  -> PWM period in tenths of millisecond
  * @param uint8_t  duty_cycle_time     -> PWM duty cycle in tenths of millisecond
  * @return void
  */
 void servoPwmSend(uint16_t period_tenth_of_ms, uint16_t duty_cycle_time);
 
+/**
+ * @Brief Function sends PWM signal to buzzer.
+ * @param uint16_t period_tenth_of_ms  -> PWM period in tenths of millisecond
+ * @return void
+ */
+void buzzerPwmSend(uint16_t period_tenth_of_ms);
 
 #endif	/* UTILS_H_ */
 

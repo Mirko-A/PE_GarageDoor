@@ -68,10 +68,11 @@
 
 #define TENTH_OF_MS_FACTOR (2);
 
-/* nisam siguran? */
+#define BUZZER_TIMER_START  T4CONbits.TON = 1
+#define BUZZER_TIMER_STOP   T4CONbits.TON = 0
+
 #define Nop() {__asm__ volatile ("nop");}
 
-//#define xtal 29480000
 #define xtal 25000000
 
 /* Timer1 Function Prototypes */
@@ -93,42 +94,27 @@ void WriteTimer1( unsigned int timer);
 void ConfigIntTimer1(unsigned int config);
 
 /* GLOBAL FUNCTIONS */
+void initTimers(void);
 
 /** 
- * @brief Inicijalizuje Timer1 za output compare.
- * @param uint16_t period_ms -> timer period u milisekundama
- * @return void
- */
-void initTimer1Ticks(uint16_t period_ms);
-
-/** 
- * @brief Inicijalizuje Timer1 za koriscenje GLCD-a.
- * @param void
- * @return void
- */
-void initTimer1(void);
-
-/** 
- * @brief Inicijalizuje Timer2 za output compare. Sluzi da generise PWM signal.
- * @param void
- * @return void
- */
-void initTimer2(void);
-
-/** 
- * @brief Inicijalizuje Timer2 za output compare. Sluzi da generise PWM signal.
+ * @brief Funckija menja periodu timera 2 i resetuje ga. Sluzi da generise PWM signal za servo motor.
  * @param uint16_t period_ms -> timer period u desetinama milisekundame
  * @return void
  */
 void startTimer2(uint16_t period_tenth_of_ms);
 
 /** 
- * @brief Inicijalizuje Timer3 za output compare. Sluzi da uvecava ms_tick svake milisekunde.
- * @param void
+ * @brief Funckija menja periodu timera 4 i resetuje ga. Sluzi da generise PWM signal buzzer.
+ * @param uint16_t period_ms -> timer period u desetinama milisekundame
  * @return void
  */
-void initTimer3(void);
+void startTimer4(uint16_t period_tenth_of_ms);
 
+/**
+ * @ Brief vraca trenutni ms_tick tj. broj proteklih milisekundi.
+ * @param void
+ * @return uint32_t ms_tick -> Broj proteklih milisekundi
+ */
 uint32_t getTickMs(void);
 
 #endif /* TIMER_H_ */

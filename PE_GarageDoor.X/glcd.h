@@ -22,33 +22,44 @@ extern "C" {
 #include<p30fxxxx.h>
     
 /* LCD Registers */
-#define PAGE_ADRESS	0xB8	/* Adress base for Page 0 */
-#define Y_ADRESS	0x40	/* Adress base for Y0	  bilo 40*/
-#define START_LINE	0xC0	/* Adress base for line 0 */
-#define DISPLAY_ON	0x3F	/* Turn display on	  */
-#define DISPLAY_OFF	0x3E	/* Turn display off	  */
+#define PAGE_ADRESS	 (0xB8)	/* Adress base for Page 0 */
+#define Y_ADRESS	 (0x40)	/* Adress base for Y0	  bilo 40*/
+#define START_LINE	 (0xC0)	/* Adress base for line 0 */
+#define DISPLAY_ON	 (0x3F)	/* Turn display on	  */
+#define DISPLAY_OFF	 (0x3E)	/* Turn display off	  */
 
 /* General use definitions */
-#define RIGHT		0
-#define LEFT		1
-#define BUSY		0x80
+#define RIGHT   (0u)
+#define LEFT    (1u)
+#define BUSY    (0x80)
 
-#define FONT_LENGHT 5
-#define FONT_LENGHT_BIG 16
+#define FONT_LENGHT     (5)
+#define FONT_LENGHT_BIG (16)
 
-#define PIXEL_RECT_RATION		1.3
+#define PIXEL_RECT_RATION   (1.3f)
 
-#define OUTPUT 0 //koristi se kod definisanja pravca pina ulazni ili izlazni
-#define INPUT  1
+#define OUTPUT_LCD (0) //koristi se kod definisanja pravca pina ulazni ili izlazni
+#define INPUT_LCD  (1)
 
 /* Co2 bar */
-#define BAR_START_POSITION 13
-#define BAR_END_POSITION 100
-#define BAR_HEIGHT 4
-#define BAR_OFFSET 2
-
-#define LCD_Y_MAX 64
-#define LCD_X_MAX 128
+#define BAR_START_POSITION (14)
+#define BAR_HEIGHT (4)
+#define BAR_OFFSET (2)   
+    
+/* Lcd limits */
+#define LCD_Y_MIN (0u)
+#define LCD_Y_MAX (64u)
+#define LCD_X_MIN (0u)
+#define LCD_X_MAX (128u)
+    
+/* Lcd icon x coordinates */
+#define DOOR_OPEN_ICON_END      (32u)
+#define DOOR_CLOSE_ICON_END     (64u)
+#define LIGHT_SWITCH_ICON_END   (96u)
+#define ALARM_OFF_ICON_END      LCD_X_MAX
+   
+/* Lcd icon y limit */
+#define LCD_ICON_Y_MAX   (25u)   
     
 #define RF5_1 LATF|=0b0000000000100000;//RST
 #define RF5_0 LATF&=0b1111111111011111;

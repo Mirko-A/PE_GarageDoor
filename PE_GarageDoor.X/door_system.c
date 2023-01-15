@@ -15,91 +15,155 @@ static uint8_t digit_to_check = 0;
 static boolean door_locked;
 
 /* Sensor input */
-static boolean  movement;
 static boolean  key_pressed;
 static boolean  touch;
 
 /* Action flags */
 static boolean turn_on_light;
-static boolean open_door;
-static boolean start_alarm;
+static DoorState door_state;
 
 /* Turn off times */
-static uint32_t led_turn_off_time = 0;
+static uint32_t light_turn_off_time = 0;
 static uint32_t door_relock_time = 0;
 
+/* LOCAL FUNCTIONS */
 static void initializePins(void)
 {
-    // Servo motor izlaz
-    TRISDbits.TRISD8 = 0;
-    // Senzor PIR ulaz
-    TRISDbits.TRISD9 = 1;
-    // LED izlaz
-    TRISCbits.TRISC15 = 0;
+    /* Servo motor izlaz */
+    TRISDbits.TRISD8 = OUTPUT_PIN;
+    /* Light izlaz */
+    TRISCbits.TRISC15 = OUTPUT_PIN;
+    /* Buzzer/alarm pwm pin */
+    TRISAbits.TRISA11 = OUTPUT_PIN;
+    /* Alarm LED pin */
+    TRISFbits.TRISF6 = OUTPUT_PIN;
+    /* Senzor PIR ulaz */
+    TRISDbits.TRISD9 = INPUT_PIN;
     
-    // Input pin for testing TODO change/remove
-    TRISAbits.TRISA11 = 1;
-    
-    // Test for buttons TODO maybe change? works fine like this bcs initADC will overwrite
+    /* Inicijalizuj PORTB pinove kao digital+input (ADC ce kasnije prepisati one koji su mu potrebni) 
+     * Koriste se za tastere (B8~B11) i alarm LED (B12)
+     */
     ADPCFG = 0xFFFF;
     TRISB = 0xFFFF;
 }
 
-/* LOCAL FUNCTIONS */
-static void openDoor()
+static void openDoor(void)
 {
     servoPwmSend(200, DOOR_OPEN_DUTY_CYCLE);
 }
 
-static void closeDoor()
+static void closeDoor(void)
 {
     servoPwmSend(200, DOOR_CLOSED_DUTY_CYCLE);
 }
 
-static void startAlarm()
+static void startAlarm(void)
 {
-    // if (((getTickMs() + 1) % ALARM_LED_PERIOD) == 0) togglePin(PORTA, ALARM_LED_PIN);
+    // Buzzer period used with PWM signal to generate buzzing of certain pitch
+    static uint8_t buzzer_period = BUZZER_HIGH_PITCH_PERIOD;
+    
+    uint32_t ms_ticks = getTickMs();
+    
+    // Toggle alarm LED
+    if (((ms_ticks + 1) % ALARM_LED_PERIOD) == 0)
+    {
+        if (ALARM_LED_PIN_GET == PIN_LOW)
+        {
+            ALARM_LED_PIN_SET = PIN_HIGH;
+        } else
+        {
+            ALARM_LED_PIN_SET = PIN_LOW;
+        }
+    }
+    
+    if (((ms_ticks + 1) % BUZZER_SWITCH_PERIOD) == 0)
+    {
+        buzzer_period = (buzzer_period == BUZZER_HIGH_PITCH_PERIOD) ? BUZZER_LOW_PITCH_PERIOD : BUZZER_HIGH_PITCH_PERIOD;
+    }
+    
+    buzzerPwmSend(buzzer_period);
+    
+    // Half-open door so CO2 can go out
     servoPwmSend(200, DOOR_HALF_OPEN_DUTY_CYCLE);
 }
 
-static uint8_t getCo2Level()
+/* Funckija vraca nivo CO2 ogranicen na opseg 0-100 */
+static uint8_t getCo2Level(void)
 {
     uint8_t co2_level = 0;
     
     co2_level = (uint8_t) ((co2_raw_data * 100) / CO2_FACTOR);
 	
-    /* Ogranicavamo co2_level na opseg 0-100 */
+    /* Ogranicavamo co2_level na opseg 0-100 (za slucaj da je faktor pogresan) */
     if (co2_level > 100) co2_level = 100;
     
     return co2_level; // TODO scale between 0-100
+
+    // TODO testing alarm, remove later
+//    uint32_t ms_ticks = getTickMs();
+//    static uint8_t co2_level = 0;
+//    
+//    if ((ms_ticks % 512) == 0)
+//    {
+//        co2_level = co2_level + 5;
+//        
+//        if (co2_level > 100)
+//        {
+//            co2_level = 0;
+//        }
+//    }
+//    
+//    return co2_level;
+}
+
+/* Ova funkcija vraca nivo osvetljenosti u okolini skaliran od 0-100
+ * Ulaz joj je signal fotootpornika */
+static uint8_t getEnvLightLevel(void)
+{
+    // TODO fotooptornik testiranje
+    uint8_t env_light_level = 0;
+    
+    env_light_level = (photores_raw_data*100)/PHOTO_RES_FACTOR;
+    
+    /* Ogranicavamo nivo svetlosti u okolini na opseg 0-100 (za slucaj da je faktor pogresan) */
+    if (env_light_level > 100) env_light_level = 100;
+    
+//    return env_light_level; TODO
+    return 70;
 }
 
 /* Ova funkcija treba da proveri sve ulazne signale (CO2 nivo, pokret, pritisak touchscreena/tastera itd.)
  * i da u skladu sa tim podesi kontrolne signal */
-static void checkInputs()
+static void checkInputs(void)
 {
     /* Pomocni fleg, dodatak softverskom diferenciranju */
     static boolean key_processed = FALSE;
     
-	/* Deo koda koji postavlja flag start_alarm na 0 ili 1 u zavisnosti od CO2 nivoa*/
+    uint8_t env_light_level = getEnvLightLevel();
 	uint8_t co2_level = getCo2Level();
     
-	if(co2_level >= CO2_MAX_LEVEL)
+    /* Deo koda koji postavlja flag start_alarm na 0 ili 1 u zavisnosti od CO2 nivoa*/
+	if(co2_level >= CO2_UNSAFE_LEVEL)
     {
-        start_alarm = TRUE;
+        door_state = ALARM_STATE;
+        /* Ukljuci tajmer 4 zbog PWM-a za Buzzer */
+        BUZZER_TIMER_START;
     }
-	else if(co2_level <= CO2_MIN_LEVEL)
+	else if(co2_level <= CO2_SAFE_LEVEL)
     {
-        start_alarm = FALSE;
+        door_state = DOOR_CLOSED;
+        ALARM_LED_PIN_SET = PIN_LOW;
+        /* Iskljuci tajmer 4 da bi Buzzer stao */
+        BUZZER_TIMER_STOP;
     }
 	
-	/* Deo koda koji postavlja flag turn_on_light na 0 ili 1 u zavisnosti od senzora pokreta*/
+	/* Deo koda koji postavlja flag turn_on_light na 0 ili 1 u zavisnosti od senzora pokreta */
     if (MOTION_PIN_GET == PIN_HIGH)
     {
-        turn_on_light = TRUE;
+        if (env_light_level < ENV_LIGHT_THRESHOLD) turn_on_light = TRUE;
     }
 	
-	/* Deo koda koji stavlja key_pressed na true ili false na osnovu pritiska tastera*/
+	/* Deo koda koji stavlja key_pressed na true ili false na osnovu pritiska tastera */
 	if(BUTTONS != 0)
 	{
         if (key_processed == FALSE)
@@ -119,7 +183,7 @@ static void checkInputs()
     }
     
     /* Deo koda koji stavlja touch na true ili false na osnovu pritiska touchscreen-a */
-    //updateCoords();
+    updateCoords();
     
     if ((getY() != 0) || (getX() != 0))
     {
@@ -129,14 +193,11 @@ static void checkInputs()
     {
         touch = FALSE;
     }
-    
-    // TODO test, remove later
-    if (PORTAbits.RA11)
-    {
-        if (door_locked == FALSE) open_door = TRUE;
-    }
 }
 
+/* Funckija vraca trenutni pritisnut taster (B9~B12) kao brojeve 1~4 ili 0xFF ako nijedan 
+ * od tastera nije pritisnut
+ */
 static uint8_t getKey(void)
 {
     if      (PORTBbits.RB9  == PIN_HIGH) return 1;
@@ -148,7 +209,7 @@ static uint8_t getKey(void)
 
 /* Ova funkcija treba da procesuira pritisnuti taster i poredi sa sifrom.
  * Ako je sifra ispravna, vrata treba otkljucati. U suprotnom, vrata ostaju zakljucana. */
-static void processKeyPressed()
+static void processKeyPressed(void)
 {
     uint8_t key;
     
@@ -160,24 +221,9 @@ static void processKeyPressed()
     /* Taster nije validan */
     if (key == 0xFF) return;
     
-    // TODO testing only, remove later
-    uint8_t key_str[4];
-    uint8_t curr_pos[4];
-    sprintf(key_str, "%d", key);
-    sprintf(curr_pos, "%d", digit_to_check);
-    uartWriteString("Key pressed: ");
-    uartWriteString(key_str);
-    uartWriteString("Current position: ");
-    uartWriteString(curr_pos);
-    uartWriteString("\r\n");
-    
     /* Taster odgovara cifri u passwordu */
     if (key == password[digit_to_check])
     {
-        // TODO testing only, remove later
-        uartWriteString("****");
-        uartWriteString("HIT");
-        uartWriteString("****\r\n");
         /* Ukucan je ispravan password */
         if (digit_to_check == (PASSWORD_LENGTH - 1))
         {
@@ -201,86 +247,92 @@ static void processKeyPressed()
     }
 }
 
-static void processTouch()
+static void processTouch(void)
 {
 	/* provera da li smo u delu ekrana gde su dugmici */
-	if(getY() > (Y_MAX/2))
+	if(getY() < LCD_ICON_Y_MAX)
 	{
         unsigned int x_pos = getX();
         
 		/* provera koje dugme */
-		if(x_pos < 32)
+		if(x_pos <= DOOR_OPEN_ICON_END)
 		{
-			/* Sector 1 - Light ON/OFF */
+			/* Sector 1 - Open door */
+			if (door_locked == FALSE) door_state = DOOR_OPEN;
+		}
+        else if((x_pos > DOOR_OPEN_ICON_END) && (x_pos <= DOOR_CLOSE_ICON_END))
+		{
+			/* Sector 2 - Close door */
+			door_state = DOOR_CLOSED;
+		}
+		else if((x_pos > DOOR_CLOSE_ICON_END) && (x_pos <= LIGHT_SWITCH_ICON_END))
+		{
+			/* Sector 3 - Light ON/OFF */
             turn_on_light = (turn_on_light == FALSE) ? TRUE : FALSE;
 		}
-        else if((x_pos > 32) && (x_pos < 64))
+		else if(x_pos > LIGHT_SWITCH_ICON_END)
 		{
-			/* Sector 2 - Alarm OFF */
-			start_alarm = FALSE;
-			
-		}
-		else if((x_pos > 64) && (x_pos < 96))
-		{
-			/* Sector 3 - Close door */
-			open_door = FALSE;
-		}
-		else if(x_pos > 96)
-		{
-			/* Sector 4 - Open door */
-			open_door  = TRUE;
+			/* Sector 4 - Alarm OFF */
+			door_state = DOOR_CLOSED;
 		}
 	}
 }
 
 /* Ova funkcija treba da proverava kontrolne signale i da u skladu sa tim izvrsava odredjene 
  * radnje. */
-static void performActions()
+static void performActions(void)
 {   
-    uint32_t ticks = getTickMs();
+    uint32_t ms_ticks = getTickMs();
     
-    if (open_door == TRUE)
+    if (door_state == DOOR_OPEN)
     {
         openDoor();
     }
-    else
+    else if (door_state == DOOR_CLOSED)
     {
         closeDoor();
+    }
+    else if (door_state == ALARM_STATE)
+    {
+        startAlarm();
     }
     
     if (turn_on_light == TRUE)
     {
-        LED_PIN_SET = PIN_HIGH;
-        led_turn_off_time = ticks + 10000;
+        // Movement detected => turn on light
+        LIGHT_PIN_SET = PIN_HIGH;
+        // Light will turn off after 10s
+        light_turn_off_time = ms_ticks + 10000;
+        // Movement processed => clear flag
+        turn_on_light = FALSE;
     }
 }
 
 /* Ova funkcija treba da proverava kontrolne signale i da u skladu sa tim stopira odredjene 
  * radnje. */
-static void stopActions()
+static void stopActions(void)
 {
-    uint32_t ticks = getTickMs();
+    uint32_t ms_ticks = getTickMs();
     
-    if (ticks == led_turn_off_time)
+    if (ms_ticks == light_turn_off_time)
     {
-        if (turn_on_light == TRUE)
+        if (LIGHT_PIN_GET == PIN_HIGH)
         {
-            turn_on_light = FALSE;
-            LED_PIN_SET = PIN_LOW;
+            LIGHT_PIN_SET = PIN_LOW;
         }
     }
     
-    if (ticks == door_relock_time)
+    if (ms_ticks == door_relock_time)
     {
-        if (start_alarm == FALSE)
+        if (door_state != ALARM_STATE)
         {
-            open_door = FALSE;
+            door_state = DOOR_CLOSED;
             door_locked = TRUE;    
         }
     }
 }
 
-static void taskLcd()
+static void taskLcd(void)
 {
     if (touch) processTouch();
     
@@ -288,26 +340,22 @@ static void taskLcd()
 }
 
 /* GLOBAL FUNCTIONS */
-void doorSystemInit()
+void doorSystemInit(void)
 {
-    movement      = FALSE;
-    open_door     = FALSE;
+    door_state    = DOOR_CLOSED;
     door_locked   = TRUE;
-    start_alarm   = FALSE;
     turn_on_light = FALSE;
     
     initializePins();
     
-    initTimer1();
-    initTimer2();
-    initTimer3();
+    initTimers();
     uartInit();
     initADC();
     LcdInit();
     initTouchscreen();
 }
 
-void doorSystemRun()
+void doorSystemRun(void)
 {
     checkInputs();
     

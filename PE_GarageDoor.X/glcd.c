@@ -197,22 +197,22 @@ const unsigned char FONT[] = {
 };
 
 const unsigned char DISPLAY_IMAGE[] = {
-   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  8, 16,224, 96,176, 
-  48, 96,192,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
- 255,  0,  0,  0,  0,  0,  0,  0,  0,224, 48, 24,140,  4,  4,140, 
-  24, 48,224,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,128,192,224,240,248, 
+ 240,224,192,128,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
  255,  0,  0,  0,  0,  0,  8, 24, 56,120,248,248,248,248,248,248, 
  248,248,248,248,248,248,248,120, 56, 24,  8,  0,  0,  0,  0,  0, 
- 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,128,192,224, 
- 240,248,240,224,192,128,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 15,  8, 24, 40, 
-  41, 26, 12, 15, 16, 32,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
- 255,  0,  0,  0,  0,  0,  0,  0,  0,  1,  3,  6, 61,127,121, 61, 
-   6,  3,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,224, 48, 24,140, 
+   4,  4,140, 24, 48,224,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  8, 16,224, 96,176, 
+  48, 96,192,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0, 32, 48, 56, 60, 62, 63, 63, 63, 63, 63, 63, 
+  63, 63, 63, 63, 63, 62, 60, 56, 48, 32,  0,  0,  0,  0,  0,  0, 
  255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  3,  7, 15, 31, 
   63, 31, 15,  7,  3,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
- 255,  0,  0,  0,  0,  0,  0, 32, 48, 56, 60, 62, 63, 63, 63, 63, 
-  63, 63, 63, 63, 63, 63, 63, 62, 60, 56, 48, 32,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  3,  6, 61, 
+ 127,121, 61,  6,  3,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 15,  8, 24, 40, 
+  41, 26, 12, 15, 16, 32,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
    2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
    2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
    3,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
@@ -260,27 +260,27 @@ const unsigned char DISPLAY_IMAGE[] = {
   33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 
   33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 
   33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 
-  33, 63,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0
+  33, 33, 63,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 
 };
 
 const unsigned char DISPLAY_IMAGE_LOCK[] =
 {
-   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  8, 16,224, 96,176, 
-  48, 96,192,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
- 255,  0,  0,  0,  0,  0,  0,  0,  0,224, 48, 24,140,  4,  4,140, 
-  24, 48,224,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,128,192,224,240,248, 
+ 240,224,192,128,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
  255,  0,  0,  0,  0,  0,  8, 24, 56,120,248,248,248,248,248,248, 
  248,248,248,248,248,248,248,120, 56, 24,  8,  0,  0,  0,  0,  0, 
- 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,128,192,224, 
- 240,248,240,224,192,128,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 15,  8, 24, 40, 
-  41, 26, 12, 15, 16, 32,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
- 255,  0,  0,  0,  0,  0,  0,  0,  0,  1,  3,  6, 61,127,121, 61, 
-   6,  3,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,224, 48, 24,140, 
+   4,  4,140, 24, 48,224,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  8, 16,224, 96,176, 
+  48, 96,192,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+   0,  0,  0,  0,  0, 32, 48, 56, 60, 62, 63, 63, 63, 63, 63, 63, 
+  63, 63, 63, 63, 63, 62, 60, 56, 48, 32,  0,  0,  0,  0,  0,  0, 
  255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  3,  7, 15, 31, 
   63, 31, 15,  7,  3,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
- 255,  0,  0,  0,  0,  0,  0, 32, 48, 56, 60, 62, 63, 63, 63, 63, 
-  63, 63, 63, 63, 63, 63, 63, 62, 60, 56, 48, 32,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  3,  6, 61, 
+ 127,121, 61,  6,  3,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+ 255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 15,  8, 24, 40, 
+  41, 26, 12, 15, 16, 32,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
    2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
    2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
    3,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
@@ -328,7 +328,7 @@ const unsigned char DISPLAY_IMAGE_LOCK[] =
   33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 
   33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 
   33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 
-  33, 63,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 
+  33, 33, 63,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0
 };
 
 void SetRST(unsigned char vrednost)
@@ -389,13 +389,13 @@ void ConfigureLcdPins (void)
 	ADPCFGbits.PCFG5=1;
 	TRISBbits.TRISB5=0;  //LCD_CS2 izlaz
 					/* PCFG<15:0>: Analog Input Pin Configuration Control bits
-						1 = Analog INPUT pin in Digital mode, port read INPUT enabled, A/D INPUT multiplexer INPUT connected to AVSS
-						0 = Analog INPUT pin in Analog mode, port read INPUT disabled, A/D samples pin voltage*/
+						1 = Analog INPUT_LCD pin in Digital mode, port read INPUT_LCD enabled, A/D INPUT_LCD multiplexer INPUT_LCD connected to AVSS
+						0 = Analog INPUT_LCD pin in Analog mode, port read INPUT_LCD disabled, A/D samples pin voltage*/
 	ADPCFGbits.PCFG4=1;
 	TRISBbits.TRISB4=0;  //LCD_CS1 izlaz
 					/* PCFG<15:0>: Analog Input Pin Configuration Control bits
-						1 = Analog INPUT pin in Digital mode, port read INPUT enabled, A/D INPUT multiplexer INPUT connected to AVSS
-						0 = Analog INPUT pin in Analog mode, port read INPUT disabled, A/D samples pin voltage*/
+						1 = Analog INPUT_LCD pin in Digital mode, port read INPUT_LCD enabled, A/D INPUT_LCD multiplexer INPUT_LCD connected to AVSS
+						0 = Analog INPUT_LCD pin in Analog mode, port read INPUT_LCD disabled, A/D samples pin voltage*/
 	
 	//LCD_DATA	P2//RB0 RB1 RB2 RB3 RD0 RD1 RD2 RD3
     ADPCFGbits.PCFG0=1;
@@ -416,30 +416,30 @@ void ConfigureLcdPins (void)
 void ConfigureLcdData(unsigned char direction)
 {
 	//LCD_DATA	P2//RB0 RB1 RB2 RB3 RD0 RD1 RD2 RD3
-    if(direction==OUTPUT)
+    if(direction==OUTPUT_LCD)
     {
-        //LCD_DATA OUTPUT
-        TRISDbits.TRISD0=OUTPUT;//RD0
-        TRISDbits.TRISD1=OUTPUT;//RD1
-        TRISDbits.TRISD2=OUTPUT;//RD2
-        TRISDbits.TRISD3=OUTPUT;//RD3
-        TRISBbits.TRISB3=OUTPUT;//RB3
-        TRISBbits.TRISB2=OUTPUT;//RB2
-        TRISBbits.TRISB1=OUTPUT;//RB1
-        TRISBbits.TRISB0=OUTPUT;//RB0
+        //LCD_DATA OUTPUT_LCD
+        TRISDbits.TRISD0=OUTPUT_LCD;//RD0
+        TRISDbits.TRISD1=OUTPUT_LCD;//RD1
+        TRISDbits.TRISD2=OUTPUT_LCD;//RD2
+        TRISDbits.TRISD3=OUTPUT_LCD;//RD3
+        TRISBbits.TRISB3=OUTPUT_LCD;//RB3
+        TRISBbits.TRISB2=OUTPUT_LCD;//RB2
+        TRISBbits.TRISB1=OUTPUT_LCD;//RB1
+        TRISBbits.TRISB0=OUTPUT_LCD;//RB0
     }
     
-    if (direction==INPUT)
+    if (direction==INPUT_LCD)
     {
-            //LCD_DATA INPUT
-        TRISDbits.TRISD0=INPUT;//RD0
-        TRISDbits.TRISD1=INPUT;//RD1
-        TRISDbits.TRISD2=INPUT;//RD2
-        TRISDbits.TRISD3=INPUT;//RD3
-        TRISBbits.TRISB3=INPUT;//RB3
-        TRISBbits.TRISB2=INPUT;//RB2
-        TRISBbits.TRISB1=INPUT;//RB1
-        TRISBbits.TRISB0=INPUT;//RB0
+            //LCD_DATA INPUT_LCD
+        TRISDbits.TRISD0=INPUT_LCD;//RD0
+        TRISDbits.TRISD1=INPUT_LCD;//RD1
+        TRISDbits.TRISD2=INPUT_LCD;//RD2
+        TRISDbits.TRISD3=INPUT_LCD;//RD3
+        TRISBbits.TRISB3=INPUT_LCD;//RB3
+        TRISBbits.TRISB2=INPUT_LCD;//RB2
+        TRISBbits.TRISB1=INPUT_LCD;//RB1
+        TRISBbits.TRISB0=INPUT_LCD;//RB0
     }
 }
 
@@ -504,7 +504,7 @@ void LcdWaitBusy (void)
 	SetRS(0);       	/* Instruction mode */
   	SetRW(1);       	/* Read mode */
   	
-	ConfigureLcdData(INPUT);		/* set LCD_DATA port in INPUT mode */
+	ConfigureLcdData(INPUT_LCD);		/* set LCD_DATA port in INPUT_LCD mode */
 	SetE(1); 
 	temp=ReadLcdData();
 	SetE(0); 
@@ -613,7 +613,7 @@ Read data from LCD
 unsigned char LcdDataRead (void)
 {
 	unsigned char temp;
-    ConfigureLcdData(INPUT);
+    ConfigureLcdData(INPUT_LCD);
 	SetRS(1);      	/* Data mode */
 	SetRW(1);      	/* read mode */
     //LcdDelay(5);
@@ -623,7 +623,7 @@ unsigned char LcdDataRead (void)
     //LcdDelay(5);
 	temp=ReadLcdData();
 	SetE(0);
-    ConfigureLcdData(OUTPUT);
+    ConfigureLcdData(OUTPUT_LCD);
     //LcdDelay(5);
     SetRS(0);      	/* Data mode */
 	SetRW(0);      	/* read mode */
@@ -989,17 +989,17 @@ void LcdUpdateDisplay(uint8_t co2_level, boolean door_locked)
     }
     
     // Displayed Co2 bar level doesn't match current level
-//    if (co2_level != display_co2_level)
-//    {
-//        if (co2_level > display_co2_level)
-//        {
-//            updateCo2Bar(display_co2_level, TRUE);
-//            display_co2_level = display_co2_level + 1;
-//        }
-//        else
-//        {
-//            updateCo2Bar(display_co2_level, FALSE);
-//            display_co2_level = display_co2_level - 1;
-//        } 
-//    }
+    if (co2_level != display_co2_level)
+    {
+        if (co2_level > display_co2_level)
+        {
+            updateCo2Bar(display_co2_level, TRUE);
+            display_co2_level = display_co2_level + 1;
+        }
+        else
+        {
+            updateCo2Bar(display_co2_level, FALSE);
+            display_co2_level = display_co2_level - 1;
+        } 
+    }
 }

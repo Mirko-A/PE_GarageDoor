@@ -23,12 +23,11 @@ _FGS(CODE_PROT_OFF);
 /* ENTRY POINT */
 int main(int argc, char** argv)
 {
-    
     // INIT
     doorSystemInit();
     
     // LOOP
-    while (1)
+    while (TRUE)
     {
         doorSystemRun();
     }
