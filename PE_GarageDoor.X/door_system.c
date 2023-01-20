@@ -10,7 +10,7 @@
 /* LOCAL VARIABLES */
 
 /* Door lock data */
-static const uint8_t password[PASSWORD_LENGTH] = {1, 2, 3, 4};
+static const uint8_t password[PASSWORD_LENGTH] = {2, 1};
 static uint8_t digit_to_check = 0;
 static boolean door_locked;
 
@@ -20,7 +20,8 @@ static boolean  touch;
 
 /* Action flags */
 static boolean turn_on_light;
-static DoorState door_state;
+static boolean open_door;
+static boolean start_alarm;
 
 /* Turn off times */
 static uint32_t light_turn_off_time = 0;
@@ -31,17 +32,18 @@ static void initializePins(void)
 {
     /* Servo motor izlaz */
     TRISDbits.TRISD8 = OUTPUT_PIN;
-    /* Light izlaz */
-    TRISCbits.TRISC15 = OUTPUT_PIN;
+    SERVO_PIN_SET = PIN_LOW;
     /* Buzzer/alarm pwm pin */
     TRISAbits.TRISA11 = OUTPUT_PIN;
-    /* Alarm LED pin */
+    BUZZER_PIN_SET = PIN_LOW;
+    /* Light izlaz & Alarm LED pin */
     TRISFbits.TRISF6 = OUTPUT_PIN;
+    ALARM_LED_PIN_SET = PIN_LOW;
     /* Senzor PIR ulaz */
     TRISDbits.TRISD9 = INPUT_PIN;
     
     /* Inicijalizuj PORTB pinove kao digital+input (ADC ce kasnije prepisati one koji su mu potrebni) 
-     * Koriste se za tastere (B8~B11) i alarm LED (B12)
+     * Koriste se za tastere (B10~B11) i alarm LED (B12)
      */
     ADPCFG = 0xFFFF;
     TRISB = 0xFFFF;
@@ -82,9 +84,6 @@ static void startAlarm(void)
     }
     
     buzzerPwmSend(buzzer_period);
-    
-    // Half-open door so CO2 can go out
-    servoPwmSend(200, DOOR_HALF_OPEN_DUTY_CYCLE);
 }
 
 /* Funckija vraca nivo CO2 ogranicen na opseg 0-100 */
@@ -92,14 +91,14 @@ static uint8_t getCo2Level(void)
 {
     uint8_t co2_level = 0;
     
-    co2_level = (uint8_t) ((co2_raw_data * 100) / CO2_FACTOR);
+    co2_level = (uint8_t) (((uint32_t)(co2_raw_data - CO2_OFFSET) * (uint32_t)100) / (uint32_t)CO2_FACTOR);
 	
     /* Ogranicavamo co2_level na opseg 0-100 (za slucaj da je faktor pogresan) */
     if (co2_level > 100) co2_level = 100;
     
     return co2_level; // TODO scale between 0-100
 
-    // TODO testing alarm, remove later
+//    // TODO testing alarm, remove later
 //    uint32_t ms_ticks = getTickMs();
 //    static uint8_t co2_level = 0;
 //    
@@ -123,21 +122,21 @@ static uint8_t getEnvLightLevel(void)
     // TODO fotooptornik testiranje
     uint8_t env_light_level = 0;
     
-    env_light_level = (photores_raw_data*100)/PHOTO_RES_FACTOR;
+    env_light_level = (uint8_t)(((uint32_t)photores_raw_data*(uint32_t)100)/(uint32_t)PHOTO_RES_FACTOR);
     
     /* Ogranicavamo nivo svetlosti u okolini na opseg 0-100 (za slucaj da je faktor pogresan) */
     if (env_light_level > 100) env_light_level = 100;
     
-//    return env_light_level; TODO
-    return 70;
+    //return env_light_level;
+    return env_light_level;
 }
 
 /* Ova funkcija treba da proveri sve ulazne signale (CO2 nivo, pokret, pritisak touchscreena/tastera itd.)
  * i da u skladu sa tim podesi kontrolne signal */
 static void checkInputs(void)
-{
+{    
     /* Pomocni fleg, dodatak softverskom diferenciranju */
-    static boolean key_processed = FALSE;
+    static boolean key_processed   = FALSE;
     
     uint8_t env_light_level = getEnvLightLevel();
 	uint8_t co2_level = getCo2Level();
@@ -145,26 +144,32 @@ static void checkInputs(void)
     /* Deo koda koji postavlja flag start_alarm na 0 ili 1 u zavisnosti od CO2 nivoa*/
 	if(co2_level >= CO2_UNSAFE_LEVEL)
     {
-        door_state = ALARM_STATE;
+        start_alarm = TRUE;
+        open_door = TRUE;
         /* Ukljuci tajmer 4 zbog PWM-a za Buzzer */
         BUZZER_TIMER_START;
     }
 	else if(co2_level <= CO2_SAFE_LEVEL)
     {
-        door_state = DOOR_CLOSED;
-        ALARM_LED_PIN_SET = PIN_LOW;
-        /* Iskljuci tajmer 4 da bi Buzzer stao */
-        BUZZER_TIMER_STOP;
+        if (start_alarm == TRUE)
+        {
+            start_alarm = FALSE;
+            open_door = FALSE;
+            /* Iskljuci alarm LED u slucaju da je ostala na HIGH */
+            ALARM_LED_PIN_SET = PIN_LOW;
+            /* Iskljuci tajmer 4 da bi Buzzer stao */
+            BUZZER_TIMER_STOP;
+        }
     }
 	
 	/* Deo koda koji postavlja flag turn_on_light na 0 ili 1 u zavisnosti od senzora pokreta */
-    if (MOTION_PIN_GET == PIN_HIGH)
+    if ((MOTION_PIN_GET == PIN_HIGH) && (LIGHT_PIN_GET == PIN_LOW))
     {
         if (env_light_level < ENV_LIGHT_THRESHOLD) turn_on_light = TRUE;
     }
 	
 	/* Deo koda koji stavlja key_pressed na true ili false na osnovu pritiska tastera */
-	if(BUTTONS != 0)
+	if((PORTBbits.RB11 != 0) || (PORTBbits.RB12 != 0))
 	{
         if (key_processed == FALSE)
         {
@@ -184,7 +189,7 @@ static void checkInputs(void)
     
     /* Deo koda koji stavlja touch na true ili false na osnovu pritiska touchscreen-a */
     updateCoords();
-    
+        
     if ((getY() != 0) || (getX() != 0))
     {
         touch = TRUE;
@@ -200,10 +205,8 @@ static void checkInputs(void)
  */
 static uint8_t getKey(void)
 {
-    if      (PORTBbits.RB9  == PIN_HIGH) return 1;
-    else if (PORTBbits.RB10 == PIN_HIGH) return 2;
-    else if (PORTBbits.RB11 == PIN_HIGH) return 3;
-    else if (PORTBbits.RB12 == PIN_HIGH) return 4;
+    if (PORTBbits.RB11 == PIN_HIGH) return 1;
+    else if (PORTBbits.RB12 == PIN_HIGH) return 2;
     else return 0xFF;
 }
 
@@ -229,7 +232,7 @@ static void processKeyPressed(void)
         {
             /* Otkljucaj vrata */
             door_locked = FALSE;
-            door_relock_time = getTickMs() + 15000;
+            door_relock_time = getTickMs() + 20000;
             
             digit_to_check = 0;
         } 
@@ -242,40 +245,115 @@ static void processKeyPressed(void)
     else
     {
         /* Pogresna sifra => zakljucaj vrata */
-        door_locked = TRUE; 
+        // door_locked = TRUE; 
         digit_to_check = 0;
     }
 }
 
 static void processTouch(void)
 {
+    unsigned int x_pos = getX();
+    unsigned int y_pos = getY();
+    
 	/* provera da li smo u delu ekrana gde su dugmici */
-	if(getY() < LCD_ICON_Y_MAX)
+	if((y_pos > LCD_ICON_Y_MIN) && (y_pos < LCD_Y_MAX))
 	{
-        unsigned int x_pos = getX();
-        
-		/* provera koje dugme */
+		/* provera koje dugme je pritisnuto */
 		if(x_pos <= DOOR_OPEN_ICON_END)
 		{
 			/* Sector 1 - Open door */
-			if (door_locked == FALSE) door_state = DOOR_OPEN;
-		}
+			if (door_locked == FALSE) open_door = TRUE;
+            //uartWriteString("Otvori");	
+	}
         else if((x_pos > DOOR_OPEN_ICON_END) && (x_pos <= DOOR_CLOSE_ICON_END))
 		{
 			/* Sector 2 - Close door */
-			door_state = DOOR_CLOSED;
+			if (start_alarm == FALSE) open_door = FALSE;
+            //uartWriteString("Zatvori");
 		}
 		else if((x_pos > DOOR_CLOSE_ICON_END) && (x_pos <= LIGHT_SWITCH_ICON_END))
 		{
 			/* Sector 3 - Light ON/OFF */
             turn_on_light = (turn_on_light == FALSE) ? TRUE : FALSE;
+            //uartWriteString("Svetlo");
 		}
-		else if(x_pos > LIGHT_SWITCH_ICON_END)
+		else if((x_pos > LIGHT_SWITCH_ICON_END) && (x_pos <= LCD_X_MAX))
 		{
 			/* Sector 4 - Alarm OFF */
-			door_state = DOOR_CLOSED;
+            if (start_alarm == TRUE)
+            {
+                start_alarm = FALSE;
+                ALARM_LED_PIN_SET = PIN_LOW;
+                BUZZER_TIMER_STOP;
+            }
+            //uartWriteString("Alarm");
 		}
 	}
+}
+
+static void displaySystemState(void)
+{
+    uint8_t *door_state_str;
+    uint8_t *door_locked_str;
+    uint8_t *light_state_str;
+    uint8_t *env_light_level_str;
+    uint8_t *co2_level_str;
+    
+    if (start_alarm == TRUE)
+    {
+        door_state_str = (uint8_t *)"ALARM!!!\n";
+    }
+    else if (open_door == TRUE)
+    {
+        door_state_str = (uint8_t *)"OPEN\n";
+    }
+    else
+    {
+        door_state_str = (uint8_t *)"CLOSED\n";
+    }
+    
+    if (door_locked == TRUE)
+    {
+        door_locked_str = (uint8_t *)"LOCKED\n";
+    }
+    else
+    {
+        door_locked_str = (uint8_t *)"UNLOCKED\n";
+    }
+    
+    if (LIGHT_PIN_GET == PIN_HIGH)
+    {
+        light_state_str = (uint8_t *)"ON\n";
+    }
+    else
+    {
+        light_state_str = (uint8_t *)"OFF\n";
+    }
+    
+    sprintf(env_light_level_str, "%d", getEnvLightLevel());
+    sprintf(co2_level_str, "%d", co2_raw_data); // TODO
+    
+    uartWriteString("-- DOOR SYSTEM --\r\n");
+    uartWriteString("Door is: ");
+    uartWriteString(door_state_str);
+    uartWriteString("\n\r");
+
+    uartWriteString("Door lock is: ");
+    uartWriteString(door_locked_str);
+    uartWriteString("\n\r");
+    
+    uartWriteString("Light is: ");
+    uartWriteString(light_state_str);
+    uartWriteString("\n\r");
+    
+    uartWriteString("Current CO2 level: ");
+    uartWriteString(co2_level_str);
+    uartWriteString("\n\r");
+    
+    uartWriteString("Environment light level: ");
+    uartWriteString(env_light_level_str);
+    uartWriteString("\n\r");
+    uartWriteString("\n\r");
 }
 
 /* Ova funkcija treba da proverava kontrolne signale i da u skladu sa tim izvrsava odredjene 
@@ -284,18 +362,16 @@ static void performActions(void)
 {   
     uint32_t ms_ticks = getTickMs();
     
-    if (door_state == DOOR_OPEN)
+    if (open_door == TRUE)
     {
         openDoor();
     }
-    else if (door_state == DOOR_CLOSED)
+    else
     {
         closeDoor();
     }
-    else if (door_state == ALARM_STATE)
-    {
-        startAlarm();
-    }
+    
+    if (start_alarm) startAlarm();
     
     if (turn_on_light == TRUE)
     {
@@ -306,6 +382,8 @@ static void performActions(void)
         // Movement processed => clear flag
         turn_on_light = FALSE;
     }
+    
+    if ((ms_ticks % 2048) == 0) displaySystemState();
 }
 
 /* Ova funkcija treba da proverava kontrolne signale i da u skladu sa tim stopira odredjene 
@@ -324,9 +402,9 @@ static void stopActions(void)
     
     if (ms_ticks == door_relock_time)
     {
-        if (door_state != ALARM_STATE)
+        if (start_alarm != TRUE)
         {
-            door_state = DOOR_CLOSED;
+            open_door = FALSE;
             door_locked = TRUE;    
         }
     }
@@ -336,13 +414,16 @@ static void taskLcd(void)
 {
     if (touch) processTouch();
     
-    LcdUpdateDisplay(getCo2Level(), door_locked);
+    uint32_t ms_ticks = getTickMs();
+    
+    if ((ms_ticks % 5) == 0) LcdUpdateDisplay(getCo2Level(), door_locked);
 }
 
 /* GLOBAL FUNCTIONS */
 void doorSystemInit(void)
 {
-    door_state    = DOOR_CLOSED;
+    open_door     = FALSE;
+    start_alarm   = FALSE;
     door_locked   = TRUE;
     turn_on_light = FALSE;
     

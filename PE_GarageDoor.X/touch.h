@@ -20,14 +20,15 @@
 /* USER LIBRARIES */
 #include "adc.h"
 #include "timer.h"
+#include "uart.h"
 #include "utils.h"
 
 /* Scaling constants */
 // TODO treba pronaci
-#define AD_X_MIN (220u)
-#define AD_X_MAX (0.03629f)  /* 1/AD_X_MAX => 1/3642 */
-#define AD_Y_MIN (520u)
-#define AD_Y_MAX (0.020725f) /* 1/AD_Y_MAX => 1/3450 */
+#define AD_X_MIN (500u)
+#define AD_X_MAX (0.04491f)  /* 1/(AD_X_MAX-AD_X_MIN)*128 => 1/(3350-500)*128 */
+#define AD_Y_MIN (700u)
+#define AD_Y_MAX (0.02667f) /* 1/(AD_Y_MAX-AD_Y_MIN)*64 => 1/(3100-700)*64 */
 
 /* Transistor control */
 #define DRIVE_A LATCbits.LATC13

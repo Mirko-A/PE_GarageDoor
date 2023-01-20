@@ -29,9 +29,13 @@
 #define PHOTO_RES_GET   PORTBbits.RB6
 #define PHOTO_RES_SET   LATBbits.LATB6
 
-#define LIGHT_PIN       PORT_C, 15
-#define LIGHT_PIN_GET   PORTCbits.RC15 
-#define LIGHT_PIN_SET   LATCbits.LATC15
+#define ALARM_LED_PIN      PORT_F, 6
+#define ALARM_LED_PIN_GET  PORTFbits.RF6
+#define ALARM_LED_PIN_SET  LATFbits.LATF6
+
+#define LIGHT_PIN       ALARM_LED_PIN
+#define LIGHT_PIN_GET   ALARM_LED_PIN_GET
+#define LIGHT_PIN_SET   ALARM_LED_PIN_SET
 
 // TODO used for testing
 //#define LIGHT_PIN_GET  PORTAbits.RA11
@@ -41,14 +45,10 @@
 #define MOTION_PIN_GET  PORTDbits.RD9
 #define MOTION_PIN_SET  LATDbits.LATD9
 
-#define ALARM_LED_PIN      PORT_F, 6
-#define ALARM_LED_PIN_GET  PORTFbits.RF6
-#define ALARM_LED_PIN_SET  LATFbits.LATF6
-
 /* Door state related macros - duty cycles in tenths of milliseconds */
-#define DOOR_CLOSED_DUTY_CYCLE    (15)
-#define DOOR_HALF_OPEN_DUTY_CYCLE (10)
-#define DOOR_OPEN_DUTY_CYCLE      (5)
+#define DOOR_CLOSED_DUTY_CYCLE    (40)
+#define DOOR_HALF_OPEN_DUTY_CYCLE (15)
+#define DOOR_OPEN_DUTY_CYCLE      (2)
 
 /* Used in conjunction with getTicks to make LED blink every 512 milliseconds.
    In order not to miss any milliseconds, value should be 2^n because maximum tick value is also 2^n (uint16_t => 2^16).
@@ -58,19 +58,24 @@
 #define CO2_UNSAFE_LEVEL (50)
 #define CO2_SAFE_LEVEL   (10)
 #define CO2_FACTOR       (3150u)
+#define CO2_OFFSET       (800u)
+
 
 #define ENV_LIGHT_THRESHOLD (50)
 #define PHOTO_RES_FACTOR    (3150u)
 
-#define PASSWORD_LENGTH (4u)
-#define BUTTONS         (PORTB & 0xFE00) /* Looking at pins B9 ~ B15 only */
+#define PASSWORD_LENGTH (2u)
+#define BUTTONS         (PORTB & 0xFF00) /* Looking at pins B8 ~ B15 only */
+
+#define MAX_STR_LEN (64u)
 
 /* TYPE DEFINITIONS */
 typedef enum 
 {
     DOOR_CLOSED,
     DOOR_OPEN,
-    ALARM_STATE
+    ALARM_STATE,
+    ALARM_OFF_DOOR_OPEN
 } DoorState;
 
 /* GLOBAL FUNCTIONS */

@@ -59,7 +59,7 @@ extern "C" {
 #define ALARM_OFF_ICON_END      LCD_X_MAX
    
 /* Lcd icon y limit */
-#define LCD_ICON_Y_MAX   (25u)   
+#define LCD_ICON_Y_MIN   (25u)   
     
 #define RF5_1 LATF|=0b0000000000100000;//RST
 #define RF5_0 LATF&=0b1111111111011111;

@@ -172,8 +172,8 @@ void initADC(void)
     /* PORTB pinovi 0-7 se koriste kao analogni ulazni pinovi za LCD (B0~B5), fotootpornik (B6)
      * i CO2 senzor (B7)  
      */
-    ADPCFG &= ~(0x00FF); /* Pinovi A/D porta (PORTB) 0-7 su u Analog modu, ostali u Digital modu */ 
-    TRISB  |= 0x00FF;    /* Pinovi A/D porta (PORTB) 0-7 su ulazni, ostali izlazni */ 
+    ADPCFG &= ~(0x03FF); /* Pinovi A/D porta (PORTB) 0-9 su u Analog modu, ostali u Digital modu */ 
+    TRISB  |= 0x03FF;    /* Pinovi A/D porta (PORTB) 0-9 su ulazni, ostali izlazni */ 
 
     /*  ADCSSL: A/D Input Scan Select Register
 
@@ -183,22 +183,24 @@ void initADC(void)
      */
     
     /* Postavljamo pinove koji se koriste za A/D konverziju */
-    ADCSSL=0b0000000011000011;
+    ADCSSL=0b0000001111000000;
     
     ADCON1bits.ASAM = 1; /* Novi sampling ciklus pocinje odmah nakon sto je konverzija zavrsena */
 
-    IEC0bits.ADIE = 1; /* Resetuj interrupt flag A/D konvertora */
-    IFS0bits.ADIF = 1; /* Dozvoli interrupt A/D konvertora      */
+    IEC0bits.ADIE = 1; /* Dozvoli interrupt A/D konvertora      */ 
+    IFS0bits.ADIF = 0; /* Resetuj interrupt flag A/D konvertora */
     ADCON1bits.ADON = 1; /* Zapocni A/D konverziju */
 }
 
 /* INTERRUPT SERVICE ROUTINES */
 void __attribute__((__interrupt__)) __attribute__ ((__auto_psv__)) _ADCInterrupt(void)
 {
-	touch_data_x     = ADCBUF0;
-	touch_data_y     = ADCBUF1;
-    photores_raw_data = ADCBUF2;
-    co2_raw_data     = ADCBUF3;
+    photores_raw_data = ADCBUF0;
+    co2_raw_data      = ADCBUF1;
+    
+    
+	touch_data_x     = ADCBUF2;
+	touch_data_y     = ADCBUF3;
     
     IFS0bits.ADIF = 0;
 }

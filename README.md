@@ -10,9 +10,9 @@ CO2: B7 (Analog input)
 UART: F2 (Rx), F3 (Tx)
 SERVO: D8 (Digital output)
 MOTION SENSOR: D9 (Digital input)
-LIGHT: C15 (Digital output)
+LIGHT: F6 (Digital output)
+ALARM_LED: F6 - same as light (Digital output)
 BUZZER: A11 (Digital output)
-ALARM_LED: F6 (Digital output)
 
 # Unused pins
 PORTA: 
