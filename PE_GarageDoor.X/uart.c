@@ -84,6 +84,28 @@ void uartWriteString(uint8_t *p_str)
     }
 }
 
+void uartWriteNumber(uint16_t num)
+{
+    uint8_t digits[5] = { 0 };
+    uint8_t len = 0;
+    
+    do
+    {
+        digits[len] = (uint8_t) ((num % 10) + '0');
+        len = len + 1;
+        
+        num = num / 10;
+    } 
+    while (num != 0);
+    
+    uint8_t it = 0;
+    
+    for ( ; it < len; it++)
+    {
+        uartWriteChar(digits[len-it-1]);
+    }
+}
+
 void __attribute__((__interrupt__)) __attribute__ ((__auto_psv__)) _U1RXInterrupt(void) 
 {
     IFS0bits.U1RXIF = 0;

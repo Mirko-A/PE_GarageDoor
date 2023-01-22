@@ -60,9 +60,9 @@
 #define CO2_FACTOR       (3150u)
 #define CO2_OFFSET       (800u)
 
-
-#define ENV_LIGHT_THRESHOLD (50)
-#define PHOTO_RES_FACTOR    (3150u)
+#define ENV_LIGHT_THRESHOLD (40)
+#define PHOTO_RES_FACTOR    (3500u)
+#define PHOTO_RES_OFFSET    (900u)
 
 #define PASSWORD_LENGTH (2u)
 #define BUTTONS         (PORTB & 0xFF00) /* Looking at pins B8 ~ B15 only */

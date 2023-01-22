@@ -90,8 +90,9 @@ static void startAlarm(void)
 static uint8_t getCo2Level(void)
 {
     uint8_t co2_level = 0;
+    uint16_t temp_co2_raw = (co2_raw_data < CO2_OFFSET) ? 0 : (co2_raw_data - CO2_OFFSET);
     
-    co2_level = (uint8_t) (((uint32_t)(co2_raw_data - CO2_OFFSET) * (uint32_t)100) / (uint32_t)CO2_FACTOR);
+    co2_level = (uint8_t) (((uint32_t)temp_co2_raw * (uint32_t)100) / (uint32_t)CO2_FACTOR);
 	
     /* Ogranicavamo co2_level na opseg 0-100 (za slucaj da je faktor pogresan) */
     if (co2_level > 100) co2_level = 100;
@@ -119,15 +120,14 @@ static uint8_t getCo2Level(void)
  * Ulaz joj je signal fotootpornika */
 static uint8_t getEnvLightLevel(void)
 {
-    // TODO fotooptornik testiranje
     uint8_t env_light_level = 0;
+    uint16_t temp_photores_raw = (photores_raw_data < PHOTO_RES_OFFSET) ? 0 : (photores_raw_data - PHOTO_RES_OFFSET);
     
-    env_light_level = (uint8_t)(((uint32_t)photores_raw_data*(uint32_t)100)/(uint32_t)PHOTO_RES_FACTOR);
+    env_light_level = (uint8_t)(((uint32_t)temp_photores_raw * (uint32_t)100) / (uint32_t)PHOTO_RES_FACTOR);
     
     /* Ogranicavamo nivo svetlosti u okolini na opseg 0-100 (za slucaj da je faktor pogresan) */
     if (env_light_level > 100) env_light_level = 100;
     
-    //return env_light_level;
     return env_light_level;
 }
 
@@ -293,65 +293,50 @@ static void processTouch(void)
 
 static void displaySystemState(void)
 {
-    uint8_t *door_state_str;
-    uint8_t *door_locked_str;
-    uint8_t *light_state_str;
-    uint8_t *env_light_level_str;
-    uint8_t *co2_level_str;
-    
+    uartWriteString("-- DOOR SYSTEM --\r\n");
+    uartWriteString("Door is: ");
     if (start_alarm == TRUE)
     {
-        door_state_str = (uint8_t *)"ALARM!!!\n";
+        uartWriteString("ALARM!!!");
     }
     else if (open_door == TRUE)
     {
-        door_state_str = (uint8_t *)"OPEN\n";
+        uartWriteString("OPEN");
     }
     else
     {
-        door_state_str = (uint8_t *)"CLOSED\n";
+        uartWriteString("CLOSED");
     }
-    
-    if (door_locked == TRUE)
-    {
-        door_locked_str = (uint8_t *)"LOCKED\n";
-    }
-    else
-    {
-        door_locked_str = (uint8_t *)"UNLOCKED\n";
-    }
-    
-    if (LIGHT_PIN_GET == PIN_HIGH)
-    {
-        light_state_str = (uint8_t *)"ON\n";
-    }
-    else
-    {
-        light_state_str = (uint8_t *)"OFF\n";
-    }
-    
-    sprintf(env_light_level_str, "%d", getEnvLightLevel());
-    sprintf(co2_level_str, "%d", co2_raw_data); // TODO
-    
-    uartWriteString("-- DOOR SYSTEM --\r\n");
-    uartWriteString("Door is: ");
-    uartWriteString(door_state_str);
     uartWriteString("\n\r");
 
     uartWriteString("Door lock is: ");
-    uartWriteString(door_locked_str);
+    if (door_locked == TRUE)
+    {
+        uartWriteString("LOCKED");
+    }
+    else
+    {
+        uartWriteString("UNLOCKED");
+    }
     uartWriteString("\n\r");
     
     uartWriteString("Light is: ");
-    uartWriteString(light_state_str);
+    if (LIGHT_PIN_GET == PIN_HIGH)
+    {
+        uartWriteString("ON");
+    }
+    else
+    {
+        uartWriteString("OFF");
+    }
     uartWriteString("\n\r");
     
     uartWriteString("Current CO2 level: ");
-    uartWriteString(co2_level_str);
+    uartWriteNumber(getCo2Level());
     uartWriteString("\n\r");
     
     uartWriteString("Environment light level: ");
-    uartWriteString(env_light_level_str);
+    uartWriteNumber(getEnvLightLevel());
     uartWriteString("\n\r");
     uartWriteString("\n\r");
 }

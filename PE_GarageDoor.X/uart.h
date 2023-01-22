@@ -51,6 +51,8 @@ void uartWriteChar(uint8_t p_char);
 /* Funckija upisuje niz karaktera u FIFO bafer */
 void uartWriteString(uint8_t *p_str);
 
+/* Funckija upisuje broj u obliku stringa u FIFO bafer */
+void uartWriteNumber(uint16_t num);
 
 #ifdef	__cplusplus
 }
