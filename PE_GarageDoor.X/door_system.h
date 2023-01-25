@@ -72,11 +72,10 @@
 /* TYPE DEFINITIONS */
 typedef enum 
 {
-    DOOR_CLOSED,
-    DOOR_OPEN,
-    ALARM_STATE,
-    ALARM_OFF_DOOR_OPEN
-} DoorState;
+    ALARM_OFF,
+    ALARM_ON,
+    ALARM_SILENT
+} AlarmState;
 
 /* GLOBAL FUNCTIONS */
 

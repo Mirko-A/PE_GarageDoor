@@ -19,9 +19,9 @@ static boolean  key_pressed;
 static boolean  touch;
 
 /* Action flags */
-static boolean turn_on_light;
-static boolean open_door;
-static boolean start_alarm;
+static boolean    turn_on_light;
+static boolean    open_door;
+static AlarmState alarm_state;
 
 /* Turn off times */
 static uint32_t light_turn_off_time = 0;
@@ -144,16 +144,16 @@ static void checkInputs(void)
     /* Deo koda koji postavlja flag start_alarm na 0 ili 1 u zavisnosti od CO2 nivoa*/
 	if(co2_level >= CO2_UNSAFE_LEVEL)
     {
-        start_alarm = TRUE;
+        alarm_state = ALARM_ON;
         open_door = TRUE;
         /* Ukljuci tajmer 4 zbog PWM-a za Buzzer */
         BUZZER_TIMER_START;
     }
 	else if(co2_level <= CO2_SAFE_LEVEL)
     {
-        if (start_alarm == TRUE)
+        if (alarm_state != ALARM_OFF)
         {
-            start_alarm = FALSE;
+            alarm_state = ALARM_OFF;
             open_door = FALSE;
             /* Iskljuci alarm LED u slucaju da je ostala na HIGH */
             ALARM_LED_PIN_SET = PIN_LOW;
@@ -268,7 +268,7 @@ static void processTouch(void)
         else if((x_pos > DOOR_OPEN_ICON_END) && (x_pos <= DOOR_CLOSE_ICON_END))
 		{
 			/* Sector 2 - Close door */
-			if (start_alarm == FALSE) open_door = FALSE;
+			if (alarm_state == ALARM_OFF) open_door = FALSE;
             //uartWriteString("Zatvori");
 		}
 		else if((x_pos > DOOR_CLOSE_ICON_END) && (x_pos <= LIGHT_SWITCH_ICON_END))
@@ -280,11 +280,14 @@ static void processTouch(void)
 		else if((x_pos > LIGHT_SWITCH_ICON_END) && (x_pos <= LCD_X_MAX))
 		{
 			/* Sector 4 - Alarm OFF */
-            if (start_alarm == TRUE)
+            if (alarm_state == ALARM_ON)
             {
-                start_alarm = FALSE;
-                ALARM_LED_PIN_SET = PIN_LOW;
-                BUZZER_TIMER_STOP;
+                if (door_locked == FALSE)
+                {
+                    alarm_state = ALARM_SILENT;
+                    ALARM_LED_PIN_SET = PIN_LOW;
+                    BUZZER_TIMER_STOP;    
+                }
             }
             //uartWriteString("Alarm");
 		}
@@ -295,7 +298,7 @@ static void displaySystemState(void)
 {
     uartWriteString("-- DOOR SYSTEM --\r\n");
     uartWriteString("Door is: ");
-    if (start_alarm == TRUE)
+    if (alarm_state == ALARM_ON)
     {
         uartWriteString("ALARM!!!");
     }
@@ -356,7 +359,7 @@ static void performActions(void)
         closeDoor();
     }
     
-    if (start_alarm) startAlarm();
+    if (alarm_state == ALARM_ON) startAlarm();
     
     if (turn_on_light == TRUE)
     {
@@ -387,10 +390,14 @@ static void stopActions(void)
     
     if (ms_ticks == door_relock_time)
     {
-        if (start_alarm != TRUE)
+        if (alarm_state == ALARM_OFF)
         {
             open_door = FALSE;
             door_locked = TRUE;    
+        }
+        else
+        {
+            door_relock_time = ms_ticks + 5000;
         }
     }
 }
@@ -408,8 +415,8 @@ static void taskLcd(void)
 void doorSystemInit(void)
 {
     open_door     = FALSE;
-    start_alarm   = FALSE;
     door_locked   = TRUE;
+    alarm_state   = ALARM_OFF;
     turn_on_light = FALSE;
     
     initializePins();

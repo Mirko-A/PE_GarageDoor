@@ -110,11 +110,11 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x100               0x30e           0x495  (1173)
 .const                       0x40e              0x1028          0x183c  (6204)
-.text                       0x1436              0x1434          0x1e4e  (7758)
-.dinit                      0x286a                0x4e            0x75  (117)
-.text                       0x28b8                 0xc            0x12  (18)
+.text                       0x1436              0x1438          0x1e54  (7764)
+.dinit                      0x286e                0x4e            0x75  (117)
+.text                       0x28bc                 0xc            0x12  (18)
 
-                     Total program memory used (bytes):         0x3ba6  (15270) 31%
+                     Total program memory used (bytes):         0x3bac  (15276) 31%
 
 
 Data Memory  [Origin = 0x800, Length = 0x800]
@@ -230,45 +230,45 @@ External Symbols in Program Memory (by address):
                   0x001c44                  _LcdPrintf
                   0x001c60                  _LcdShowGrid
                   0x001d1c                  _LcdUpdateDisplay
-                  0x00227e                  _doorSystemInit
-                  0x0022a8                  _doorSystemRun
-                  0x0022c0                  _uartInit
-                  0x0022da                  _uartAvailable
-                  0x0022e6                  _uartReadChar
-                  0x002322                  _uartReadString
-                  0x002350                  _uartWriteChar
-                  0x00237a                  _uartWriteString
-                  0x002396                  _uartWriteNumber
-                  0x0023fa                  __U1RXInterrupt
-                  0x00244a                  _CloseTimer1
-                  0x002456                  _ConfigIntTimer1
-                  0x002494                  _OpenTimer1
-                  0x0024aa                  _ReadTimer1
-                  0x0024b4                  _WriteTimer1
-                  0x00253c                  _initTimers
-                  0x00254a                  _startTimer2
-                  0x00255c                  _startTimer4
-                  0x00256e                  _getTickMs
-                  0x00257a                  __T1Interrupt
-                  0x002592                  __T3Interrupt
-                  0x0025b6                  _delayMillis
-                  0x0025da                  _servoPwmSend
-                  0x00262c                  _buzzerPwmSend
-                  0x00264a                  __T2Interrupt
-                  0x002686                  __T4Interrupt
-                  0x0026c2                  _initTouchscreen
-                  0x0026cc                  _updateCoords
-                  0x0027ae                  _getX
-                  0x0027b8                  _getY
-                  0x0027c2                  _initADC
-                  0x002846                  __ADCInterrupt
-                  0x0028b8                  _main
+                  0x002284                  _doorSystemInit
+                  0x0022ac                  _doorSystemRun
+                  0x0022c4                  _uartInit
+                  0x0022de                  _uartAvailable
+                  0x0022ea                  _uartReadChar
+                  0x002326                  _uartReadString
+                  0x002354                  _uartWriteChar
+                  0x00237e                  _uartWriteString
+                  0x00239a                  _uartWriteNumber
+                  0x0023fe                  __U1RXInterrupt
+                  0x00244e                  _CloseTimer1
+                  0x00245a                  _ConfigIntTimer1
+                  0x002498                  _OpenTimer1
+                  0x0024ae                  _ReadTimer1
+                  0x0024b8                  _WriteTimer1
+                  0x002540                  _initTimers
+                  0x00254e                  _startTimer2
+                  0x002560                  _startTimer4
+                  0x002572                  _getTickMs
+                  0x00257e                  __T1Interrupt
+                  0x002596                  __T3Interrupt
+                  0x0025ba                  _delayMillis
+                  0x0025de                  _servoPwmSend
+                  0x002630                  _buzzerPwmSend
+                  0x00264e                  __T2Interrupt
+                  0x00268a                  __T4Interrupt
+                  0x0026c6                  _initTouchscreen
+                  0x0026d0                  _updateCoords
+                  0x0027b2                  _getX
+                  0x0027bc                  _getY
+                  0x0027c6                  _initADC
+                  0x00284a                  __ADCInterrupt
+                  0x0028bc                  _main
                   0xf8000a                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x00244a                  _CloseTimer1
-                  0x002456                  _ConfigIntTimer1
+                  0x00244e                  _CloseTimer1
+                  0x00245a                  _ConfigIntTimer1
                   0x00151c                  _ConfigureLcdData
                   0x0014ee                  _ConfigureLcdPins
                   0x000b9e                  _DISPLAY_IMAGE
@@ -299,9 +299,9 @@ External Symbols in Program Memory (by name):
                   0x0015b4                  _LcdStrobeData
                   0x001d1c                  _LcdUpdateDisplay
                   0x0015f0                  _LcdWaitBusy
-                  0x002494                  _OpenTimer1
+                  0x002498                  _OpenTimer1
                   0x00158e                  _ReadLcdData
-                  0x0024aa                  _ReadTimer1
+                  0x0024ae                  _ReadTimer1
                   0x0014d0                  _SetCS1
                   0x0014b0                  _SetCS2
                   0x001456                  _SetE
@@ -309,15 +309,15 @@ External Symbols in Program Memory (by name):
                   0x001492                  _SetRS
                   0x001436                  _SetRST
                   0x001474                  _SetRW
-                  0x0024b4                  _WriteTimer1
-                  0x002846                  __ADCInterrupt
+                  0x0024b8                  _WriteTimer1
+                  0x00284a                  __ADCInterrupt
                   0x000194                  __DefaultInterrupt
                   0xf8000a                  __FGS.sec
-                  0x00257a                  __T1Interrupt
-                  0x00264a                  __T2Interrupt
-                  0x002592                  __T3Interrupt
-                  0x002686                  __T4Interrupt
-                  0x0023fa                  __U1RXInterrupt
+                  0x00257e                  __T1Interrupt
+                  0x00264e                  __T2Interrupt
+                  0x002596                  __T3Interrupt
+                  0x00268a                  __T4Interrupt
+                  0x0023fe                  __U1RXInterrupt
                   0x000198                  ___divsf3
                   0x00021c                  ___fixunssfsi
                   0x000390                  ___floatdisf
@@ -337,28 +337,28 @@ External Symbols in Program Memory (by name):
                   0x0002d2                  __funpack2
                   0x000126                  __psv_init
                   0x000100                  __resetPRI
-                  0x00262c                  _buzzerPwmSend
-                  0x0025b6                  _delayMillis
-                  0x00227e                  _doorSystemInit
-                  0x0022a8                  _doorSystemRun
-                  0x00256e                  _getTickMs
-                  0x0027ae                  _getX
-                  0x0027b8                  _getY
-                  0x0027c2                  _initADC
-                  0x00253c                  _initTimers
-                  0x0026c2                  _initTouchscreen
-                  0x0028b8                  _main
-                  0x0025da                  _servoPwmSend
-                  0x00254a                  _startTimer2
-                  0x00255c                  _startTimer4
-                  0x0022da                  _uartAvailable
-                  0x0022c0                  _uartInit
-                  0x0022e6                  _uartReadChar
-                  0x002322                  _uartReadString
-                  0x002350                  _uartWriteChar
-                  0x002396                  _uartWriteNumber
-                  0x00237a                  _uartWriteString
-                  0x0026cc                  _updateCoords
+                  0x002630                  _buzzerPwmSend
+                  0x0025ba                  _delayMillis
+                  0x002284                  _doorSystemInit
+                  0x0022ac                  _doorSystemRun
+                  0x002572                  _getTickMs
+                  0x0027b2                  _getX
+                  0x0027bc                  _getY
+                  0x0027c6                  _initADC
+                  0x002540                  _initTimers
+                  0x0026c6                  _initTouchscreen
+                  0x0028bc                  _main
+                  0x0025de                  _servoPwmSend
+                  0x00254e                  _startTimer2
+                  0x002560                  _startTimer4
+                  0x0022de                  _uartAvailable
+                  0x0022c4                  _uartInit
+                  0x0022ea                  _uartReadChar
+                  0x002326                  _uartReadString
+                  0x002354                  _uartWriteChar
+                  0x00239a                  _uartWriteNumber
+                  0x00237e                  _uartWriteString
+                  0x0026d0                  _updateCoords
 
 Memory Configuration
 
@@ -528,39 +528,39 @@ userdata
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x52b2
+.debug_info       0x000000       0x52f3
  *(.debug_info)
  .debug_info      0x000000        0x1ac build/default/production/main.o
  .debug_info      0x0001ac       0x121f build/default/production/timer.o
  .debug_info      0x0013cb       0x10db build/default/production/glcd.o
- .debug_info      0x0024a6        0xdb9 build/default/production/door_system.o
- .debug_info      0x00325f        0x7c4 build/default/production/utils.o
- .debug_info      0x003a23        0x37d build/default/production/touch.o
- .debug_info      0x003da0        0xbb8 build/default/production/adc.o
- .debug_info      0x004958        0x95a build/default/production/uart.o
+ .debug_info      0x0024a6        0xdfa build/default/production/door_system.o
+ .debug_info      0x0032a0        0x7c4 build/default/production/utils.o
+ .debug_info      0x003a64        0x37d build/default/production/touch.o
+ .debug_info      0x003de1        0xbb8 build/default/production/adc.o
+ .debug_info      0x004999        0x95a build/default/production/uart.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x933
+.debug_abbrev     0x000000        0x949
  *(.debug_abbrev)
  .debug_abbrev    0x000000         0x61 build/default/production/main.o
  .debug_abbrev    0x000061        0x1ac build/default/production/timer.o
  .debug_abbrev    0x00020d        0x193 build/default/production/glcd.o
- .debug_abbrev    0x0003a0        0x1a7 build/default/production/door_system.o
- .debug_abbrev    0x000547         0xdf build/default/production/utils.o
- .debug_abbrev    0x000626         0xd4 build/default/production/touch.o
- .debug_abbrev    0x0006fa         0xe7 build/default/production/adc.o
- .debug_abbrev    0x0007e1        0x152 build/default/production/uart.o
+ .debug_abbrev    0x0003a0        0x1bd build/default/production/door_system.o
+ .debug_abbrev    0x00055d         0xdf build/default/production/utils.o
+ .debug_abbrev    0x00063c         0xd4 build/default/production/touch.o
+ .debug_abbrev    0x000710         0xe7 build/default/production/adc.o
+ .debug_abbrev    0x0007f7        0x152 build/default/production/uart.o
 
-.debug_line       0x000000       0x2326
+.debug_line       0x000000       0x2347
  *(.debug_line)
  .debug_line      0x000000         0xad build/default/production/main.o
  .debug_line      0x0000ad        0x3f9 build/default/production/timer.o
  .debug_line      0x0004a6        0xdfa build/default/production/glcd.o
- .debug_line      0x0012a0        0x724 build/default/production/door_system.o
- .debug_line      0x0019c4        0x272 build/default/production/utils.o
- .debug_line      0x001c36        0x20e build/default/production/touch.o
- .debug_line      0x001e44        0x1ee build/default/production/adc.o
- .debug_line      0x002032        0x2f4 build/default/production/uart.o
+ .debug_line      0x0012a0        0x745 build/default/production/door_system.o
+ .debug_line      0x0019e5        0x272 build/default/production/utils.o
+ .debug_line      0x001c57        0x20e build/default/production/touch.o
+ .debug_line      0x001e65        0x1ee build/default/production/adc.o
+ .debug_line      0x002053        0x2f4 build/default/production/uart.o
 
 .debug_frame      0x000000        0x600
  *(.debug_frame)
@@ -643,15 +643,15 @@ userdata
                   0x000014          0x4 LONG 0x194 DEFINED (__INT0Interrupt)?ABSOLUTE (__INT0Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000016          0x4 LONG 0x194 DEFINED (__IC1Interrupt)?ABSOLUTE (__IC1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000018          0x4 LONG 0x194 DEFINED (__OC1Interrupt)?ABSOLUTE (__OC1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00001a          0x4 LONG 0x257a DEFINED (__T1Interrupt)?ABSOLUTE (__T1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00001a          0x4 LONG 0x257e DEFINED (__T1Interrupt)?ABSOLUTE (__T1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001c          0x4 LONG 0x194 DEFINED (__IC2Interrupt)?ABSOLUTE (__IC2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001e          0x4 LONG 0x194 DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000020          0x4 LONG 0x264a DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000022          0x4 LONG 0x2592 DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000020          0x4 LONG 0x264e DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000022          0x4 LONG 0x2596 DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000024          0x4 LONG 0x194 DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000026          0x4 LONG 0x23fa DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000026          0x4 LONG 0x23fe DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000028          0x4 LONG 0x194 DEFINED (__U1TXInterrupt)?ABSOLUTE (__U1TXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00002a          0x4 LONG 0x2846 DEFINED (__ADCInterrupt)?ABSOLUTE (__ADCInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00002a          0x4 LONG 0x284a DEFINED (__ADCInterrupt)?ABSOLUTE (__ADCInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002c          0x4 LONG 0x194 DEFINED (__NVMInterrupt)?ABSOLUTE (__NVMInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002e          0x4 LONG 0x194 DEFINED (__SI2CInterrupt)?ABSOLUTE (__SI2CInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000030          0x4 LONG 0x194 DEFINED (__MI2CInterrupt)?ABSOLUTE (__MI2CInterrupt):ABSOLUTE (__DefaultInterrupt)
@@ -661,7 +661,7 @@ userdata
                   0x000038          0x4 LONG 0x194 DEFINED (__IC8Interrupt)?ABSOLUTE (__IC8Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00003a          0x4 LONG 0x194 DEFINED (__OC3Interrupt)?ABSOLUTE (__OC3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00003c          0x4 LONG 0x194 DEFINED (__OC4Interrupt)?ABSOLUTE (__OC4Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00003e          0x4 LONG 0x2686 DEFINED (__T4Interrupt)?ABSOLUTE (__T4Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00003e          0x4 LONG 0x268a DEFINED (__T4Interrupt)?ABSOLUTE (__T4Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000040          0x4 LONG 0x194 DEFINED (__T5Interrupt)?ABSOLUTE (__T5Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000042          0x4 LONG 0x194 DEFINED (__INT2Interrupt)?ABSOLUTE (__INT2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000044          0x4 LONG 0x194 DEFINED (__U2RXInterrupt)?ABSOLUTE (__U2RXInterrupt):ABSOLUTE (__DefaultInterrupt)
@@ -707,15 +707,15 @@ userdata
                   0x000094          0x4 LONG 0x194 DEFINED (__AltINT0Interrupt)?ABSOLUTE (__AltINT0Interrupt):DEFINED (__INT0Interrupt)?ABSOLUTE (__INT0Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000096          0x4 LONG 0x194 DEFINED (__AltIC1Interrupt)?ABSOLUTE (__AltIC1Interrupt):DEFINED (__IC1Interrupt)?ABSOLUTE (__IC1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000098          0x4 LONG 0x194 DEFINED (__AltOC1Interrupt)?ABSOLUTE (__AltOC1Interrupt):DEFINED (__OC1Interrupt)?ABSOLUTE (__OC1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00009a          0x4 LONG 0x257a DEFINED (__AltT1Interrupt)?ABSOLUTE (__AltT1Interrupt):DEFINED (__T1Interrupt)?ABSOLUTE (__T1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00009a          0x4 LONG 0x257e DEFINED (__AltT1Interrupt)?ABSOLUTE (__AltT1Interrupt):DEFINED (__T1Interrupt)?ABSOLUTE (__T1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00009c          0x4 LONG 0x194 DEFINED (__AltIC2Interrupt)?ABSOLUTE (__AltIC2Interrupt):DEFINED (__IC2Interrupt)?ABSOLUTE (__IC2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00009e          0x4 LONG 0x194 DEFINED (__AltOC2Interrupt)?ABSOLUTE (__AltOC2Interrupt):DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000a0          0x4 LONG 0x264a DEFINED (__AltT2Interrupt)?ABSOLUTE (__AltT2Interrupt):DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000a2          0x4 LONG 0x2592 DEFINED (__AltT3Interrupt)?ABSOLUTE (__AltT3Interrupt):DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000a0          0x4 LONG 0x264e DEFINED (__AltT2Interrupt)?ABSOLUTE (__AltT2Interrupt):DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000a2          0x4 LONG 0x2596 DEFINED (__AltT3Interrupt)?ABSOLUTE (__AltT3Interrupt):DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000a4          0x4 LONG 0x194 DEFINED (__AltSPI1Interrupt)?ABSOLUTE (__AltSPI1Interrupt):DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000a6          0x4 LONG 0x23fa DEFINED (__AltU1RXInterrupt)?ABSOLUTE (__AltU1RXInterrupt):DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000a6          0x4 LONG 0x23fe DEFINED (__AltU1RXInterrupt)?ABSOLUTE (__AltU1RXInterrupt):DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000a8          0x4 LONG 0x194 DEFINED (__AltU1TXInterrupt)?ABSOLUTE (__AltU1TXInterrupt):DEFINED (__U1TXInterrupt)?ABSOLUTE (__U1TXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000aa          0x4 LONG 0x2846 DEFINED (__AltADCInterrupt)?ABSOLUTE (__AltADCInterrupt):DEFINED (__ADCInterrupt)?ABSOLUTE (__ADCInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000aa          0x4 LONG 0x284a DEFINED (__AltADCInterrupt)?ABSOLUTE (__AltADCInterrupt):DEFINED (__ADCInterrupt)?ABSOLUTE (__ADCInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000ac          0x4 LONG 0x194 DEFINED (__AltNVMInterrupt)?ABSOLUTE (__AltNVMInterrupt):DEFINED (__NVMInterrupt)?ABSOLUTE (__NVMInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000ae          0x4 LONG 0x194 DEFINED (__AltSI2CInterrupt)?ABSOLUTE (__AltSI2CInterrupt):DEFINED (__SI2CInterrupt)?ABSOLUTE (__SI2CInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000b0          0x4 LONG 0x194 DEFINED (__AltMI2CInterrupt)?ABSOLUTE (__AltMI2CInterrupt):DEFINED (__MI2CInterrupt)?ABSOLUTE (__MI2CInterrupt):ABSOLUTE (__DefaultInterrupt)
@@ -725,7 +725,7 @@ userdata
                   0x0000b8          0x4 LONG 0x194 DEFINED (__AltIC8Interrupt)?ABSOLUTE (__AltIC8Interrupt):DEFINED (__IC8Interrupt)?ABSOLUTE (__IC8Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000ba          0x4 LONG 0x194 DEFINED (__AltOC3Interrupt)?ABSOLUTE (__AltOC3Interrupt):DEFINED (__OC3Interrupt)?ABSOLUTE (__OC3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000bc          0x4 LONG 0x194 DEFINED (__AltOC4Interrupt)?ABSOLUTE (__AltOC4Interrupt):DEFINED (__OC4Interrupt)?ABSOLUTE (__OC4Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000be          0x4 LONG 0x2686 DEFINED (__AltT4Interrupt)?ABSOLUTE (__AltT4Interrupt):DEFINED (__T4Interrupt)?ABSOLUTE (__T4Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000be          0x4 LONG 0x268a DEFINED (__AltT4Interrupt)?ABSOLUTE (__AltT4Interrupt):DEFINED (__T4Interrupt)?ABSOLUTE (__T4Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000c0          0x4 LONG 0x194 DEFINED (__AltT5Interrupt)?ABSOLUTE (__AltT5Interrupt):DEFINED (__T5Interrupt)?ABSOLUTE (__T5Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000c2          0x4 LONG 0x194 DEFINED (__AltINT2Interrupt)?ABSOLUTE (__AltINT2Interrupt):DEFINED (__INT2Interrupt)?ABSOLUTE (__INT2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000c4          0x4 LONG 0x194 DEFINED (__AltU2RXInterrupt)?ABSOLUTE (__AltU2RXInterrupt):DEFINED (__U2RXInterrupt)?ABSOLUTE (__U2RXInterrupt):ABSOLUTE (__DefaultInterrupt)
@@ -1463,7 +1463,7 @@ LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x0000c0        0x67a
+                  0x0000c0        0x689
  .debug_pubtypes
                   0x0000c0         0x12 build/default/production/main.o
  .debug_pubtypes
@@ -1471,64 +1471,64 @@ LOAD data_init
  .debug_pubtypes
                   0x00024d         0xa8 build/default/production/glcd.o
  .debug_pubtypes
-                  0x0002f5        0x174 build/default/production/door_system.o
+                  0x0002f5        0x183 build/default/production/door_system.o
  .debug_pubtypes
-                  0x000469         0xe9 build/default/production/utils.o
+                  0x000478         0xe9 build/default/production/utils.o
  .debug_pubtypes
-                  0x000552         0x68 build/default/production/touch.o
+                  0x000561         0x68 build/default/production/touch.o
  .debug_pubtypes
-                  0x0005ba         0xdb build/default/production/adc.o
+                  0x0005c9         0xdb build/default/production/adc.o
  .debug_pubtypes
-                  0x000695         0xa5 build/default/production/uart.o
+                  0x0006a4         0xa5 build/default/production/uart.o
 
 __c30_signature
-                  0x00073a         0x8a
+                  0x00074a         0x8a
  __c30_signature
-                  0x00073a          0x6 build/default/production/main.o
+                  0x00074a          0x6 build/default/production/main.o
  __c30_signature
-                  0x000740          0x6 build/default/production/timer.o
+                  0x000750          0x6 build/default/production/timer.o
  __c30_signature
-                  0x000746          0x6 build/default/production/glcd.o
+                  0x000756          0x6 build/default/production/glcd.o
  __c30_signature
-                  0x00074c          0x6 build/default/production/door_system.o
+                  0x00075c          0x6 build/default/production/door_system.o
  __c30_signature
-                  0x000752          0x6 build/default/production/utils.o
+                  0x000762          0x6 build/default/production/utils.o
  __c30_signature
-                  0x000758          0x6 build/default/production/touch.o
+                  0x000768          0x6 build/default/production/touch.o
  __c30_signature
-                  0x00075e          0x6 build/default/production/adc.o
+                  0x00076e          0x6 build/default/production/adc.o
  __c30_signature
-                  0x000764          0x6 build/default/production/uart.o
+                  0x000774          0x6 build/default/production/uart.o
  __c30_signature
-                  0x00076a          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
+                  0x00077a          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x000770          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
+                  0x000780          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
  __c30_signature
-                  0x000776          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(divsf3.eo)
+                  0x000786          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(divsf3.eo)
  __c30_signature
-                  0x00077c          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(fixunssfsi.eo)
+                  0x00078c          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(fixunssfsi.eo)
  __c30_signature
-                  0x000782          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatsisf.eo)
+                  0x000792          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatsisf.eo)
  __c30_signature
-                  0x000788          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatunsisf.eo)
+                  0x000798          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatunsisf.eo)
  __c30_signature
-                  0x00078e          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(fpack.eo)
+                  0x00079e          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(fpack.eo)
  __c30_signature
-                  0x000794          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(funpack.eo)
+                  0x0007a4          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(funpack.eo)
  __c30_signature
-                  0x00079a          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(funpack2.eo)
+                  0x0007aa          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(funpack2.eo)
  __c30_signature
-                  0x0007a0          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(futil.eo)
+                  0x0007b0          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(futil.eo)
  __c30_signature
-                  0x0007a6          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
+                  0x0007b6          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
  __c30_signature
-                  0x0007ac          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(udivsi3.eo)
+                  0x0007bc          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(udivsi3.eo)
  __c30_signature
-                  0x0007b2          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(umodsi3.eo)
+                  0x0007c2          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(umodsi3.eo)
  __c30_signature
-                  0x0007b8          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatdisf.eo)
+                  0x0007c8          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatdisf.eo)
  __c30_signature
-                  0x0007be          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
+                  0x0007ce          0x6 c:/program files/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
 
 .nbss               0x0800         0x5e
  .nbss              0x0800         0x40 build/default/production/uart.o
@@ -1573,7 +1573,7 @@ __c30_signature
                     0x8f9e                  _DISPLAY_IMAGE_LOCK
  .const             0x939e         0x98 build/default/production/door_system.o
 
-.text             0x001436       0x1434
+.text             0x001436       0x1438
  .text            0x001436        0x95a build/default/production/glcd.o
                   0x001436                  _SetRST
                   0x001456                  _SetE
@@ -1609,48 +1609,48 @@ __c30_signature
                   0x001c44                  _LcdPrintf
                   0x001c60                  _LcdShowGrid
                   0x001d1c                  _LcdUpdateDisplay
- .text            0x001d90        0x530 build/default/production/door_system.o
-                  0x00227e                  _doorSystemInit
-                  0x0022a8                  _doorSystemRun
- .text            0x0022c0        0x18a build/default/production/uart.o
-                  0x0022c0                  _uartInit
-                  0x0022da                  _uartAvailable
-                  0x0022e6                  _uartReadChar
-                  0x002322                  _uartReadString
-                  0x002350                  _uartWriteChar
-                  0x00237a                  _uartWriteString
-                  0x002396                  _uartWriteNumber
-                  0x0023fa                  __U1RXInterrupt
- .text            0x00244a        0x16c build/default/production/timer.o
-                  0x00244a                  _CloseTimer1
-                  0x002456                  _ConfigIntTimer1
-                  0x002494                  _OpenTimer1
-                  0x0024aa                  _ReadTimer1
-                  0x0024b4                  _WriteTimer1
-                  0x00253c                  _initTimers
-                  0x00254a                  _startTimer2
-                  0x00255c                  _startTimer4
-                  0x00256e                  _getTickMs
-                  0x00257a                  __T1Interrupt
-                  0x002592                  __T3Interrupt
- .text            0x0025b6        0x10c build/default/production/utils.o
-                  0x0025b6                  _delayMillis
-                  0x0025da                  _servoPwmSend
-                  0x00262c                  _buzzerPwmSend
-                  0x00264a                  __T2Interrupt
-                  0x002686                  __T4Interrupt
- .text            0x0026c2        0x100 build/default/production/touch.o
-                  0x0026c2                  _initTouchscreen
-                  0x0026cc                  _updateCoords
-                  0x0027ae                  _getX
-                  0x0027b8                  _getY
- .text            0x0027c2         0xa8 build/default/production/adc.o
-                  0x0027c2                  _initADC
-                  0x002846                  __ADCInterrupt
+ .text            0x001d90        0x534 build/default/production/door_system.o
+                  0x002284                  _doorSystemInit
+                  0x0022ac                  _doorSystemRun
+ .text            0x0022c4        0x18a build/default/production/uart.o
+                  0x0022c4                  _uartInit
+                  0x0022de                  _uartAvailable
+                  0x0022ea                  _uartReadChar
+                  0x002326                  _uartReadString
+                  0x002354                  _uartWriteChar
+                  0x00237e                  _uartWriteString
+                  0x00239a                  _uartWriteNumber
+                  0x0023fe                  __U1RXInterrupt
+ .text            0x00244e        0x16c build/default/production/timer.o
+                  0x00244e                  _CloseTimer1
+                  0x00245a                  _ConfigIntTimer1
+                  0x002498                  _OpenTimer1
+                  0x0024ae                  _ReadTimer1
+                  0x0024b8                  _WriteTimer1
+                  0x002540                  _initTimers
+                  0x00254e                  _startTimer2
+                  0x002560                  _startTimer4
+                  0x002572                  _getTickMs
+                  0x00257e                  __T1Interrupt
+                  0x002596                  __T3Interrupt
+ .text            0x0025ba        0x10c build/default/production/utils.o
+                  0x0025ba                  _delayMillis
+                  0x0025de                  _servoPwmSend
+                  0x002630                  _buzzerPwmSend
+                  0x00264e                  __T2Interrupt
+                  0x00268a                  __T4Interrupt
+ .text            0x0026c6        0x100 build/default/production/touch.o
+                  0x0026c6                  _initTouchscreen
+                  0x0026d0                  _updateCoords
+                  0x0027b2                  _getX
+                  0x0027bc                  _getY
+ .text            0x0027c6         0xa8 build/default/production/adc.o
+                  0x0027c6                  _initADC
+                  0x00284a                  __ADCInterrupt
 
-.dinit            0x00286a         0x4e
- .dinit           0x00286a         0x4e data_init
+.dinit            0x00286e         0x4e
+ .dinit           0x00286e         0x4e data_init
 
-.text             0x0028b8          0xc
- .text            0x0028b8          0xc build/default/production/main.o
-                  0x0028b8                  _main
+.text             0x0028bc          0xc
+ .text            0x0028bc          0xc build/default/production/main.o
+                  0x0028bc                  _main
