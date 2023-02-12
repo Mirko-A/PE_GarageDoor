@@ -46,28 +46,32 @@
 #define MOTION_PIN_SET  LATDbits.LATD9
 
 /* Door state related macros - duty cycles in tenths of milliseconds */
-#define DOOR_CLOSED_DUTY_CYCLE    (40)
-#define DOOR_HALF_OPEN_DUTY_CYCLE (15)
-#define DOOR_OPEN_DUTY_CYCLE      (2)
+#define DOOR_CLOSED_DUTY_CYCLE    (5)
+#define DOOR_HALF_OPEN_DUTY_CYCLE (10)
+#define DOOR_OPEN_DUTY_CYCLE      (15)
 
 /* Used in conjunction with getTicks to make LED blink every 512 milliseconds.
    In order not to miss any milliseconds, value should be 2^n because maximum tick value is also 2^n (uint16_t => 2^16).
  */
 #define ALARM_LED_PERIOD     (256u)
 
+#define DOOR_RELOCK_TIME   (20000u)
+#define LIGHT_TURNOFF_TIME (10000u)
+
 #define CO2_UNSAFE_LEVEL (50)
 #define CO2_SAFE_LEVEL   (10)
-#define CO2_FACTOR       (3150u)
+#define CO2_FACTOR       (1600u)
 #define CO2_OFFSET       (800u)
 
-#define ENV_LIGHT_THRESHOLD (40)
+#define ENV_LIGHT_THRESHOLD (60)
 #define PHOTO_RES_FACTOR    (3500u)
 #define PHOTO_RES_OFFSET    (900u)
 
-#define PASSWORD_LENGTH (2u)
+#define PASSWORD_LENGTH (4u)
 #define BUTTONS         (PORTB & 0xFF00) /* Looking at pins B8 ~ B15 only */
 
-#define MAX_STR_LEN (64u)
+#define MAX_STR_LEN    (64u)
+#define SECRET_KEY_LEN (8u)
 
 /* TYPE DEFINITIONS */
 typedef enum 

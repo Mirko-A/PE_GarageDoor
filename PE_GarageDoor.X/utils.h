@@ -10,6 +10,7 @@
 
 /* STANDARD LIBRARIES */
 #include <stdint.h>
+#include <string.h>
 
 /* CTRL LIBRARIES */
 #include <p30fxxxx.h>
@@ -42,7 +43,6 @@
 #define BUZZER_PIN_GET  PORTAbits.RA11
 #define BUZZER_PIN_SET  LATAbits.LATA11
 
-#define BUZZER_SWITCH_PERIOD     (512u)
 #define BUZZER_LOW_PITCH_PERIOD  (84u)  //  ~ 120 Hz
 #define BUZZER_HIGH_PITCH_PERIOD (21u)  //  ~ 480 KHz
 
@@ -72,6 +72,14 @@ void servoPwmSend(uint16_t period_tenth_of_ms, uint16_t duty_cycle_time);
  * @return void
  */
 void buzzerPwmSend(uint16_t period_tenth_of_ms);
+
+/**
+ * @Brief Function compares two strings.
+ * @param uint8_t *string1 
+ * @param uint8_t *string2
+ * @return boolean -> TRUE if strings are same, FALSE if strings are different
+ */
+boolean stringCompare(uint8_t *string1, uint8_t *string2);
 
 #endif	/* UTILS_H_ */
 

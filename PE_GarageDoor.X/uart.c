@@ -36,6 +36,13 @@ uint8_t uartAvailable()
     return buffer_size;
 }
 
+void uartFlush()
+{
+    buffer_size = 0;
+    buffer_first = 0;
+    buffer_last = 0;
+}
+
 uint8_t uartReadChar()
 {
     uint8_t char_to_return;

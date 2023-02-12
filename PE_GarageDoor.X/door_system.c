@@ -10,7 +10,8 @@
 /* LOCAL VARIABLES */
 
 /* Door lock data */
-static const uint8_t password[PASSWORD_LENGTH] = {2, 1};
+static const uint8_t password[PASSWORD_LENGTH] = {2, 1, 1, 2};
+static const uint8_t secret_key[SECRET_KEY_LEN] = "Sezame!";
 static uint8_t digit_to_check = 0;
 static boolean door_locked;
 
@@ -22,6 +23,11 @@ static boolean  touch;
 static boolean    turn_on_light;
 static boolean    open_door;
 static AlarmState alarm_state;
+
+/* Prompt message flag for system startup */
+static boolean display_startup_prompt;
+/* Prompt message time for system startup */
+static uint32_t prompt_display_time = 0;
 
 /* Turn off times */
 static uint32_t light_turn_off_time = 0;
@@ -43,7 +49,7 @@ static void initializePins(void)
     TRISDbits.TRISD9 = INPUT_PIN;
     
     /* Inicijalizuj PORTB pinove kao digital+input (ADC ce kasnije prepisati one koji su mu potrebni) 
-     * Koriste se za tastere (B10~B11) i alarm LED (B12)
+     * Koriste se za tastere (B11~B12)
      */
     ADPCFG = 0xFFFF;
     TRISB = 0xFFFF;
@@ -76,11 +82,6 @@ static void startAlarm(void)
         {
             ALARM_LED_PIN_SET = PIN_LOW;
         }
-    }
-    
-    if (((ms_ticks + 1) % BUZZER_SWITCH_PERIOD) == 0)
-    {
-        buzzer_period = (buzzer_period == BUZZER_HIGH_PITCH_PERIOD) ? BUZZER_LOW_PITCH_PERIOD : BUZZER_HIGH_PITCH_PERIOD;
     }
     
     buzzerPwmSend(buzzer_period);
@@ -141,13 +142,16 @@ static void checkInputs(void)
     uint8_t env_light_level = getEnvLightLevel();
 	uint8_t co2_level = getCo2Level();
     
-    /* Deo koda koji postavlja flag start_alarm na 0 ili 1 u zavisnosti od CO2 nivoa*/
+    /* Deo koda koji postavlja flag start_alarm na 0 ili 1 u zavisnosti od CO2 nivoa */
 	if(co2_level >= CO2_UNSAFE_LEVEL)
     {
-        alarm_state = ALARM_ON;
-        open_door = TRUE;
-        /* Ukljuci tajmer 4 zbog PWM-a za Buzzer */
-        BUZZER_TIMER_START;
+        if (alarm_state != ALARM_SILENT)
+        {
+            alarm_state = ALARM_ON;
+            open_door = TRUE;
+            /* Ukljuci tajmer 4 zbog PWM-a za Buzzer */
+            BUZZER_TIMER_START;
+        }
     }
 	else if(co2_level <= CO2_SAFE_LEVEL)
     {
@@ -164,6 +168,7 @@ static void checkInputs(void)
 	
 	/* Deo koda koji postavlja flag turn_on_light na 0 ili 1 u zavisnosti od senzora pokreta */
     if ((MOTION_PIN_GET == PIN_HIGH) && (LIGHT_PIN_GET == PIN_LOW))
+    //if (PORTBbits.RB12 == PIN_HIGH)
     {
         if (env_light_level < ENV_LIGHT_THRESHOLD) turn_on_light = TRUE;
     }
@@ -200,7 +205,7 @@ static void checkInputs(void)
     }
 }
 
-/* Funckija vraca trenutni pritisnut taster (B9~B12) kao brojeve 1~4 ili 0xFF ako nijedan 
+/* Funckija vraca trenutni pritisnut taster (B11~B12) kao brojeve 1~2 ili 0xFF ako nijedan 
  * od tastera nije pritisnut
  */
 static uint8_t getKey(void)
@@ -217,7 +222,7 @@ static void processKeyPressed(void)
     uint8_t key;
     
     /* Procitaj trenutni pritisnut taster 
-     * Tasteri su B9~B12 pa oduzimamo broj 8 kako bi dobili brojeve 1~4
+     * Tasteri su B11~B12 pa oduzimamo broj 8 kako bi dobili brojeve 1~2
      */
     key = getKey();
     
@@ -232,14 +237,14 @@ static void processKeyPressed(void)
         {
             /* Otkljucaj vrata */
             door_locked = FALSE;
-            door_relock_time = getTickMs() + 20000;
+            door_relock_time = getTickMs() + DOOR_RELOCK_TIME;
             
             digit_to_check = 0;
         } 
         else
         {
             /* Proveri sledecu cifru u passwordu */
-            digit_to_check++;   
+            digit_to_check++;
         }
     } 
     else
@@ -274,7 +279,7 @@ static void processTouch(void)
 		else if((x_pos > DOOR_CLOSE_ICON_END) && (x_pos <= LIGHT_SWITCH_ICON_END))
 		{
 			/* Sector 3 - Light ON/OFF */
-            turn_on_light = (turn_on_light == FALSE) ? TRUE : FALSE;
+            turn_on_light = TRUE;
             //uartWriteString("Svetlo");
 		}
 		else if((x_pos > LIGHT_SWITCH_ICON_END) && (x_pos <= LCD_X_MAX))
@@ -294,10 +299,18 @@ static void processTouch(void)
 	}
 }
 
+static void displayPrompt(void)
+{
+    uartWriteString("Enter command number: \r\n");
+    uartWriteString(" 1. Display system state\r\n");
+    uartWriteString(" 2. Open/close door\r\n");
+    uartWriteString(" 3. Light ON/OFF\r\n");
+    uartWriteString(" 4. Project information\r\n\r\n");
+}
+
 static void displaySystemState(void)
 {
-    uartWriteString("-- DOOR SYSTEM --\r\n");
-    uartWriteString("Door is: ");
+    uartWriteString("Door: ");
     if (alarm_state == ALARM_ON)
     {
         uartWriteString("ALARM!!!");
@@ -312,7 +325,7 @@ static void displaySystemState(void)
     }
     uartWriteString("\n\r");
 
-    uartWriteString("Door lock is: ");
+    uartWriteString("Door lock: ");
     if (door_locked == TRUE)
     {
         uartWriteString("LOCKED");
@@ -323,7 +336,7 @@ static void displaySystemState(void)
     }
     uartWriteString("\n\r");
     
-    uartWriteString("Light is: ");
+    uartWriteString("Light: ");
     if (LIGHT_PIN_GET == PIN_HIGH)
     {
         uartWriteString("ON");
@@ -342,6 +355,117 @@ static void displaySystemState(void)
     uartWriteNumber(getEnvLightLevel());
     uartWriteString("\n\r");
     uartWriteString("\n\r");
+}
+
+static void displayProjectInfo(void)
+{
+    uartWriteString("Projekat: Pametna vrata za garazu\r\n");
+    uartWriteString("Grupa: 8\r\n\r\n");
+    uartWriteString("Projekat radili:\r\n");
+    uartWriteString("Mirko Adzic - EE98/2019\r\n");
+    uartWriteString("Nikola Kaludjerski - EE161/2019\r\n");
+    uartWriteString("Slobodan Jeremic - EE170/2019\r\n");
+    uartWriteString("Vesna Jankovic - EE187/2019\r\n\r\n");
+}
+
+static void processUartRx(void)
+{
+    delayMillis(5);
+    uint8_t input_len = uartAvailable();
+    
+    // Unesen je jedan karakter
+    if (input_len == 1) 
+    {
+        // Ocitamo unos sa UART-a
+        uint8_t uart_rx = uartReadChar();
+        // Konverzija iz karaktera u broj
+        uart_rx = uart_rx - '0';
+
+        switch(uart_rx)
+        {
+            case 1:
+            {
+                displaySystemState();
+            }
+            break;
+            case 2:
+            {
+                if (door_locked == TRUE)
+                {
+                    uartWriteString("Door is locked. Cannot open.\r\n\r\n");
+                }
+                else
+                {
+                    if (alarm_state != ALARM_OFF)
+                    {
+                        uartWriteString("CO2 level too high!!! Cannot close.\r\n\r\n");
+                    }
+                    else
+                    {
+                        if (open_door == TRUE)
+                        {
+                            open_door = FALSE;
+                            uartWriteString("Closing door...\r\n\r\n");
+                        }
+                        else
+                        {
+                            open_door = TRUE;
+                            uartWriteString("Opening door...\r\n\r\n");
+                        }
+                    }
+                }
+            }
+            break;
+            case 3:
+            {
+                if (LIGHT_PIN_GET == PIN_LOW)
+                {
+                    LIGHT_PIN_SET = PIN_HIGH;
+                    uartWriteString("Light ON.\r\n\r\n");
+                }
+                else
+                {
+                    LIGHT_PIN_SET = PIN_LOW;
+                    uartWriteString("Light OFF.\r\n\r\n");
+                }
+            }
+            break;
+            case 4:
+            {
+                displayProjectInfo();
+            }
+            break;
+            default:
+            {
+                uartWriteString("Wrong command number.\r\n\r\n");
+            }
+            break;
+        }
+    }    // Uneseno je vise karaktera (iste duzine kao tajna rec)
+    else if (input_len == (SECRET_KEY_LEN - 1))
+    {        
+        uint8_t entered_key[SECRET_KEY_LEN] = { 0 };
+        uartReadString(entered_key);
+        
+        if (stringCompare(entered_key, secret_key) == TRUE)
+        {
+            door_locked = FALSE;
+            door_relock_time = getTickMs() + DOOR_RELOCK_TIME;
+            
+            uartWriteString("Vrata su se otkljucala...\r\n\r\n");
+        }  // Unesen je pogresan broj karaktera
+        else
+        {
+            uartWriteString("Wrong command number.\r\n\r\n");
+        } 
+    }
+    else
+    {
+        uartFlush();
+        uartWriteString("Wrong command number.\r\n\r\n");
+    }
+    
+    displayPrompt();
 }
 
 /* Ova funkcija treba da proverava kontrolne signale i da u skladu sa tim izvrsava odredjene 
@@ -366,12 +490,10 @@ static void performActions(void)
         // Movement detected => turn on light
         LIGHT_PIN_SET = PIN_HIGH;
         // Light will turn off after 10s
-        light_turn_off_time = ms_ticks + 10000;
+        light_turn_off_time = ms_ticks + LIGHT_TURNOFF_TIME;
         // Movement processed => clear flag
         turn_on_light = FALSE;
     }
-    
-    if ((ms_ticks % 2048) == 0) displaySystemState();
 }
 
 /* Ova funkcija treba da proverava kontrolne signale i da u skladu sa tim stopira odredjene 
@@ -419,6 +541,9 @@ void doorSystemInit(void)
     alarm_state   = ALARM_OFF;
     turn_on_light = FALSE;
     
+    display_startup_prompt = TRUE;
+    prompt_display_time = getTickMs() + 5000;
+    
     initializePins();
     
     initTimers();
@@ -430,9 +555,21 @@ void doorSystemInit(void)
 
 void doorSystemRun(void)
 {
+	// Prikazujemo poruku nekoliko sekundi nakon uključivanja sistema
+    if (display_startup_prompt == TRUE)
+    {
+        if (getTickMs() == prompt_display_time)
+        {
+            displayPrompt();
+            display_startup_prompt = FALSE;
+        }
+    }
+    
     checkInputs();
     
     if (key_pressed == TRUE) processKeyPressed();
+    
+    if (uartAvailable()) processUartRx();
     
     taskLcd();
     

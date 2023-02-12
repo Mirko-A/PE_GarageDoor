@@ -39,6 +39,9 @@ void uartInit(void);
  */ 
 uint8_t uartAvailable();
 
+/* Funckija cisti FIFO bafer */ 
+void uartFlush();
+
 /* Funckija cita jedan karakter iz FIFO bafera */
 uint8_t uartReadChar();
 
